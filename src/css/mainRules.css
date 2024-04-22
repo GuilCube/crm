@@ -13,3 +13,63 @@ body {
     left: 0; 
     z-index: 10; 
 }
+
+.navbar{
+  display: flex;
+  height:57px;
+  justify-content: space-between;
+  padding: 0%;
+  background-color: #4CA35F; /* Navbar background color */
+  color: rgb(0, 0, 0); /* Text color for buttons */
+}
+
+.navbar-container{
+  height: 57px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+.nav-buttons{
+  width: 50vw;
+  text-align: center;
+}
+.nav-item{
+  color: inherit; 
+  font-size: 30px;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+.nav-greet{
+  width: 50%;
+}
+.nav-icon{
+  width: 35px;
+  padding-left: 10px;
+
+}
+ .exit-ico{
+  width: 35px;
+  padding: 0;
+  border: 1px solid black;
+  box-shadow: 
+        0 2px 4px rgba(0, 0, 0,7);
+  border-radius: 4px;
+
+} 
+
+a {  
+  text-decoration: none;
+  width: 33%;
+  padding: 5px;
+  
+}
+li{
+  width: 100px;
+  list-style: none;
+  justify-content: space-around;
+}
+p{
+  margin: 0;
+}
+

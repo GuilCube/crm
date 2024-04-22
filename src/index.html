@@ -14,23 +14,31 @@
 <body>
 
   <!--Навігаційний рядок-->
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #4CA35F;">
-    <div class="container-fluid">  
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+  <header class="navbar">
+      
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Ліди</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Замовлення</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Аналітика</a>
-          </li>
+      </button> -->
+      <div class="navbar-container nav-buttons">
+          <a class="nav-item" style="background-image: linear-gradient(to bottom, #43C25F, #D1E020);" href="#">Ліди</a>
+      
+           <a class="nav-item" href="#">Замовлення</a>
+            <a class="nav-item" href="#">Аналітика</a>
+      </div>
+      <div class="navbar-container">
+        <p class="nav-greet" >Доброго дня, Менеджер</p>
+        <a class="nav-icon" href="#">
+          <img class="exit-ico" src="/src/img/exitIco.png">
+        </a>  
+         
+      </div>
+
+          <!-- <li>
+            
+              
+            </li> -->
+          
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
@@ -43,21 +51,18 @@
               <li><a class="dropdown-item" href="#">Дім</a></li>
               <li><a class="dropdown-item" href="#">Інструменти</a></li> -->
               <!--<li><hr class="dropdown-divider"></li>-->
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+          
+        
+    
+  </header>
   <!--Кінець навігаційного рядка-->
 
 
 
   <!--Початок елементу з картками -->
   <h1 style="height: 40px;"></h1>
-  <div class="container-fluid">
-    <h2 id="Category" style="text-align: center;">Популярні товари</h2>
-  </div>
+  
+
 
   <h1 style="height: 20px;"></h1>
 
@@ -68,7 +73,7 @@
           <!-- <img src="images/cards/img1.jpg" class="card-img-top" alt="..."> -->
           <div class="card-body">
             
-            <h5 class="card-title">Лід№ 0001</h5>
+            <h5 class="card-title">Лід № 0001</h5>
             <p class="card-text "><b>Тип </b> Фізична особа</p>
             <p class="card-text"><b>Статус: </b> Контакт</p>
             <p class="card-text"><b>Номер: </b> +38 (067 833-56-76)</p>
@@ -191,9 +196,7 @@
     </div>
   </div> -->
 
-  <!-- <footer class="footer" style="background-color: rgb(188, 188, 188); ">
-    <a style="margin-right">ОбирайКа ©2023</a>
-  </footer> -->
+   
 
       <!--Кінець слайдеру-->
       <script src="js/bootstrap.min.js"></script>

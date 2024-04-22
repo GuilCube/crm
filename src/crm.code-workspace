@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "crm",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "crm"
+	}
+}
