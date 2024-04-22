@@ -42,6 +42,7 @@ body {
 }
 .nav-greet{
   width: 50%;
+  line-height: 1.2;
 }
 .nav-icon{
   width: 35px;
