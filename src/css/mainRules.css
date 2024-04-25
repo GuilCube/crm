@@ -43,6 +43,7 @@ body {
   transition: background-color 0.3s ease;
 }
 .nav-greet{
+  margin: 0;
   width: 50%;
   line-height: 1.2;
 }
@@ -67,18 +68,11 @@ a {
   padding: 5px;
   
 }
-li{
-  width: 100px;
-  list-style: none;
-  justify-content: space-around;
-}
-p{
-  margin: 0;
-}
+
 .button-row{
+  margin: 40px 0px 0px 3%;
   display: flex;
   gap: 30px;
-  margin: 40px 0px 40px 75px;
   height: 35px;
   font-size: 20px;
 }
@@ -96,5 +90,43 @@ p{
 .button-ico{
   width: 25px;
 }
+.card-list{
+  display: flex;
+  justify-content: space-between;  
+  flex-wrap: wrap;
+  margin-left: 2%;
+  margin-right: 2%;
+  gap: 2%;
+  
+}
+.card{
+  display: flex;
+  background-color: #DBF1C2;
+  width: 316px;
+  padding: 20px 5px 20px 15px;
+  margin-top: 40px;
+  border-radius: 5px;
+}
+.card-attribute{
+  font-size: 18px;
+  text-align: end;
+  padding-right: 10px;
+  font-weight: bold;
+
+}
+.card-value{
+  display: inline-block;
+  width: 97%;
+  font-size: 16px;
+  padding: 0px 0px 5px 5px;
+  background-color: rgba(219, 219, 219, .40);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+}
+td{
+  padding-bottom: 10px;
+}
+
 
 
