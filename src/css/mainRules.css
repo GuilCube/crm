@@ -16,7 +16,7 @@ body {
 
 .navbar{
   display: flex;
-  height:57px;
+  height:53px;
   justify-content: space-between;
   padding: 0%;
   background-color: #4CA35F; /* Navbar background color */
@@ -24,17 +24,19 @@ body {
 }
 
 .navbar-container{
-  height: 57px;
+  height: 53px;
   display: flex;
   text-align: center;
   align-items: center;
 }
 
 .nav-buttons{
-  width: 50vw;
+  width: 53vw;
+
   text-align: center;
 }
 .nav-item{
+  padding: 4px;
   color: inherit; 
   font-size: 30px;
   border-radius: 3px;
@@ -73,4 +75,26 @@ li{
 p{
   margin: 0;
 }
+.button-row{
+  display: flex;
+  gap: 30px;
+  margin: 40px 0px 40px 75px;
+  height: 35px;
+  font-size: 20px;
+}
+.button-item{
+  display: flex;
+  gap: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #ACDC23;
+  align-items: center;
+
+}
+.button-ico{
+  width: 25px;
+}
+
 
