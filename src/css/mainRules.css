@@ -37,12 +37,15 @@ body {
 
 .nav-buttons{
   width: 53vw;
-
   text-align: center;
+}
+.active{
+  background-image: linear-gradient(to bottom, #43C25F, #D1E020);
 }
 .nav-item{
   padding: 4px;
-  color: inherit; 
+  color: inherit;
+  width: 33%; 
   font-size: 30px;
   border-radius: 3px;
   transition: background-color 0.3s ease;
@@ -69,9 +72,7 @@ body {
 
 a {  
   text-decoration: none;
-  width: 33%;
-  padding: 5px;
-  
+  color: black;
 }
 
 .button-row{
@@ -83,6 +84,7 @@ a {
 }
 .button-item{
   display: flex;
+  align-items: center;
   gap: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -90,7 +92,15 @@ a {
   border-radius: 10px;
   background-color: #ACDC23;
   align-items: center;
-
+}
+.button-item:hover{
+  filter: brightness(80%);
+  transition: filter 0.7s ease; 
+}
+a:hover{text-decoration: none; /* Remove underline on hover */
+  color: inherit; /* Inherit the color from the parent element */
+  outline: none; /* Remove outline on hover */
+  color: black;
 }
 .button-ico{
   width: 25px;
@@ -111,6 +121,7 @@ a {
   padding: 20px 5px 20px 15px;
   margin-top: 40px;
   border-radius: 5px;
+  word-wrap: break-word;
 }
 .card-attribute{
   font-size: 18px;
@@ -131,7 +142,6 @@ a {
 }
 td{
   padding-bottom: 10px;
+  text-wrap:balance;
+
 }
-
-
-

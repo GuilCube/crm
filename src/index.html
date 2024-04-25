@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
     <link href="css/mainRules.css" rel="stylesheet"> 
   <title>CRMКа</title>
 </head>
@@ -16,8 +17,7 @@
   <!--Навігаційний рядок-->
   <header class="navbar">
       <div class="navbar-container nav-buttons">
-          <a class="nav-item" style="background-image: linear-gradient(to bottom, #43C25F, #D1E020);" href="#">Ліди</a>
-      
+          <a class="nav-item active" href="#">Ліди</a>
            <a class="nav-item" href="#">Замовлення</a>
             <a class="nav-item" href="#">Аналітика</a>
       </div>
@@ -49,11 +49,14 @@
 <main>
   <!--Кнопи фунцкіоналу-->
   <div class="button-row">
-    <span class="button-item">Новий лід 
+    <a class="button-item" href="#">
+    <span >Новий лід 
       <img class="button-ico" src="/src/img/plusIco.png">
-    </span>
-    <span class="button-item">Пошук
-      <img class="button-ico" src="/src/img/searchIco.png">
+    </span></a>
+    <a class="button-item" href="#">
+      <span>Пошук
+        <img class="button-ico" src="/src/img/searchIco.png">
+    </a>
     </span>
   </div>
 
@@ -186,7 +189,7 @@
 </table>
 <table class="card">
   <tr>
-      <td class="card-attribute">Лід№</td>
+      <td class="card-attribute">Лід №</td>
       <td>
         <span class="card-value">0001</span></td>
   </tr>
