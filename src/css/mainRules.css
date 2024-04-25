@@ -1,9 +1,14 @@
+@font-face{
+  font-family: 'Comfortaa';
+  src: url('/src/font/Comfortaa-VariableFont_wght.ttf');
+}
 body {
   margin:0; padding:0;
     background-image: url("greenbackground.jpg");
       background-repeat: no-repeat;
       background-size: cover;
       background-attachment: fixed;
+      font-family: 'Comfortaa', 'sans serif';
     }
 .footer{
   display: flex;
@@ -102,7 +107,7 @@ a {
 .card{
   display: flex;
   background-color: #DBF1C2;
-  width: 316px;
+  width: 333px;
   padding: 20px 5px 20px 15px;
   margin-top: 40px;
   border-radius: 5px;
@@ -116,7 +121,7 @@ a {
 }
 .card-value{
   display: inline-block;
-  width: 97%;
+  width: 90%;
   font-size: 16px;
   padding: 0px 0px 5px 5px;
   background-color: rgba(219, 219, 219, .40);
