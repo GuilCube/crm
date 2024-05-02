@@ -1,34 +1,37 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
-    <link href="css/mainRules.css" rel="stylesheet"> 
+
+  <link href="css/styles.css" rel="stylesheet">
+
   <title>CRMКа</title>
 </head>
+
 <body>
 
   <!--Навігаційний рядок-->
   <header class="navbar">
-      <div class="navbar-container nav-buttons">
-          <a class="nav-item active" href="#">Ліди</a>
-           <a class="nav-item" href="#">Замовлення</a>
-            <a class="nav-item" href="#">Аналітика</a>
-      </div>
-      <div class="navbar-container">
-        <p class="nav-greet" >Доброго дня, Менеджер</p>
-        <a class="nav-icon" href="#">
-          <img class="exit-ico" src="/src/img/exitIco.png">
-        </a>  
-         
-      </div>
-          <!-- <li>            
+    <div class="navbar-container nav-buttons">
+      <a class="nav-item active" href="#">Ліди</a>
+      <a class="nav-item" href="#">Замовлення</a>
+      <a class="nav-item" href="#">Аналітика</a>
+    </div>
+    <div class="navbar-container">
+      <p class="nav-greet">Доброго дня, Менеджер</p>
+      <a class="nav-icon" href="#">
+        <img class="exit-ico" src="/src/img/exitIco.png">
+      </a>
+
+    </div>
+    <!-- <li>            
             </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -46,198 +49,250 @@
   <!--Кінець навігаційного рядка-->
 
 
-<main>
-  <!--Кнопи фунцкіоналу-->
-  <div class="button-row">
-    <a class="button-item" href="#">
-    <span >Новий лід 
-      <img class="button-ico" src="/src/img/plusIco.png">
-    </span></a>
-    <a class="button-item" href="#">
-      <span>Пошук
-        <img class="button-ico" src="/src/img/searchIco.png">
-    </a>
-    </span>
-  </div>
+  <main>
+    <!--Кнопи фунцкіоналу-->
+    <div class="button-row">
+      <a id="showNewLeadForm" class="button-item" href="#">
+        <span>Новий лід
+          <img class="button-ico" src="/src/img/plusIco.png">
+        </span></a>
+      <a class="button-item" href="#">
+        <span>Пошук
+          <img class="button-ico" src="/src/img/searchIco.png">
+      </a>
+      </span>
+    </div>
 
-<div class="card-list">
-  <table class="card">
-    <tr>
-        <td class="card-attribute">Лід№</td>
-        <td>
-          <span class="card-value">0001</span></td>
-    </tr>
-    <tr>
-        <td class="card-attribute">Тип</td>
-        <td>
-          <span class="card-value">Фізична особа</span></td>
-    </tr>
-    <tr>
-        <td class="card-attribute">Статус</td>
-        <td>
-        <span class="card-value">Контакт</span>
-        </td>
-    </tr>
-    <tr>
-        <td class="card-attribute">Номер</td>
-        <td>
-          <span class="card-value">+38 (067) 833-56-76</span>
-        </td>
-    </tr>
-    <tr>
-        <td class="card-attribute">Дані</td>
-        <td>
-          <span class="card-value">Петренко Петро Петрович</span>
-        </td>
-    </tr>
-    <tr>
-        <td class="card-attribute">Пошта</td>
-        <td >
-          <span class="card-value">пошта_собака_пот.соь</span>
-        </td>
-    </tr>
-    <tr>
-        <td class="card-attribute">Коментар</td>
-        <td >
-          <span class="card-value">Тут моде бути комента></span>
-        </td>
-    </tr>
-</table>
-<table class="card">
-  <tr>
-      <td class="card-attribute">Лід№</td>
-      <td>
-        <span class="card-value">0001</span></td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Тип</td>
-      <td>
-        <span class="card-value">Фізична особа</span></td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Статус</td>
-      <td>
-      <span class="card-value">Контакт</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Номер</td>
-      <td>
-        <span class="card-value">+38 (067) 833-56-76</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Дані</td>
-      <td>
-        <span class="card-value">Петренко Петро Петрович</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Пошта</td>
-      <td >
-        <span class="card-value">пошта_собака_пот.соь</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Коментар</td>
-      <td >
-        <span class="card-value">Тут моде бути комента></span>
-      </td>
-  </tr>
-</table>
-<table class="card">
-  <tr>
-      <td class="card-attribute">Лід№</td>
-      <td>
-        <span class="card-value">0001</span></td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Тип</td>
-      <td>
-        <span class="card-value">Фізична особа</span></td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Статус</td>
-      <td>
-      <span class="card-value">Контакт</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Номер</td>
-      <td>
-        <span class="card-value">+38 (067) 833-56-76</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Дані</td>
-      <td>
-        <span class="card-value">Петренко Петро Петрович</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Пошта</td>
-      <td >
-        <span class="card-value">пошта_собака_пот.соь</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Коментар</td>
-      <td >
-        <span class="card-value">Тут моде бути комента></span>
-      </td>
-  </tr>
-</table>
-<table class="card">
-  <tr>
-      <td class="card-attribute">Лід №</td>
-      <td>
-        <span class="card-value">0001</span></td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Тип</td>
-      <td>
-        <span class="card-value">Фізична особа</span></td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Статус</td>
-      <td>
-      <span class="card-value">Контакт</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Номер</td>
-      <td>
-        <span class="card-value">+38 (067) 833-56-76</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Дані</td>
-      <td>
-        <span class="card-value">Петренко Петро Петрович</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Пошта</td>
-      <td >
-        <span class="card-value">пошта_собака_пот.соь</span>
-      </td>
-  </tr>
-  <tr>
-      <td class="card-attribute">Коментар</td>
-      <td >
-        <span class="card-value">Тут моде бути комента></span>
-      </td>
-  </tr>
-</table>
-</div>
-  
+    <div id="newLead" class="modal-container">
+      <div class="card modal-content">
+        <!-- <span id="closeModal" class="close">&times;</span> -->
+        <h3 style="text-align: center;">Створити лід...</h3>
+        <form id="leadForm" class="leadForm">
+          <div class="modal-line">
+            <label for="idLead">Лід №</label>
+            <input type="text" id="idLead" name="idLead">
+          </div>
+
+          <div class="modal-line">
+            <label for="leadType">Тип</label>
+            <input type="text" id="leadType" name="leadType">
+          </div>
+
+          <div class="modal-line">
+            <label for="leadStatus">Статус </label>
+            <input type="text" id="leadStatus" name="leadStatus">
+          </div>
+          <div class="modal-line">
+          <label for="leadPhone">Номер</label>
+          <input type="text" id="leadPhone" name="leadPhone">
+        </div>
+          <div class="modal-line">
+            <label for="leadName">Дані</label>
+            <input type="text" id="leadName" name="leadName">
+          </div>
+          <div class="modal-line">
+            <label for="leadEmail">Пошта</label>
+            <input type="text" id="leadEmail" name="leadEmail">
+          </div>
+          <div class="modal-line">
+            <label for="leadComment">Коментар</label>
+            <input type="text" id="leadComment" name="leadComment">
+          </div>
+          <div class="modal-line">
+          <button id="closeModal" class="close">Назад</button>
+          <button type="submit">Створити</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
 
- 
-  <!--Кінець шапки-->
+    <div class="card-list">
+      <table class="card">
+        <tr>
+          <td class="card-attribute">Лід№</td>
+          <td>
+            <span class="card-value">0001</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Тип</td>
+          <td>
+            <span class="card-value">Фізична особа</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Статус</td>
+          <td>
+            <span class="card-value">Контакт</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Номер</td>
+          <td>
+            <span class="card-value">+38 (067) 833-56-76</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Дані</td>
+          <td>
+            <span class="card-value">Петренко Петро Петрович</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Пошта</td>
+          <td>
+            <span class="card-value">пошта_собака_пот.соь</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Коментар</td>
+          <td>
+            <span class="card-value">Тут моде бути комента></span>
+          </td>
+        </tr>
+      </table>
+      <table class="card">
+        <tr>
+          <td class="card-attribute">Лід№</td>
+          <td>
+            <span class="card-value">0001</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Тип</td>
+          <td>
+            <span class="card-value">Фізична особа</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Статус</td>
+          <td>
+            <span class="card-value">Контакт</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Номер</td>
+          <td>
+            <span class="card-value">+38 (067) 833-56-76</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Дані</td>
+          <td>
+            <span class="card-value">Петренко Петро Петрович</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Пошта</td>
+          <td>
+            <span class="card-value">пошта_собака_пот.соь</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Коментар</td>
+          <td>
+            <span class="card-value">Тут моде бути комента></span>
+          </td>
+        </tr>
+      </table>
+      <table class="card">
+        <tr>
+          <td class="card-attribute">Лід№</td>
+          <td>
+            <span class="card-value">0001</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Тип</td>
+          <td>
+            <span class="card-value">Фізична особа</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Статус</td>
+          <td>
+            <span class="card-value">Контакт</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Номер</td>
+          <td>
+            <span class="card-value">+38 (067) 833-56-76</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Дані</td>
+          <td>
+            <span class="card-value">Петренко Петро Петрович</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Пошта</td>
+          <td>
+            <span class="card-value">пошта_собака_пот.соь</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Коментар</td>
+          <td>
+            <span class="card-value">Тут моде бути комента></span>
+          </td>
+        </tr>
+      </table>
+      <table class="card">
+        <tr>
+          <td class="card-attribute">Лід №</td>
+          <td>
+            <span class="card-value">0001</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Тип</td>
+          <td>
+            <span class="card-value">Фізична особа</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Статус</td>
+          <td>
+            <span class="card-value">Контакт</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Номер</td>
+          <td>
+            <span class="card-value">+38 (067) 833-56-76</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Дані</td>
+          <td>
+            <span class="card-value">Петренко Петро Петрович</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Пошта</td>
+          <td>
+            <span class="card-value">пошта_собака_пот.соь</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="card-attribute">Коментар</td>
+          <td>
+            <span class="card-value">Тут моде бути комента></span>
+          </td>
+        </tr>
+      </table>
+    </div>
 
-  <!--Початок слайдеру-->
-  <!-- <div class="container-sm">
+
+
+
+    <!--Кінець шапки-->
+
+    <!--Початок слайдеру-->
+    <!-- <div class="container-sm">
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -260,9 +315,11 @@
     </div>
   </div> -->
 
-   
-</main>
-      <!--Кінець слайдеру-->
-      <script src="js/bootstrap.min.js"></script>
+
+  </main>
+  <!--Кінець слайдеру-->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/NewButton.js"></script>
 </body>
+
 </html>
