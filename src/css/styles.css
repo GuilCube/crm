@@ -5,6 +5,10 @@
 :root{
 --card_background: #DBF1C2;
 --data_background: rgba(219, 219, 219, .40);
+--defauld_background:  #4CA35F;
+--btn_default: #ACDC23;
+--bnt_back: #3f510a;
+--btn-action: #8eb51d;
 }
 body {
   margin:0; padding:0;
@@ -28,7 +32,7 @@ body {
   height:53px;
   justify-content: space-between;
   padding: 0%;
-  background-color: #4CA35F; /* Navbar background color */
+  background-color: var(--defauld_background); /* Navbar background color */
   color: rgb(0, 0, 0); /* Text color for buttons */
 }
 
@@ -44,7 +48,7 @@ body {
   text-align: center;
 }
 .active{
-  background-image: linear-gradient(to bottom, #43C25F, #D1E020);
+  background-image: linear-gradient(to bottom, var(--defauld_background), #D1E020);
 }
 .nav-item{
   padding: 4px;
@@ -125,7 +129,7 @@ a:hover{text-decoration: none; /* Remove underline on hover */
   padding: 20px 5px 20px 15px;
   margin-top: 40px;
   border-radius: 5px;
-  word-wrap: break-word;
+
 }
 .card-attribute{
   font-size: 18px;
@@ -172,8 +176,17 @@ td{
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.modal-line{
+.modal-line {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  align-items: center;
 padding-top: 10px;
+}
+.modal-line-buttons{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
 }
 #leadForm{
   display: flex;
@@ -181,6 +194,25 @@ padding-top: 10px;
   flex-direction: row-reverse;
   
 }
-input{
+textarea {
   background-color: rgba(219, 219, 219, .40);
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  padding-left: 5px;
+  resize: vertical;
+  overflow: auto;
+  font-size: 14px;
+}
+.btn{
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.back{
+  background-color: var(--bnt_back);
+}
+.action{
+  background-color: var(--btn-action);
 }

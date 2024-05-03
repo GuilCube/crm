@@ -64,45 +64,46 @@
     </div>
 
     <div id="newLead" class="modal-container">
-      <div class="card modal-content">
+      <div class="modal-content card">
         <!-- <span id="closeModal" class="close">&times;</span> -->
         <h3 style="text-align: center;">Створити лід...</h3>
         <form id="leadForm" class="leadForm">
           <div class="modal-line">
             <label for="idLead">Лід №</label>
-            <input type="text" id="idLead" name="idLead">
+            <textarea type="text" id="idLead" name="idLead"></textarea>
           </div>
 
           <div class="modal-line">
             <label for="leadType">Тип</label>
-            <input type="text" id="leadType" name="leadType">
+            <textarea type="text" id="leadType" name="leadType"></textarea>
           </div>
 
           <div class="modal-line">
             <label for="leadStatus">Статус </label>
-            <input type="text" id="leadStatus" name="leadStatus">
+            <textarea type="text" id="leadStatus" name="leadStatus"></textarea>
           </div>
           <div class="modal-line">
           <label for="leadPhone">Номер</label>
-          <input type="text" id="leadPhone" name="leadPhone">
+          <textarea type="text" id="leadPhone" name="leadPhone"></textarea>
         </div>
           <div class="modal-line">
             <label for="leadName">Дані</label>
-            <input type="text" id="leadName" name="leadName">
+            <textarea type="text" id="leadName" name="leadName"></textarea>
           </div>
           <div class="modal-line">
             <label for="leadEmail">Пошта</label>
-            <input type="text" id="leadEmail" name="leadEmail">
+            <textarea type="text" id="leadEmail" name="leadEmail"></textarea>
           </div>
           <div class="modal-line">
             <label for="leadComment">Коментар</label>
-            <input type="text" id="leadComment" name="leadComment">
+            <textarea type="text" id="leadComment" name="leadComment" class="comment"></textarea>
           </div>
-          <div class="modal-line">
-          <button id="closeModal" class="close">Назад</button>
-          <button type="submit">Створити</button>
-          </div>
+          
         </form>
+        <div class="modal-line-buttons">
+          <button id="closeModal" class="close btn back">Назад</button>
+          <button type="submit" class="btn action">Створити</button>
+          </div>
       </div>
     </div>
 
