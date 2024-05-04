@@ -164,10 +164,11 @@ td{
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
   overflow: auto;
 }
+
 .modal-content{
   position: absolute;
   margin: 0;
-  width: 400px;
+  width: 25vw;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -181,7 +182,9 @@ td{
   flex-wrap: nowrap;
   gap: 10px;
   align-items: center;
-padding-top: 10px;
+  padding-top: 10px;
+  width: 100%;
+  justify-content: end;
 }
 .modal-line-buttons{
   display: flex;
@@ -190,23 +193,27 @@ padding-top: 10px;
 }
 #leadForm{
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row-reverse;
-  
+  flex-wrap: wrap;  
 }
-input,textarea {
+input,textarea{
   background-color: rgba(219, 219, 219, .40);
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
-  padding: 2px 0px 5px 2px;
+  padding: 2px 0px 5px 5px;
   resize: vertical;
   overflow: auto;
   font-size: 14px;
-  height: 30px;
-  min-height:30px ;
-  max-height: 50px;
+  word-wrap: none;
+  width: 70%;
+  min-width: 50%;
+  
 }
+textarea{
+  height: calc(14px*1.5*3);
+  max-height: calc(14px*1.5*3);
+}
+
 .btn{
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
