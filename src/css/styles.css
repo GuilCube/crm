@@ -2,6 +2,10 @@
   font-family: 'Comfortaa';
   src: url('/src/font/Comfortaa-VariableFont_wght.ttf');
 }
+@font-face {
+  font-family: 'Coda';
+  src: url('/src/font/Coda-Regular.ttf');
+}
 :root{
 --card_background: #DBF1C2;
 --data_background: rgba(219, 219, 219, .40);
@@ -166,6 +170,7 @@ td{
 }
 
 .modal-content{
+  /* font-family: 'Coda', 'sans serif'; */
   position: absolute;
   margin: 0;
   width: 25vw;
@@ -191,6 +196,7 @@ td{
   justify-content: space-between;
   padding-top: 20px;
 }
+
 #leadForm{
   display: flex;
   flex-wrap: wrap;  
@@ -200,8 +206,8 @@ input,textarea{
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
-  padding: 2px 0px 5px 5px;
-  resize: vertical;
+  padding: 3px 0px 5px 5px;
+  resize: none;
   overflow: auto;
   font-size: 14px;
   word-wrap: none;
@@ -211,7 +217,6 @@ input,textarea{
 }
 textarea{
   height: calc(14px*1.5*3);
-  max-height: calc(14px*1.5*3);
 }
 
 .btn{
