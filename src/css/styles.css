@@ -57,7 +57,7 @@ body {
 .nav-item{
   padding: 4px;
   color: inherit;
-  width: 33%; 
+  width: 33vw; 
   font-size: 30px;
   border-radius: 3px;
   transition: background-color 0.3s ease;
@@ -81,12 +81,10 @@ body {
   border-radius: 4px;
 
 } 
-
 a {  
   text-decoration: none;
   color: black;
 }
-
 .button-row{
   margin: 40px 0px 0px 3%;
   display: flex;
@@ -97,25 +95,25 @@ a {
 .button-item{
   display: flex;
   align-items: center;
-  gap: 10px;
   padding-left: 10px;
   padding-right: 10px;
   border: 1px solid black;
   border-radius: 10px;
   background-color: #ACDC23;
-  align-items: center;
 }
 .button-item:hover{
   filter: brightness(80%);
   transition: filter 0.7s ease; 
 }
-a:hover{text-decoration: none; /* Remove underline on hover */
+a:hover{
+  text-decoration: none; /* Remove underline on hover */
   color: inherit; /* Inherit the color from the parent element */
   outline: none; /* Remove outline on hover */
   color: black;
 }
 .button-ico{
   width: 25px;
+  margin-left: 10px;
 }
 .card-list{
   display: flex;
@@ -230,4 +228,10 @@ textarea{
 }
 .action{
   background-color: var(--btn-action);
+}
+
+.lead-detailed{
+  background-color: var(--card_background);
+  z-index: 10;
+
 }
