@@ -15,7 +15,7 @@
   <title>CRMКа</title>
 </head>
 
-<body onload="loadLeadPage()">
+<body>
 
   <!--Навігаційний рядок-
   <header class="navbar">
@@ -48,7 +48,20 @@
   Кінець навігаційного рядка-->
 
   <main>
-   
+   <div class="auth-container">
+    <div class="auth-modal">
+      <span class="auth-header">Авторизація</span>
+      <form class="auth-form">
+        
+        <input type="text" id="login" name="login" class="auth-input" placeholder="Логін">
+        <input type="text" id="pass" name="pass" class="auth-input" placeholder="Пароль">
+
+        
+      </form>
+      <button class="btn login">Увійти</button>
+    </div>
+</div>
+
     <div id="newLead" class="modal-container" >
       <div class="modal-content card">
         <!-- <span id="closeModal" class="close">&times;</span> -->

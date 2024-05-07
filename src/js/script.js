@@ -1,5 +1,7 @@
 /*Оpen and close form buttons */
 
+
+
 const modal = document.getElementById('newLead'); //NewLead button
 
 const closeModalButton = document.getElementById('closeModal'); //Close form button

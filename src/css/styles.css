@@ -22,6 +22,62 @@ body {
       background-attachment: fixed;
       font-family: 'Comfortaa', 'sans serif';
     }
+.auth-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+}
+.auth-modal{
+  display: flex;
+  justify-content: space-around;
+  width: 310px;
+  height: 310px;
+  background-image: linear-gradient(45deg, #1D7E2C, #93C506);
+  border-radius: 1.5vw;
+  flex-wrap: wrap;
+  flex-direction: column;
+}    
+.login{
+  width: 75%;
+  align-self: center;
+  justify-self:end;
+  color: #1F44A4;
+}
+.auth-form{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+
+}
+.auth-input{
+background-color: inherit;
+border-radius: 0;
+border: none;
+border-bottom: 1px solid black;
+color: black;
+  font-weight: bold;
+}
+.auth-input::placeholder{
+  color: black;
+  font-weight: bold;
+}
+.auth-input:focus{
+  outline: none;
+}
+.auth-input:hover{
+  cursor: pointer;
+ 
+}
+.auth-header{
+  font-size:xx-large;
+  text-align: center;
+  font-weight: bold;
+  color: #1F44A4;
+}
 .footer{
   display: flex;
   flex-direction: row;
