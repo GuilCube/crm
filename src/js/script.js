@@ -38,6 +38,8 @@ function createTable() {
     // Create a table element
     const table = document.createElement('table');
     table.classList.add('card');
+    const tbody = document.createElement('tbody')    
+    
   
     // Data to populate the table
     const rowData = [
@@ -72,18 +74,15 @@ function createTable() {
       row.appendChild(valueCell);
   
       // Append row to the table
-      table.appendChild(row);
+      tbody.appendChild(row);
     });
+
+    table.appendChild(tbody);
   
-    return table;
-    // const container = document.getElementsByClassName("card-list"); // Specify your container element
-    // console.log(container);
-    // table = container.append(table);
+    const container = document.querySelector('.card-list'); 
+    //console.log(document.querySelector('main'))
+    
+    container.appendChild(table)
   }
   
-  // Event listener for window load
-//   document.addEventListener('DOMContentLoaded', (event) => {
-//     // Call the createTable function when the window is fully loaded
-//     createTable();
-//   });
   
