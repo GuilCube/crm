@@ -1,7 +1,9 @@
+
 // Create a header element with class "navbar"
+
 const main = document.querySelector('main')
 
-function LeadPage()
+export function LeadPage()
 {
   headerLead();
   // <!--Кнопи фунцкіоналу-->
