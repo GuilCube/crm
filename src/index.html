@@ -15,9 +15,9 @@
   <title>CRMКа</title>
 </head>
 
-<body onload="createTable()">
+<body onload="loadLeadPage()">
 
-  <!--Навігаційний рядок-->
+  <!--Навігаційний рядок-
   <header class="navbar">
     <div class="navbar-container nav-buttons">
       <a class="nav-item active" href="#">Ліди</a>
@@ -30,7 +30,7 @@
         <img class="exit-ico" src="/src/img/exitIco.png">
       </a>
     </div>
-    <!-- <li>            
+     <li>            
             </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -43,26 +43,12 @@
               <li><a class="dropdown-item" href="#">Аудіосистеми</a></li>
               <li><a class="dropdown-item" href="#">Дім</a></li>
               <li><a class="dropdown-item" href="#">Інструменти</a></li> 
-              <li><hr class="dropdown-divider"></li>-->
+              <li><hr class="dropdown-divider"></li>
   </header>
-  <!--Кінець навігаційного рядка-->
-
+  Кінець навігаційного рядка-->
 
   <main>
-    <!--Кнопи фунцкіоналу-->
-    <!-- <div class="button-row">
-      <a id="showNewLeadForm" class="button-item" href="#">
-        <span>Новий лід
-          <img class="button-ico" src="/src/img/plusIco.png">
-        </span></a>
-      <a class="button-item" href="#">
-        <span>Пошук
-          <img class="button-ico" src="/src/img/searchIco.png">
-      </a>
-      </span>
-    </div> -->
-
-
+   
     <div id="newLead" class="modal-container" >
       <div class="modal-content card">
         <!-- <span id="closeModal" class="close">&times;</span> -->
@@ -113,187 +99,6 @@
       </form>
 
     </div>
-
-  <!--  <div class="card-list">
-      
-     
-        <table class="card">
-        <tr>
-          <td class="card-attribute">Лід№</td>
-          <td>
-            <span class="card-value">0001</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Тип</td>
-          <td>
-            <span class="card-value">Фізична особа</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Статус</td>
-          <td>
-            <span class="card-value">Контакт</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Номер</td>
-          <td>
-            <span class="card-value">+38 (067) 833-56-76</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Дані</td>
-          <td>
-            <span class="card-value">Петренко Петро Петрович</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Пошта</td>
-          <td>
-            <span class="card-value">пошта_собака_пот.соь</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Коментар</td>
-          <td>
-            <span class="card-value">Тут моде бути комента></span>
-          </td>
-        </tr>
-      </table>
-       <table class="card">
-        <tr>
-          <td class="card-attribute">Лід№</td>
-          <td>
-            <span class="card-value">0001</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Тип</td>
-          <td>
-            <span class="card-value">Фізична особа</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Статус</td>
-          <td>
-            <span class="card-value">Контакт</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Номер</td>
-          <td>
-            <span class="card-value">+38 (067) 833-56-76</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Дані</td>
-          <td>
-            <span class="card-value">Петренко Петро Петрович</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Пошта</td>
-          <td>
-            <span class="card-value">пошта_собака_пот.соь</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Коментар</td>
-          <td>
-            <span class="card-value">Тут моде бути комента></span>
-          </td>
-        </tr>
-      </table>
-      <table class="card">
-        <tr>
-          <td class="card-attribute">Лід№</td>
-          <td>
-            <span class="card-value">0001</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Тип</td>
-          <td>
-            <span class="card-value">Фізична особа</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Статус</td>
-          <td>
-            <span class="card-value">Контакт</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Номер</td>
-          <td>
-            <span class="card-value">+38 (067) 833-56-76</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Дані</td>
-          <td>
-            <span class="card-value">Петренко Петро Петрович</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Пошта</td>
-          <td>
-            <span class="card-value">пошта_собака_пот.соь</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Коментар</td>
-          <td>
-            <span class="card-value">Тут моде бути комента></span>
-          </td>
-        </tr>
-      </table>
-      <table class="card">
-        <tr>
-          <td class="card-attribute">Лід №</td>
-          <td>
-            <span class="card-value">0001</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Тип</td>
-          <td>
-            <span class="card-value">Фізична особа</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Статус</td>
-          <td>
-            <span class="card-value">Контакт</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Номер</td>
-          <td>
-            <span class="card-value">+38 (067) 833-56-76</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Дані</td>
-          <td>
-            <span class="card-value">Петренко Петро Петрович</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Пошта</td>
-          <td>
-            <span class="card-value">пошта_собака_пот.соь</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="card-attribute">Коментар</td>
-          <td>
-            <span class="card-value">Тут моде бути комента></span>
-          </td>
-        </tr>
-      </table>  
-    </div>-->
   </main>  
 </body>
 <script src="js/script.js"></script>
