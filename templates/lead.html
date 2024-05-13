@@ -1,0 +1,192 @@
+<body onload="buttonsLead()">
+    <header class="navbar">
+        <div class="navbar-container nav-buttons"><a class="nav-item active" href="#">Ліди</a><a class="nav-item"
+                href="#">Замовлення</a><a class="nav-item" href="#">Аналітика</a></div>
+        <div class="navbar-container">
+            <p class="nav-greet">Доброго дня, Менеджер</p><a class="nav-icon" href="#"><img class="exit-ico"
+                    src="/src/img/exitIco.png"></a>
+        </div>
+    </header>
+
+    <!--Навігаційний рядок-
+    <header class="navbar">
+      <div class="navbar-container nav-buttons">
+        <a class="nav-item active" href="#">Ліди</a>
+        <a class="nav-item" href="#">Замовлення</a>
+        <a class="nav-item" href="#">Аналітика</a>
+      </div>
+      <div class="navbar-container">
+        <p class="nav-greet">Доброго дня, Менеджер</p>
+        <a class="nav-icon" href="#">
+          <img class="exit-ico" src="/src/img/exitIco.png">
+        </a>
+      </div>
+       <li>            
+              </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Категорії
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Автомобілі</a></li>
+                <li><a class="dropdown-item" href="#">Телефони</a></li>
+                <li><a class="dropdown-item" href="#">Аудіосистеми</a></li>
+                <li><a class="dropdown-item" href="#">Дім</a></li>
+                <li><a class="dropdown-item" href="#">Інструменти</a></li> 
+                <li><hr class="dropdown-divider"></li>
+    </header>
+    Кінець навігаційного рядка-->
+
+    <main>
+        <!-- <div class="auth-container">
+      <div class="auth-modal">
+        <span class="auth-header">Авторизація</span>
+        <form class="auth-form">
+          <input type="text" id="login" name="login" class="auth-input" placeholder="Логін">
+          <input type="text" id="pass" name="pass" class="auth-input" placeholder="Пароль">        
+        </form>
+        <button class="btn login">Увійти</button>
+      </div>
+  </div> -->
+
+        <div id="newLead" class="modal-container">
+            <div class="modal-content card">
+                <!-- <span id="closeModal" class="close">&times;</span> -->
+                <h3 style="text-align: center;">Створити лід...</h3>
+                <form id="leadForm" class="leadForm">
+                    <div class="modal-line">
+                        <label for="idLead">Лід №</label>
+                        <input type="text" id="idLead" name="idLead" placeholder="Імпорт з БД">
+                    </div>
+
+                    <div class="modal-line">
+                        <label for="leadType">Тип</label>
+                        <input type="text" id="leadType" name="leadType">
+                    </div>
+
+                    <div class="modal-line">
+                        <label for="leadStatus">Статус </label>
+                        <input type="text" id="leadStatus" name="leadStatus" placeholder="Вкажіть статус...">
+                    </div>
+                    <div class="modal-line">
+                        <label for="leadPhone">Номер</label>
+                        <input type="text" id="leadPhone" name="leadPhone" placeholder="Введіть номер телефону...">
+                    </div>
+                    <div class="modal-line">
+                        <label for="leadName">Дані</label>
+                        <input type="text" id="leadName" name="leadName" placeholder="ПІБ ліда...">
+                    </div>
+                    <div class="modal-line">
+                        <label for="leadEmail">Пошта</label>
+                        <input type="text" id="leadEmail" name="leadEmail" placeholder="Введіть пошту...">
+                    </div>
+                    <div class="modal-line">
+                        <label for="leadComment">Коментар</label>
+                        <textarea type="text" id="leadComment" name="leadComment" class="comment"
+                            placeholder="Тут може бути коментар до ліда..."></textarea>
+                    </div>
+
+                </form>
+                <div class="modal-line-buttons">
+                    <button id="closeModal" class="close btn back">Назад</button>
+                    <button type="submit" class="btn action">Створити</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="lead-detailed">
+            <form>
+
+            </form>
+
+        </div>
+        <div class="button-row"><a id="showNewLeadForm" class="button-item" href="#"><span>Новий лід<img
+                        class="button-ico" src="/src/img/plusIco.png"></span></a><a class="button-item"
+                href="#"><span>Пошук<img class="button-ico" src="/src/img/searchIco.png"></span></a></div>
+        <div class="card-list">
+            <table class="card">
+                <tbody>
+                    <tr>
+                        <td class="card-attribute">Лід№</td>
+                        <td><span class="card-value">0001</span></td>
+                    </tr>
+                    <tr>
+                        <td class="card-attribute">Тип</td>
+                        <td><span class="card-value">Фізична особа</span></td>
+                    </tr>
+                    <tr>
+                        <td class="card-attribute">Статус</td>
+                        <td><span class="card-value">Контакт</span></td>
+                    </tr>
+                    <tr>
+                        <td class="card-attribute">Номер</td>
+                        <td><span class="card-value">+38 (067) 833-56-76</span></td>
+                    </tr>
+                    <tr>
+                        <td class="card-attribute">Дані</td>
+                        <td><span class="card-value">Петренко Петро Петрович</span></td>
+                    </tr>
+                    <tr>
+                        <td class="card-attribute">Пошта</td>
+                        <td><span class="card-value">пошта_собака_пот.соь</span></td>
+                    </tr>
+                    <tr>
+                        <td class="card-attribute">Коментар</td>
+                        <td><span class="card-value">Тут може бути коментар</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="newLead" class="modal-container" >
+          <div class="modal-content card">
+            <!-- <span id="closeModal" class="close">&times;</span> -->
+            <h3 style="text-align: center;">Створити лід...</h3>
+            <form id="leadForm" class="leadForm">
+              <div class="modal-line">
+                <label for="idLead">Лід №</label>
+                <input type="text" id="idLead" name="idLead" placeholder="Імпорт з БД">
+              </div>
+    
+              <div class="modal-line">
+                <label for="leadType">Тип</label>
+                <input type="text" id="leadType" name="leadType"  >
+              </div>
+    
+              <div class="modal-line">
+                <label for="leadStatus">Статус </label>
+                <input type="text" id="leadStatus" name="leadStatus" placeholder="Вкажіть статус...">
+              </div>
+              <div class="modal-line">
+              <label for="leadPhone">Номер</label>
+              <input type="text" id="leadPhone" name="leadPhone"  placeholder="Введіть номер телефону...">
+            </div>
+              <div class="modal-line">
+                <label for="leadName">Дані</label>
+                <input type="text" id="leadName" name="leadName"  placeholder="ПІБ ліда...">
+              </div>
+              <div class="modal-line">
+                <label for="leadEmail">Пошта</label>
+                <input type="text" id="leadEmail" name="leadEmail" placeholder="Введіть пошту...">
+              </div>
+              <div class="modal-line">
+                <label for="leadComment">Коментар</label>
+                <textarea type="text" id="leadComment" name="leadComment" class="comment"  placeholder="Тут може бути коментар до ліда..."></textarea>
+              </div>
+              
+            </form>
+            <div class="modal-line-buttons">
+              <button id="closeModal" class="close btn back">Назад</button>
+              <button type="submit" class="btn action">Створити</button>
+              </div>
+          </div>
+        </div>
+    
+        <div class="lead-detailed">
+          <form> 
+    
+          </form>
+        </div>
+    </main>
+    
+</body>

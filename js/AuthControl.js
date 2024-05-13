@@ -1,5 +1,6 @@
 import { LeadPage } from "./LeadPage.js";
-
+window.history.replaceState(null,'','/')
+//window.location.pathname = '/auth';
 const authContainer = document.createElement('div');
 authContainer.classList.add('auth-container');
 
@@ -54,5 +55,6 @@ document.body.appendChild(authContainer);
 
 loginButton.addEventListener('click',()=>{
     document.body.removeChild(authContainer)
+    window.history.pushState(null,'',"/lead")
 LeadPage()
 })

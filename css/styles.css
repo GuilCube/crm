@@ -1,10 +1,10 @@
 @font-face{
   font-family: 'Comfortaa';
-  src: url('/src/font/Comfortaa-VariableFont_wght.ttf');
+  src: url('/font/Comfortaa-VariableFont_wght.ttf');
 }
 @font-face {
   font-family: 'Coda';
-  src: url('/src/font/Coda-Regular.ttf');
+  src: url('/font/Coda-Regular.ttf');
 }
 :root{
 --card_background: #DBF1C2;
@@ -137,6 +137,7 @@ color: black;
   border-radius: 4px;
 
 } 
+
 a {  
   text-decoration: none;
   color: black;

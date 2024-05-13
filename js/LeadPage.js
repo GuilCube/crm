@@ -1,7 +1,5 @@
 /*Оpen and close form buttons */
-
-
-
+export function buttonsLead(){
 const modal = document.getElementById('newLead'); //NewLead button
 
 const closeModalButton = document.getElementById('closeModal'); //Close form button
@@ -13,6 +11,8 @@ closeModalButton.addEventListener('click', () => {
 
 // Close the modal if user clicks outside of the modal content
 window.addEventListener('click', (event) => {
+    if(event===null)
+        return;
     if (event.target === modal) {
         modal.style.display = 'none'; // Hide the modal
     }
@@ -25,5 +25,4 @@ leadForm.addEventListener('submit', (event) => {
     // You can handle form submission logic here (e.g., send data to server)
     console.log('Form submitted!');
 });
-
-  
+}
