@@ -1,6 +1,8 @@
-import { LeadPage } from "./LeadPage.js";
+export function AuthPage(){
 window.history.replaceState(null,'','/')
 //window.location.pathname = '/auth';
+document.body.innerHTML = '';
+
 const authContainer = document.createElement('div');
 authContainer.classList.add('auth-container');
 
@@ -52,9 +54,10 @@ authContainer.appendChild(authModal);
 
 // Append the container element to the document body
 document.body.appendChild(authContainer);
+}
 
-loginButton.addEventListener('click',()=>{
-    document.body.removeChild(authContainer)
-    window.history.pushState(null,'',"/lead")
-LeadPage()
-})
+// loginButton.addEventListener('click',()=>{
+//     document.body.removeChild(authContainer)
+//     // window.history.pushState(null,'',"/lead")
+// LeadPage()
+// })

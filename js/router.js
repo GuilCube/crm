@@ -1,21 +1,17 @@
-document.addEventListener("click", (e) => {
-    const { target } = e;
-    if (!target.matches("rt")) {
-        return;
-    }
-    e.preventDefault();
-    window.history.pushState({},"",e.target.href)
-      locationHandler();
-  });
+import { AuthPage } from "./AuthControl.js";
+import { LeadPage } from "./LeadPage.js";
+
+
+
 const routes = {
    
     "/": {
-        template: "templates/auth.html",
+        template: () =>AuthPage(),
         title: "Вхід",
         description: "Сторінка автентифікації",
     },
     "/lead": {
-        template: "templates/lead.html",
+        template: () => LeadPage(),
         title: "Ліди",
         description: "Сторінка лідів",
     },
@@ -34,9 +30,15 @@ const routes = {
     // get the route object from the urlRoutes object
     const route = routes[location] || routes["404"];
     // get the html from the template
-    const html = await fetch(route.template).then((response) => response.text());
-    // set the content of the content div to the html
-    document.body.innerHTML = html;
+
+     route.template();
+    
+
+    // const html = await fetch(route.template).then((response) => response.text());
+    // // set the content of the content div to the html
+    // document.body.innerHTML = html;
+
+
     // set the title of the document to the title of the route
     document.title = route.title;
     // set the description of the document to the description of the route
@@ -45,7 +47,16 @@ const routes = {
     //     .setAttribute("content", route.description);
   };
   window.onpopstate = locationHandler;
-window.addEventListener("DOMContentLoaded",(e)=>{
+// window.addEventListener("DOMContentLoaded",(e)=>{
+//     locationHandler();
+// })
+window.addEventListener("click", (e) => {
+    const { target } = e;
+    if (!target.matches(".rt")) {
+        return;
+    }
+    e.preventDefault();
+    window.history.pushState({},"",e.target.href)
     locationHandler();
-})
+  });
 locationHandler();
