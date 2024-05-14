@@ -1,7 +1,16 @@
+
 export function AuthPage(){
-window.history.replaceState(null,'','/')
+//window.history.replaceState(null,'','/')
 //window.location.pathname = '/auth';
-document.body.innerHTML = '';
+// Disable browser navigation (not recommended)
+
+
+const main = document.querySelector('main');
+const header =document.querySelector('header');
+ 
+
+if(header!==null)
+document.body.removeChild(header);
 
 const authContainer = document.createElement('div');
 authContainer.classList.add('auth-container');
@@ -40,20 +49,24 @@ authForm.appendChild(loginInput);
 authForm.appendChild(passInput);
 
 // Create the login button element
+const loginButtonElement = document.createElement('a');
+loginButtonElement.classList.add('login');
+loginButtonElement.href = "/lead";
 const loginButton = document.createElement('button');
-loginButton.classList.add('btn', 'login');
+loginButton.classList.add('btn','auth','rt');
 loginButton.textContent = 'Увійти';
+loginButtonElement.appendChild(loginButton);
 
 // Append header, form, and button to the modal element
 authModal.appendChild(authHeader);
 authModal.appendChild(authForm);
-authModal.appendChild(loginButton);
+authModal.appendChild(loginButtonElement);
 
 // Append the modal to the container element
 authContainer.appendChild(authModal);
 
 // Append the container element to the document body
-document.body.appendChild(authContainer);
+main.appendChild(authContainer);
 }
 
 // loginButton.addEventListener('click',()=>{

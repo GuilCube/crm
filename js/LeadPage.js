@@ -1,8 +1,6 @@
 
 // Create a header element with class "navbar"
-
-const main = document.querySelector('main')
-
+const main = document.querySelector('main');
 export function LeadPage()
 {
   headerLead();
@@ -94,21 +92,21 @@ navContainer1.classList.add('navbar-container', 'nav-buttons');
 // Create and append "Ліди" link
 const leadsLink = document.createElement('a');
 leadsLink.classList.add('nav-item', 'active');
-leadsLink.href = '#';
+leadsLink.href = '/lead';
 leadsLink.textContent = 'Ліди';
 navContainer1.appendChild(leadsLink);
 
 // Create and append "Замовлення" link
 const ordersLink = document.createElement('a');
 ordersLink.classList.add('nav-item');
-ordersLink.href = '#';
+ordersLink.href = '/order';
 ordersLink.textContent = 'Замовлення';
 navContainer1.appendChild(ordersLink);
 
 // Create and append "Аналітика" link
 const analyticsLink = document.createElement('a');
 analyticsLink.classList.add('nav-item');
-analyticsLink.href = '#';
+analyticsLink.href = '/analytics';
 analyticsLink.textContent = 'Аналітика';
 navContainer1.appendChild(analyticsLink);
 
@@ -127,8 +125,8 @@ navContainer2.appendChild(greetingParagraph);
 
 // Create and append exit icon link
 const exitIconLink = document.createElement('a');
-exitIconLink.classList.add('nav-icon');
-exitIconLink.href = '#';
+exitIconLink.classList.add('nav-icon', 'rt');
+exitIconLink.href = '/';
 
 const exitIconImg = document.createElement('img');
 exitIconImg.classList.add('exit-ico');

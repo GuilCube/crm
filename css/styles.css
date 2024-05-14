@@ -41,10 +41,15 @@ body {
   flex-direction: column;
 }    
 .login{
-  width: 75%;
-  align-self: center;
-  justify-self:end;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
   color: #1F44A4;
+}
+.auth{
+  width: 75%;
+  background-color: #1F44A4;
 }
 .auth-form{
   display: flex;

@@ -1,8 +1,7 @@
 import { AuthPage } from "./AuthControl.js";
 import { LeadPage } from "./LeadPage.js";
 
-
-
+const main = document.querySelector('main');
 const routes = {
    
     "/": {
@@ -28,11 +27,17 @@ const routes = {
         location = "/";
     }
     // get the route object from the urlRoutes object
-    const route = routes[location] || routes["404"];
-    // get the html from the template
-
+    const route = routes[location];
+    while(main.firstChild){
+        main.removeChild(main.firstChild)
+    }
+    document.title = route.title;
      route.template();
-    
+    //  const routeButton = document.querySelector(".rt")
+    //  routeButton.addEventListener('click', (e) => {
+    //     history.replaceState(null, document.title, window.location.href);
+    //     console.log("History cleared;");
+    //   });
 
     // const html = await fetch(route.template).then((response) => response.text());
     // // set the content of the content div to the html
@@ -40,23 +45,12 @@ const routes = {
 
 
     // set the title of the document to the title of the route
-    document.title = route.title;
+    
     // set the description of the document to the description of the route
     // document
     //     .querySelector('meta[name="description"]')
     //     .setAttribute("content", route.description);
   };
   window.onpopstate = locationHandler;
-// window.addEventListener("DOMContentLoaded",(e)=>{
-//     locationHandler();
-// })
-window.addEventListener("click", (e) => {
-    const { target } = e;
-    if (!target.matches(".rt")) {
-        return;
-    }
-    e.preventDefault();
-    window.history.pushState({},"",e.target.href)
-    locationHandler();
-  });
+
 locationHandler();
