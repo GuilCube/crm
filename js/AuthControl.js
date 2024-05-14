@@ -1,16 +1,11 @@
 
 export function AuthPage(){
-//window.history.replaceState(null,'','/')
-//window.location.pathname = '/auth';
-// Disable browser navigation (not recommended)
-
-
 const main = document.querySelector('main');
 const header =document.querySelector('header');
  
 
-if(header!==null)
-document.body.removeChild(header);
+// if(header!==null)
+// document.body.removeChild(header);
 
 const authContainer = document.createElement('div');
 authContainer.classList.add('auth-container');

@@ -3,7 +3,7 @@
 const main = document.querySelector('main');
 export function LeadPage()
 {
-  headerLead();
+  headerLead(0);
   // <!--Кнопи фунцкіоналу-->
   // <div class="button-row">
   //   <a id="showNewLeadForm" class="button-item" href="#">
@@ -81,7 +81,7 @@ export function LeadPage()
 }
 
 
-function headerLead(){
+export function headerLead(activeTab){
 const header = document.createElement('header');
 header.classList.add('navbar');
 
@@ -91,7 +91,7 @@ navContainer1.classList.add('navbar-container', 'nav-buttons');
 
 // Create and append "Ліди" link
 const leadsLink = document.createElement('a');
-leadsLink.classList.add('nav-item', 'active');
+leadsLink.classList.add('nav-item');
 leadsLink.href = '/lead';
 leadsLink.textContent = 'Ліди';
 navContainer1.appendChild(leadsLink);
@@ -110,6 +110,7 @@ analyticsLink.href = '/analytics';
 analyticsLink.textContent = 'Аналітика';
 navContainer1.appendChild(analyticsLink);
 
+navContainer1.childNodes[activeTab].classList.add('active')
 // Append the first navbar container to the header
 header.appendChild(navContainer1);
 

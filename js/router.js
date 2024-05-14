@@ -1,5 +1,6 @@
 import { AuthPage } from "./AuthControl.js";
 import { LeadPage } from "./LeadPage.js";
+import { ManagerOrderPage } from "./OrderManager.js";
 
 const main = document.querySelector('main');
 const routes = {
@@ -14,8 +15,8 @@ const routes = {
         title: "Ліди",
         description: "Сторінка лідів",
     },
-    "/contact": {
-        template: "templates/contact.html",
+    "/order": {
+        template: () => ManagerOrderPage(),
         title: "Contact Us",
         description: "This is the contact page",
     },
