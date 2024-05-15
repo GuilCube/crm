@@ -195,6 +195,9 @@ a:hover{
   border-radius: 5px;
 
 }
+.cloned{
+  margin: 0;
+}
 .card-attribute{
   font-size: 18px;
   text-align: end;
@@ -257,7 +260,7 @@ td{
   padding-top: 20px;
 }
 
-#leadForm{
+#leadForm, #orderForm{
   display: flex;
   flex-wrap: wrap;  
 }
@@ -270,8 +273,8 @@ input,textarea{
   resize: none;
   overflow: auto;
   font-size: 14px;
-  word-wrap: none;
   width: 70%;
+  min-height: 20px;
   min-width: 50%;
   
 }
@@ -292,8 +295,19 @@ textarea{
   background-color: var(--btn-action);
 }
 
-.lead-detailed{
-  background-color: var(--card_background);
-  z-index: 10;
+label{
+  font-weight: bold;
+}
+.line{
+  display: inline-block;
+  width: 100%;
+  text-wrap: balance;
+  word-wrap: break-word;
+  height: auto;
+  white-space: normal;
+}
 
+.extended{
+  z-index: 10;
+  width: 100%;
 }

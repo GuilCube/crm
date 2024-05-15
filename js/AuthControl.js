@@ -5,7 +5,7 @@ const header =document.querySelector('header');
  
 
 // if(header!==null)
-// document.body.removeChild(header);
+// document.body.removeChild(header);0000000000000000000
 
 const authContainer = document.createElement('div');
 authContainer.classList.add('auth-container');

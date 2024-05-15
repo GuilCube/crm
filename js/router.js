@@ -8,31 +8,29 @@ const routes = {
     "/": {
         template: () =>AuthPage(),
         title: "Вхід",
-        description: "Сторінка автентифікації",
     },
     "/lead": {
         template: () => LeadPage(),
         title: "Ліди",
-        description: "Сторінка лідів",
     },
     "/order": {
         template: () => ManagerOrderPage(),
-        title: "Contact Us",
-        description: "This is the contact page",
+        title: "Замовлення",
     },
   };
-  const locationHandler = async () => {
+  const locationHandler = () => {
     const location = window.location.pathname; // get the url path
     // if the path length is 0, set it to primary page route
     if (location.length == 0) {
         location = "/";
     }
+    
     // get the route object from the urlRoutes object
     const route = routes[location];
+    document.title = route.title;
     while(main.firstChild){
         main.removeChild(main.firstChild)
     }
-    document.title = route.title;
      route.template();
     //  const routeButton = document.querySelector(".rt")
     //  routeButton.addEventListener('click', (e) => {

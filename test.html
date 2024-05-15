@@ -17,34 +17,35 @@
 
 <body>
   <header class="navbar">
-    <div class="navbar-container nav-buttons"><a class="nav-item" href="/lead">Ліди</a>
-      <a class="nav-item active"
+    <div class="navbar-container nav-buttons"><a class="nav-item active" href="/lead">Ліди</a><a class="nav-item"
         href="/order">Замовлення</a><a class="nav-item" href="/analytics">Аналітика</a></div>
     <div class="navbar-container">
       <p class="nav-greet">Доброго дня, Менеджер</p><a class="nav-icon rt" href="/"><img class="exit-ico"
           src="/img/exitIco.png"></a>
     </div>
   </header>
-
-<main>
-    <div class="button-row"><a id="showNewLeadForm" class="button-item"><span>Нове замовлення<img class="button-ico"
+  <main>
+    <div class="button-row"><a id="showNewLeadForm" class="button-item"><span>Новий лід<img class="button-ico"
             src="/img/plusIco.png"></span></a><a class="button-item"><span>Пошук<img class="button-ico"
             src="/img/searchIco.png"></span></a></div>
-
     <div id="newLead" class="modal-container">
       <div class="modal-content card">
-        <h3 style="text-align: center;">Нове замовлення...</h3>
+        <h3 style="text-align: center;">Створити лід...</h3>
         <form id="leadForm" class="leadForm">
-          <div class="modal-line"><label for="idOrder">Замовлення</label><input type="text" id="idOrder" name="idLead"
+          <div class="modal-line"><label for="idLead">Лід №</label><input type="text" id="idLead" name="idLead"
               placeholder="Імпорт з БД"></div>
-          <div class="modal-line"><label for="lead">Клієнт</label><input type="text" id="lead" name="leadType"
+          <div class="modal-line"><label for="leadType">Тип</label><input type="text" id="leadType" name="leadType"
               placeholder=""></div>
-          <div class="modal-line"><label for="OrderItems">Тіло замовлення</label><input type="text" id="OrderItems"
-              name="leadStatus" placeholder="Вкажіть товари..."></div>
-          <div class="modal-line"><label for="adress">Адреса доставки</label><input type="text" id="adress" name="leadPhone"
-              placeholder="Введіть адресу..."></div>
+          <div class="modal-line"><label for="leadStatus">Статус</label><input type="text" id="leadStatus"
+              name="leadStatus" placeholder="Вкажіть статус..."></div>
+          <div class="modal-line"><label for="leadPhone">Номер</label><input type="text" id="leadPhone" name="leadPhone"
+              placeholder="Введіть номер телефону..."></div>
+          <div class="modal-line"><label for="leadName">Дані</label><input type="text" id="leadName" name="leadName"
+              placeholder="ПІБ ліда..."></div>
+          <div class="modal-line"><label for="leadEmail">Пошта</label><input type="text" id="leadEmail" name="leadEmail"
+              placeholder="Введіть пошту..."></div>
           <div class="modal-line"><label for="leadComment">Коментар</label><textarea id="leadComment" name="leadComment"
-              class="comment" placeholder="Тут може бути коментар до замовлення..."></textarea></div>
+              class="comment" placeholder="Тут може бути коментар до ліда..."></textarea></div>
         </form>
         <div class="modal-line-buttons"><button id="closeModal" class="close btn back">Назад</button><button
             type="submit" class="btn action">Створити</button></div>
@@ -54,39 +55,54 @@
       <table class="card">
         <tbody>
           <tr>
-            <td class="card-attribute">З-ня№</td>
-            <td><span class="card-value">0001</span></td>
+            <td class="card-attribute">Лід№</td>
+            <td>
+              <textarea class="line disabled" id="idLead" name="idLead">0001</textarea>
+            </td>
           </tr>
           <tr>
-            <td class="card-attribute">Клієнт</td>
-            <td><span class="card-value">Степаненко Степан</span></td>
+            <td class="card-attribute">Тип</td>
+            <td><textarea class="line disabled" id="leadType" name="leadType" placeholder=""></textarea></td>
           </tr>
           <tr>
             <td class="card-attribute">Статус</td>
-            <td><span class="card-value">Комплектується</span></td>
+            <td><textarea class="line disabled" id="leadStatus" name="leadStatus" placeholder="Вкажіть статус..."></textarea></td>
           </tr>
           <tr>
-            <td class="card-attribute">Тіло</td>
-            <td><span class="card-value">Тілооо</span></td>
+            <td class="card-attribute">Номер</td>
+            <td><textarea class="line disabled" id="leadPhone" name="leadPhone">+38 067 833 56 76</textarea></td>
           </tr>
           <tr>
-            <td class="card-attribute">Адреса доставки</td>
-            <td><span class="card-value">вул. Хрещатик 12-А</span></td>
+            <td class="card-attribute">Дані</td>
+            <td><textarea class="line disabled wrapable" id="leadName" name="leadName">Петренко Петро Петрович</textarea></td>
+          </tr>
+          <tr>
+            <td class="card-attribute">Пошта</td>
+            <td><textarea class="line disabled wrapable" id="leadEmail" name="leadEmail">qwparty10@gmai.com</textarea></td>
           </tr>
           <tr>
             <td class="card-attribute">Коментар</td>
-            <td><span class="card-value">Тут може бути коментар</span></td>
+            <td><textarea id="leadComment" name="leadComment" class="line disabled  wrapable" placeholder="Тут може бути коментар до ліда..."></textarea></td>
           </tr>
         </tbody>
       </table>
+      
+
     </div>
-</main>
+
+    
+  </main>
 
 
-  
+  <script type="module" src="js/router.js"></script>
+  <script type="module" src="js/AuthControl.js"></script>
+  <script type="module" src="js/LeadPage.js"></script>
+  <script type="module" src="js/OrderManager.js"></script>
 </body>
-<!-- <script src="js/script.js"></script> -->
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/script.js"></script>
 <!-- <script type="module" src="js/router.js"></script>
   <script type="module" src="js/AuthControl.js"></script>
   <script type="module" src="js/LeadPage.js"></script> -->
+
 </html>
