@@ -265,18 +265,18 @@ td{
   flex-wrap: wrap;  
 }
 input,textarea{
+  display: flex;
   background-color: rgba(219, 219, 219, .40);
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
-  padding: 3px 0px 5px 5px;
+  padding: 3px 0px 0px 5px;
   resize: none;
   overflow: auto;
   font-size: 14px;
   width: 70%;
-  min-height: 20px;
   min-width: 50%;
-  
+  align-items: center;
 }
 textarea{
   height: calc(14px*1.5*3);
