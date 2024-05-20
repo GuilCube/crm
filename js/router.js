@@ -19,6 +19,7 @@ const routes = {
     },
   };
   const locationHandler = () => {
+
     const location = window.location.pathname; // get the url path
     // if the path length is 0, set it to primary page route
     if (location.length == 0) {

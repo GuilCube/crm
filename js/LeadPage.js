@@ -81,66 +81,51 @@ export function LeadPage()
 }
 
 
-export function headerLead(activeTab){
-const header = document.createElement('header');
-header.classList.add('navbar');
+export function headerLead(activeTab) {
+  // Create header element with class "navbar"
+  const header = $("<header>").addClass("navbar");
 
-// Create the first navbar container for navigation buttons
-const navContainer1 = document.createElement('div');
-navContainer1.classList.add('navbar-container', 'nav-buttons');
+  // Create the first navbar container for navigation buttons
+  const navContainer1 = $("<div>").addClass("navbar-container nav-buttons");
 
-// Create and append "Ліди" link
-const leadsLink = document.createElement('a');
-leadsLink.classList.add('nav-item');
-leadsLink.href = '/lead';
-leadsLink.textContent = 'Ліди';
-navContainer1.appendChild(leadsLink);
+  // Create and append "Ліди" link
+  const leadsLink = $("<a>").addClass("nav-item").attr("href", "/lead").text("Ліди");
+  navContainer1.append(leadsLink);
 
-// Create and append "Замовлення" link
-const ordersLink = document.createElement('a');
-ordersLink.classList.add('nav-item');
-ordersLink.href = '/order';
-ordersLink.textContent = 'Замовлення';
-navContainer1.appendChild(ordersLink);
+  // Create and append "Замовлення" link
+  const ordersLink = $("<a>").addClass("nav-item").attr("href", "/order").text("Замовлення");
+  navContainer1.append(ordersLink);
 
-// Create and append "Аналітика" link
-const analyticsLink = document.createElement('a');
-analyticsLink.classList.add('nav-item');
-analyticsLink.href = '/analytics';
-analyticsLink.textContent = 'Аналітика';
-navContainer1.appendChild(analyticsLink);
+  // Create and append "Аналітика" link
+  const analyticsLink = $("<a>").addClass("nav-item").attr("href", "/analytics").text("Аналітика");
+  navContainer1.append(analyticsLink);
 
-navContainer1.childNodes[activeTab].classList.add('active')
-// Append the first navbar container to the header
-header.appendChild(navContainer1);
+  // Add 'active' class to the specified tab
+  navContainer1.children().eq(activeTab).addClass("active");
 
-// Create the second navbar container for user greeting and icon
-const navContainer2 = document.createElement('div');
-navContainer2.classList.add('navbar-container');
+  // Append the first navbar container to the header
+  header.append(navContainer1);
 
-// Create and append user greeting paragraph
-const greetingParagraph = document.createElement('p');
-greetingParagraph.classList.add('nav-greet');
-greetingParagraph.textContent = 'Доброго дня, Менеджер';
-navContainer2.appendChild(greetingParagraph);
+  // Create the second navbar container for user greeting and icon
+  const navContainer2 = $("<div>").addClass("navbar-container");
 
-// Create and append exit icon link
-const exitIconLink = document.createElement('a');
-exitIconLink.classList.add('nav-icon', 'rt');
-exitIconLink.href = '/';
+  // Create and append user greeting paragraph
+  const greetingParagraph = $("<p>").addClass("nav-greet").text("Доброго дня, Менеджер");
+  navContainer2.append(greetingParagraph);
 
-const exitIconImg = document.createElement('img');
-exitIconImg.classList.add('exit-ico');
-exitIconImg.src = '/img/exitIco.png';
-exitIconLink.appendChild(exitIconImg);
+  // Create and append exit icon link
+  const exitIconLink = $("<a>").addClass("nav-icon rt").attr("href", "/");
+  const exitIconImg = $("<img>").addClass("exit-ico").attr("src", "/img/exitIco.png");
+  exitIconLink.append(exitIconImg);
 
-// Append the second navbar container to the header
-header.appendChild(navContainer2);
-navContainer2.appendChild(exitIconLink);
+  // Append the second navbar container to the header
+  header.append(navContainer2);
+  navContainer2.append(exitIconLink);
 
-// Append the header to the document body or another container in the DOM
-document.body.prepend(header);
+  // Prepend the header to the document body
+  $("body").prepend(header);
 }
+
 
 function buttonsLead(){
 

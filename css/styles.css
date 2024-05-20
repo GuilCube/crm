@@ -178,12 +178,11 @@ a:hover{
   margin-left: 10px;
 }
 .card-list{
-  display: flex;
-  justify-content: space-between;  
+  display: flex; 
   flex-wrap: wrap;
   margin-left: 2%;
   margin-right: 2%;
-  gap: 2%;
+  gap: 2.5%;
   
 }
 .card{
@@ -191,12 +190,31 @@ a:hover{
   background-color: #DBF1C2;
   width: 333px;
   padding: 20px 5px 20px 15px;
-  margin-top: 40px;
+
   border-radius: 5px;
 
 }
-.cloned{
-  margin: 0;
+.card-contaiber{
+  margin-top: 40px;
+}
+.edit-conteiner{
+  position: relative;
+display: flex;
+align-items: center;
+z-index: 24;
+margin-bottom: -5%;
+  margin-left: 94%;
+justify-content: center;
+background-color: grey;
+width: 32px;
+height: 32px;
+border-radius: 50%;
+}
+.edit-icon {  
+  width: 25px;
+  height: 25px; 
+  cursor: pointer;
+ 
 }
 .card-attribute{
   font-size: 18px;
