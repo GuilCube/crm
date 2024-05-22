@@ -30,8 +30,8 @@ export function LeadPage() {
   //     </span>
   //   </div>
 
-  
-  const $cardList= $("<div>").addClass("card-list");
+
+  const $cardList = $("<div>").addClass("card-list");
   $(main).append($cardList)
   $.ajax({
     type: "GET",
@@ -42,71 +42,40 @@ export function LeadPage() {
       console.log(data.length);
       console.log(data);
       for (let index = 0; index < data.length; index++) {
-        createTable(index,data[index]);
-      }      
-},
-error: function (xhr, status, error) {
+        createTable(index, data[index]);
+      }
+    },
+    error: function (xhr, status, error) {
       console.error('Error fetching data:', error);
       console.error('Response:', xhr.responseText);
-    }   
+    }
   });
 
-
-  //
-  // <div class="card-list">    
-  //     <table class="card">
-  //     <tr>
-  //       <td class="card-attribute">Лід№</td>
-  //       <td>
-  //         <span class="card-value">0001</span>
-  //       </td>
-  //     </tr>
-  //     <tr>
-  //       <td class="card-attribute">Тип</td>
-  //       <td>
-  //         <span class="card-value">Фізична особа</span>
-  //       </td>
-  //     </tr>
-  //     <tr>
-  //       <td class="card-attribute">Статус</td>
-  //       <td>
-  //         <span class="card-value">Контакт</span>
-  //       </td>
-  //     </tr>
-  //     <tr>
-  //       <td class="card-attribute">Номер</td>
-  //       <td>
-  //         <span class="card-value">+38 (067) 833-56-76</span>
-  //       </td>
-  //     </tr>
-  //     <tr>
-  //       <td class="card-attribute">Дані</td>
-  //       <td>
-  //         <span class="card-value">Петренко Петро Петрович</span>
-  //       </td>
-  //     </tr>
-  //     <tr>
-  //       <td class="card-attribute">Пошта</td>
-  //       <td>
-  //         <span class="card-value">пошта_собака_пот.соь</span>
-  //       </td>
-  //     </tr>
-  //     <tr>
-  //       <td class="card-attribute">Коментар</td>
-  //       <td>
-  //         <span class="card-value">Тут моде бути комента></span>
-  //       </td>
-  //     </tr>
-  //   </table>
-  //   </div>
-
-
   $(document).ready(function () {
+    const $tables = $('table.card');
+    console.log($tables);
+    // Initialize a variable to store the maximum height
+    var maxHeight = 0;
+
+    // Iterate over each table to find the maximum height
+    $tables.each(function () {
+      // Get the height of the current table
+      var tableHeight = $(this).height();
+
+      // Update maxHeight if the current table is taller
+      if (tableHeight > maxHeight) {
+        maxHeight = tableHeight;
+      }
+    });
+    // Set each table's height to the maximum height found
+    $tables.height(maxHeight);
+
+
     // Add keydown event listener to the document body
     $(document).on('keydown', function (event) {
       // Check if the pressed key is the "Escape" key (key code 27)
       if (event.which === 27) {
-        
+
         $('textarea.editable').css('background-color', 'inherit');
         $('textarea.editable').prop('readonly', true);
         $('button#modifyData').hide();
@@ -115,6 +84,7 @@ error: function (xhr, status, error) {
         $('div.edit-container').show();
       }
     });
+
   });
 
 }
@@ -326,139 +296,139 @@ function buttonsLead() {
 //Create Lead CardList
 
 
-function createTable(index,data) {
-  $(document).ready(function () {
-    // Create the main container
-    const $cardContainer = $('<div>').addClass('card-container');
+function createTable(index, data) {
 
-    // Create the edit container
-    const $editContainer = $('<div>').addClass('edit-container');
+  // Create the main container
+  const $cardContainer = $('<div>').addClass('card-container');
 
-    const $button = $('<button>').addClass('btn action').attr('id',"modifyData").text("Зберегти")
-      //Initial hiding of button
-      //$button.hide()
+  // Create the edit container
+  const $editContainer = $('<div>').addClass('edit-container');
 
-    // Create the edit icon
-    const $editIcon = $('<img>').addClass('edit-icon').attr('src', '/img/editIco.png').attr('alt', 'Edit');
+  const $button = $('<button>').addClass('btn action').attr('id', "modifyData").text("Зберегти")
+  //Initial hiding of button
+  $button.hide()
+
+  // Create the edit icon
+  const $editIcon = $('<img>').addClass('edit-icon').attr('src', '/img/editIco.png').attr('alt', 'Edit');
 
 
-    $editIcon.on("click", function () {
-      //$(card).addClass('extended');
-      const $parentContainer = $(this).closest('.card-container');
-      $parentContainer.find('textarea.editable').css('background-color', 'rgba(219, 219, 219, .40)').prop('readonly', false);
-      $button.show();
-      $('div.edit-container').hide();
-      //Compensation of hiding component
-      $('div.card-container').css('margin-top', '15px');
+  $editIcon.on("click", function () {
+    //$(card).addClass('extended');
+    const $parentContainer = $(this).closest('.card-container');
+    $parentContainer.find('textarea.editable').css('background-color', 'rgba(219, 219, 219, .40)').prop('readonly', false);
+    $button.show();
+    $('div.edit-container').hide();
+    //Compensation of hiding component
+    $('div.card-container').css('margin-top', '15px');
+  });
+
+  // Append the edit icon to the edit container
+  $editContainer.append($editIcon);
+
+  // Append the edit container to the card container
+  $cardContainer.append($editContainer);
+
+  // Helper function to create a table row
+
+
+  function createTableRow(config) {
+    const $tr = $('<tr>');
+
+    const $tdAttribute = $('<td>').addClass('card-attribute').text(config.attribute);
+    const $tdTextarea = $('<td>');
+
+    const $textarea = $('<textarea>')
+      .addClass('line')
+      .attr('id', config.textareaId)
+      .attr('name', config.textareaName)
+      .attr('placeholder', config.placeholder)
+      .prop('readonly', config.readonly)
+      .addClass(config.extraClasses.join(' '));
+
+    $tdTextarea.append($textarea);
+    $tr.append($tdAttribute).append($tdTextarea);
+
+    return $tr;
+  }
+  // Create table rows
+  $.getJSON('app/leadCardTemplate.json', (dataJSON) => {
+    // Create the table
+    const $table = $('<table>').addClass('card').attr('id', index);
+    console.log("Data in getJSON")
+    console.log(data);
+
+    const $tbody = $('<tbody>');
+    //const index = $("table").length - 1;
+    dataJSON.forEach(config => {
+      const $row = createTableRow(config);
+      //console.log(data[config.textareaId])
+      $row.find("textarea").val(data[config.textareaId]);
+      $tbody.append($row);
+      //console.log($row.find('textarea#'+'leadType'));
+
     });
-
-    // Append the edit icon to the edit container
-    $editContainer.append($editIcon);
-
-    // Append the edit container to the card container
-    $cardContainer.append($editContainer);
-
-       // Helper function to create a table row
+    $table.append($tbody)
 
 
-    function createTableRow(config) {
-      const $tr = $('<tr>');
+    $cardContainer.append($table);
+    // console.log("Card");
+    // console.log($cardContainer);
+    $('div.card-list').append($cardContainer)
+    $($table).append($button)
 
-      const $tdAttribute = $('<td>').addClass('card-attribute').text(config.attribute);
-      const $tdTextarea = $('<td>');
-
-      const $textarea = $('<textarea>')
-        .addClass('line')
-        .attr('id', config.textareaId)
-        .attr('name', config.textareaName)
-        .attr('placeholder', config.placeholder)
-        .prop('readonly', config.readonly)
-        .addClass(config.extraClasses.join(' '));
-
-      $tdTextarea.append($textarea);
-      $tr.append($tdAttribute).append($tdTextarea);
-
-      return $tr;
-    }
-    // Create table rows
-    $.getJSON('app/leadCardTemplate.json', (dataJSON) => {
-      // Create the table
-    const $table = $('<table>').addClass('card').attr('id',index);
-      console.log("Data in getJSON")      
-      console.log(data);
-      
-      const $tbody = $('<tbody>');
-      //const index = $("table").length - 1;
-      dataJSON.forEach(config => {
-        const $row = createTableRow(config);
-        //console.log(data[config.textareaId])
-        $row.find("textarea").val(data[config.textareaId]);
-        $tbody.append($row);
-        //console.log($row.find('textarea#'+'leadType'));
-        
+    //Form button listner
+    $button.on('click', function () {
+      const $parentContainer = $(this).closest('.card-container');
+      console.log($parentContainer);
+      // Gather data from the form
+      const dataPOST = {
+        idLead: $parentContainer.find('textarea#idLead').val(),
+        leadType: $parentContainer.find('textarea#leadType').val(),
+        leadStatus: $parentContainer.find('textarea#leadStatus').val(),
+        leadPhone: $parentContainer.find('textarea#leadPhone').val(),
+        leadName: $parentContainer.find('textarea#leadName').val(),
+        leadEmail: $parentContainer.find('textarea#leadEmail').val(),
+        leadComment: $parentContainer.find('textarea#leadComment').val()
+      };
+      console.log("Data POST");
+      console.log(dataPOST);
+      $.ajax({
+        type: 'POST',
+        url: 'updateLead.php', // URL of your server-side script
+        data: JSON.stringify(dataPOST),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (response) {
+          console.log('Data modified successfully:', response);
+          $('button#modifyData').hide()
+        },
+        error: function (xhr, status, error) {
+          console.error('Error modifying data:', error);
+          console.error('Response:', xhr.responseText);
+        }
       });
-      $table.append($tbody)
-    
-  
-      $cardContainer.append($table);
-      // console.log("Card");
-      // console.log($cardContainer);
-      $('div.card-list').append($cardContainer)      
-      $($table).append($button) 
+    })
 
-      //Form button listner
-        $button.on('click', function() {
-          const $parentContainer = $(this).closest('.card-container');
-          console.log($parentContainer);
-            // Gather data from the form
-          const dataPOST = {
-            idLead:  $parentContainer.find('textarea#idLead').val(),
-            leadType: $parentContainer.find('textarea#leadType').val(),
-            leadStatus: $parentContainer.find('textarea#leadStatus').val(),
-            leadPhone: $parentContainer.find('textarea#leadPhone').val(),
-            leadName: $parentContainer.find('textarea#leadName').val(),
-            leadEmail: $parentContainer.find('textarea#leadEmail').val(),
-            leadComment: $parentContainer.find('textarea#leadComment').val()
-          };
-          console.log("Data POST");
-          console.log(dataPOST);
-          $.ajax({
-            type: 'POST',
-            url: 'updateLead.php', // URL of your server-side script
-            data: JSON.stringify(dataPOST),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            success: function(response) {
-              console.log('Data modified successfully:', response);
-              $('button#modifyData').hide()
-            },
-            error: function(xhr, status, error) {
-              console.error('Error modifying data:', error);
-              console.error('Response:', xhr.responseText);
-            }
-          });
-        })
-    
-      
-      $(document).ready(function () {
-        function adjustTextareaHeight() {
-          // Select all textarea elements with class "wrapable"
-          $("textarea").each(function() {
-              // Set the height of textarea based on its scroll height
-              $(this).height(0); // Reset height to auto
-              var scrollHeight = Math.max(this.scrollHeight, $(this).height());
-              $(this).height(scrollHeight);
-          });
+
+    $(document).ready(function () {
+      function adjustTextareaHeight() {
+        // Select all textarea elements with class "wrapable"
+        $("td > textarea").each(function () {
+          // Set the height of textarea based on its scroll height
+          $(this).height(0); // Reset height to auto
+          var scrollHeight = Math.max(this.scrollHeight, $(this).height());
+          $(this).height(scrollHeight);
+        });
       }
       // Call adjustTextareaHeight initially and on input/change events
       adjustTextareaHeight(); // Adjust heights on page load
       $("textarea").on('input change', adjustTextareaHeight); // Adjust heights on input/change events
-      $('textarea.editable').css('background-color', 'inherit'); 
+      $('textarea.editable').css('background-color', 'inherit');
 
-      });
     });
-
   });
+
+
 
 
 }

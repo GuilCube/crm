@@ -190,8 +190,8 @@ a:hover{
   display: flex;
   background-color: #DBF1C2;
   width: 333px;
-  padding: 20px 5px 20px 15px;
 
+  padding: 20px 5px 20px 15px;
   border-radius: 5px;
 
 }
@@ -236,7 +236,7 @@ border-radius: 50%;
 
 }
 td{
-  padding-bottom: 10px;
+  padding-bottom: 3%;
   text-wrap:balance;
 
 }
