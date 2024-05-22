@@ -136,121 +136,89 @@ export function headerLead(activeTab) {
 }
 
 function buttonsLead() {
-  // Create the button row
   const buttonRow = $('<div>').addClass('button-row');
 
-  // Create the "Новий лід" button
   const newLeadButton = $('<a>')
-    .attr('id', 'showNewLeadForm')
-    .addClass('button-item');
-  
-  const newLeadSpan = $('<span>').text('Новий лід');
-  const newLeadImg = $('<img>')
-    .addClass('button-ico')
-    .attr('src', '/img/plusIco.png');
-  
-  newLeadSpan.append(newLeadImg);
-  newLeadButton.append(newLeadSpan);
+      .attr('id', 'showNewLeadForm')
+      .addClass('button-item')
+      .append($('<span>').text('Новий лід').append($('<img>').addClass('button-ico').attr('src', '/img/plusIco.png')));
 
-  // Create the "Пошук" button
-  const searchButton = $('<a>').addClass('button-item');
-  const searchSpan = $('<span>').text('Пошук');
-  const searchImg = $('<img>')
-    .addClass('button-ico')
-    .attr('src', '/img/searchIco.png');
-  
-  searchSpan.append(searchImg);
-  searchButton.append(searchSpan);
+  const searchButton = $('<a>')
+      .addClass('button-item')
+      .append($('<span>').text('Пошук').append($('<img>').addClass('button-ico').attr('src', '/img/searchIco.png')));
 
-  // Append both buttons to the button row
   buttonRow.append(newLeadButton, searchButton);
-
-  // Append the button row to an existing container in the DOM (e.g., body or main)
   $('main').append(buttonRow);
 
-  // Create modal container
-  const modalContainer = $('<div>')
-    .attr('id', 'newLead')
-    .addClass('modal-container');
+  //Modal form
+  const modalContainer = $('<div>').attr('id', 'newLead').addClass('modal-container');
+  const modalContent = $('<div>').addClass('modal-content card');
+  const modalTitle = $('<h3>').css('text-align', 'center').text('Створити лід...');
+  const leadForm = $('<form>').attr('id', 'leadForm').addClass('leadForm');
 
-  // Create modal content card
-  const modalContent = $('<div>')
-    .addClass('modal-content card');
-
-  // Create modal title
-  const modalTitle = $('<h3>')
-    .css('text-align', 'center')
-    .text('Створити лід...');
-
-  // Create lead form
-  const leadForm = $('<form>')
-    .attr('id', 'leadForm')
-    .addClass('leadForm');
-
-  // Helper function to create modal line with label and input
   function createModalLine(labelText, inputType, inputName, placeholderText) {
-    const modalLine = $('<div>').addClass('modal-line');
-    const label = $('<label>')
-      .attr('for', inputName)
-      .text(labelText);
-    const input = $('<input>')
-      .attr('type', inputType)
-      .attr('id', inputName)
-      .attr('name', inputName)
-      .attr('placeholder', placeholderText);
-
-    modalLine.append(label, input);
-    return modalLine;
+      return $('<div>').addClass('modal-line')
+          .append($('<label>').attr('for', inputName).text(labelText))
+          .append($('<input>').attr({ type: inputType, id: inputName, name: inputName, placeholder: placeholderText }));
   }
 
-  // Create modal lines for form inputs
-  const idLeadLine = createModalLine('Лід №', 'text', 'idLead', 'Імпорт з БД');
-  const leadTypeLine = createModalLine('Тип', 'text', 'leadType', '');
-  const leadStatusLine = createModalLine('Статус', 'text', 'leadStatus', 'Вкажіть статус...');
-  const leadPhoneLine = createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...');
-  const leadNameLine = createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...');
-  const leadEmailLine = createModalLine('Пошта', 'text', 'leadEmail', 'Введіть пошту...');
+  leadForm.append(
+      createModalLine('Лід №', 'text', 'idLead', 'Імпорт з БД'),
+      createModalLine('Тип', 'text', 'leadType', ''),
+      createModalLine('Статус', 'text', 'leadStatus', 'Вкажіть статус...'),
+      createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...'),
+      createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...'),
+      createModalLine('Пошта', 'text', 'leadEmail', 'Введіть пошту...')
+  );
 
-  // Create modal line for comment textarea
-  const leadCommentLine = $('<div>').addClass('modal-line');
-  const commentLabel = $('<label>')
-    .attr('for', 'leadComment')
-    .text('Коментар');
-  const commentTextarea = $('<textarea>')
-    .attr('id', 'leadComment')
-    .attr('name', 'leadComment')
-    .addClass('comment')
-    .attr('placeholder', 'Тут може бути коментар до ліда...');
+  const leadCommentLine = $('<div>').addClass('modal-line')
+      .append($('<label>').attr('for', 'leadComment').text('Коментар'))
+      .append($('<textarea>').attr({ id: 'leadComment', name: 'leadComment', placeholder: 'Тут може бути коментар до ліда...' }).addClass('comment'));
 
-  leadCommentLine.append(commentLabel, commentTextarea);
+  const buttonLine = $('<div>').addClass('modal-line-buttons')
+      .append($('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад'))
+      .append($('<button>').attr('type', 'submit').addClass('btn action').text('Створити'));
 
-  // Create modal line for buttons
-  const buttonLine = $('<div>').addClass('modal-line-buttons');
-  const backButton = $('<button>')
-    .attr('id', 'closeModal')
-    .addClass('close btn back')
-    .text('Назад');
-  const createButton = $('<button>')
-    .attr('type', 'submit')
-    .addClass('btn action')
-    .text('Створити');
-
-  buttonLine.append(backButton, createButton);
-
-  // Append all elements to build the modal structure
-  leadForm.append(idLeadLine, leadTypeLine, leadStatusLine, leadPhoneLine, leadNameLine, leadEmailLine, leadCommentLine);
+  leadForm.append(leadCommentLine);
   modalContent.append(modalTitle, leadForm, buttonLine);
   modalContainer.append(modalContent);
   $('main').append(modalContainer);
 
-  // Add event listeners
   newLeadButton.on('click', function() {
-    modalContainer.fadeIn(250); // Show the modal
+      modalContainer.show();
   });
-  backButton.on('click', function() {
-    modalContainer.fadeOut(100); // Hide the modal
+  $('#closeModal').on('click', function() {
+      modalContainer.hide();
+  });
+
+  // Handle form submission
+  leadForm.on('submit', function(event) {
+      event.preventDefault();
+      const dataPOST = {
+        leadType: $parentContainer.find('textarea#leadType').val(),
+        leadStatus: $parentContainer.find('textarea#leadStatus').val(),
+        leadPhone: $parentContainer.find('textarea#leadPhone').val(),
+        leadName: $parentContainer.find('textarea#leadName').val(),
+        leadEmail: $parentContainer.find('textarea#leadEmail').val(),
+        leadComment: $parentContainer.find('textarea#leadComment').val()
+      };
+      console.log(dataPOST);
+      $.ajax({
+          type: 'POST',
+          url: 'submitLead.php',
+          data: dataPOST,
+          success: function(response) {
+              showAlert('Лід створено успішно', 3000);
+              modalContainer.hide();
+              console.log(response);
+          },
+          error: function() {
+              showAlert('Виникла помилка', 3000);
+          }
+      });
   });
 }
+
 
 //Create Lead CardList
 
