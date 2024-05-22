@@ -1,4 +1,4 @@
-
+import {showAlert} from "./lib.js"
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
 export function LeadPage() {
@@ -78,7 +78,7 @@ export function LeadPage() {
 
         $('textarea.editable').css('background-color', 'inherit');
         $('textarea.editable').prop('readonly', true);
-        $('button#modifyData').hide();
+        $('button#modifyData').slideUp(500);
         //Removing compensation of hiding component
         $('div.card-container').css('margin-top', '0');
         $('div.edit-container').show();
@@ -136,92 +136,70 @@ export function headerLead(activeTab) {
 }
 
 function buttonsLead() {
-
-  const buttonRow = document.createElement('div');
-  buttonRow.classList.add('button-row');
+  // Create the button row
+  const buttonRow = $('<div>').addClass('button-row');
 
   // Create the "Новий лід" button
-  const newLeadButton = document.createElement('a');
-  newLeadButton.id = 'showNewLeadForm';
-  newLeadButton.classList.add('button-item');
-  //newLeadButton.href = '#';
-
-  const newLeadSpan = document.createElement('span');
-  newLeadSpan.textContent = 'Новий лід';
-
-  const newLeadImg = document.createElement('img');
-  newLeadImg.classList.add('button-ico');
-  newLeadImg.src = '/img/plusIco.png';
-
-  // Append the image to the "Новий лід" span
-  newLeadSpan.appendChild(newLeadImg);
-
-  // Append the span to the "Новий лід" button
-  newLeadButton.appendChild(newLeadSpan);
+  const newLeadButton = $('<a>')
+    .attr('id', 'showNewLeadForm')
+    .addClass('button-item');
+  
+  const newLeadSpan = $('<span>').text('Новий лід');
+  const newLeadImg = $('<img>')
+    .addClass('button-ico')
+    .attr('src', '/img/plusIco.png');
+  
+  newLeadSpan.append(newLeadImg);
+  newLeadButton.append(newLeadSpan);
 
   // Create the "Пошук" button
-  const searchButton = document.createElement('a');
-  searchButton.classList.add('button-item');
-  //searchButton.href = '#';
-
-  const searchSpan = document.createElement('span');
-  searchSpan.textContent = 'Пошук';
-
-  const searchImg = document.createElement('img');
-  searchImg.classList.add('button-ico');
-  searchImg.src = '/img/searchIco.png';
-
-  // Append the image to the "Пошук" span
-  searchSpan.appendChild(searchImg);
-
-  // Append the span to the "Пошук" button
-  searchButton.appendChild(searchSpan);
+  const searchButton = $('<a>').addClass('button-item');
+  const searchSpan = $('<span>').text('Пошук');
+  const searchImg = $('<img>')
+    .addClass('button-ico')
+    .attr('src', '/img/searchIco.png');
+  
+  searchSpan.append(searchImg);
+  searchButton.append(searchSpan);
 
   // Append both buttons to the button row
-  buttonRow.appendChild(newLeadButton);
-  buttonRow.appendChild(searchButton);
+  buttonRow.append(newLeadButton, searchButton);
 
-  // Append the button row to an existing container in the DOM (e.g., body)
-  main.appendChild(buttonRow);
+  // Append the button row to an existing container in the DOM (e.g., body or main)
+  $('main').append(buttonRow);
 
   // Create modal container
-
-  const modalContainer = document.createElement('div');
-  modalContainer.id = 'newLead';
-  modalContainer.classList.add('modal-container');
+  const modalContainer = $('<div>')
+    .attr('id', 'newLead')
+    .addClass('modal-container');
 
   // Create modal content card
-  const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content', 'card');
+  const modalContent = $('<div>')
+    .addClass('modal-content card');
 
   // Create modal title
-  const modalTitle = document.createElement('h3');
-  modalTitle.style.textAlign = 'center';
-  modalTitle.textContent = 'Створити лід...';
+  const modalTitle = $('<h3>')
+    .css('text-align', 'center')
+    .text('Створити лід...');
 
   // Create lead form
-  const leadForm = document.createElement('form');
-  leadForm.id = 'leadForm';
-  leadForm.classList.add('leadForm');
+  const leadForm = $('<form>')
+    .attr('id', 'leadForm')
+    .addClass('leadForm');
 
   // Helper function to create modal line with label and input
   function createModalLine(labelText, inputType, inputName, placeholderText) {
-    const modalLine = document.createElement('div');
-    modalLine.classList.add('modal-line');
+    const modalLine = $('<div>').addClass('modal-line');
+    const label = $('<label>')
+      .attr('for', inputName)
+      .text(labelText);
+    const input = $('<input>')
+      .attr('type', inputType)
+      .attr('id', inputName)
+      .attr('name', inputName)
+      .attr('placeholder', placeholderText);
 
-    const label = document.createElement('label');
-    label.setAttribute('for', inputName);
-    label.textContent = labelText;
-
-    const input = document.createElement('input');
-    input.type = inputType;
-    input.id = inputName;
-    input.name = inputName;
-    input.placeholder = placeholderText;
-
-    modalLine.appendChild(label);
-    modalLine.appendChild(input);
-
+    modalLine.append(label, input);
     return modalLine;
   }
 
@@ -232,65 +210,46 @@ function buttonsLead() {
   const leadPhoneLine = createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...');
   const leadNameLine = createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...');
   const leadEmailLine = createModalLine('Пошта', 'text', 'leadEmail', 'Введіть пошту...');
-  // const leadCommentLine = createModalLine('Коментар', 'text', 'leadComment', 'Вкажіть коментар...');
 
   // Create modal line for comment textarea
-  const leadCommentLine = document.createElement('div');
-  leadCommentLine.classList.add('modal-line');
+  const leadCommentLine = $('<div>').addClass('modal-line');
+  const commentLabel = $('<label>')
+    .attr('for', 'leadComment')
+    .text('Коментар');
+  const commentTextarea = $('<textarea>')
+    .attr('id', 'leadComment')
+    .attr('name', 'leadComment')
+    .addClass('comment')
+    .attr('placeholder', 'Тут може бути коментар до ліда...');
 
-  const commentLabel = document.createElement('label');
-  commentLabel.setAttribute('for', 'leadComment');
-  commentLabel.textContent = 'Коментар';
-
-  const commentTextarea = document.createElement('textarea');
-  commentTextarea.id = 'leadComment';
-  commentTextarea.name = 'leadComment';
-  commentTextarea.classList.add('comment');
-  commentTextarea.placeholder = 'Тут може бути коментар до ліда...';
-
-  leadCommentLine.appendChild(commentLabel);
-  leadCommentLine.appendChild(commentTextarea);
+  leadCommentLine.append(commentLabel, commentTextarea);
 
   // Create modal line for buttons
-  const buttonLine = document.createElement('div');
-  buttonLine.classList.add('modal-line-buttons');
+  const buttonLine = $('<div>').addClass('modal-line-buttons');
+  const backButton = $('<button>')
+    .attr('id', 'closeModal')
+    .addClass('close btn back')
+    .text('Назад');
+  const createButton = $('<button>')
+    .attr('type', 'submit')
+    .addClass('btn action')
+    .text('Створити');
 
-  const backButton = document.createElement('button');
-  backButton.id = 'closeModal';
-  backButton.classList.add('close', 'btn', 'back');
-  backButton.textContent = 'Назад';
-
-  const createButton = document.createElement('button');
-  createButton.type = 'submit';
-  createButton.classList.add('btn', 'action');
-  createButton.textContent = 'Створити';
-
-  buttonLine.appendChild(backButton);
-  buttonLine.appendChild(createButton);
+  buttonLine.append(backButton, createButton);
 
   // Append all elements to build the modal structure
-  leadForm.appendChild(idLeadLine);
-  leadForm.appendChild(leadTypeLine);
-  leadForm.appendChild(leadStatusLine);
-  leadForm.appendChild(leadPhoneLine);
-  leadForm.appendChild(leadNameLine);
-  leadForm.appendChild(leadEmailLine);
-  leadForm.appendChild(leadCommentLine);
+  leadForm.append(idLeadLine, leadTypeLine, leadStatusLine, leadPhoneLine, leadNameLine, leadEmailLine, leadCommentLine);
+  modalContent.append(modalTitle, leadForm, buttonLine);
+  modalContainer.append(modalContent);
+  $('main').append(modalContainer);
 
-  modalContent.appendChild(modalTitle);
-  modalContent.appendChild(leadForm);
-  modalContent.appendChild(buttonLine);
-
-  modalContainer.appendChild(modalContent);
-  main.appendChild(modalContainer);
-
-  newLeadButton.addEventListener('click', () => {
-    modalContainer.style.display = 'block'; // Show the modal
+  // Add event listeners
+  newLeadButton.on('click', function() {
+    modalContainer.fadeIn(250); // Show the modal
   });
-  backButton.addEventListener('click', () => {
-    modalContainer.style.display = 'none'; // Hide the modal
+  backButton.on('click', function() {
+    modalContainer.fadeOut(100); // Hide the modal
   });
-
 }
 
 //Create Lead CardList
@@ -316,7 +275,7 @@ function createTable(index, data) {
     //$(card).addClass('extended');
     const $parentContainer = $(this).closest('.card-container');
     $parentContainer.find('textarea.editable').css('background-color', 'rgba(219, 219, 219, .40)').prop('readonly', false);
-    $button.show();
+    $button.slideDown(500);
     $('div.edit-container').hide();
     //Compensation of hiding component
     $('div.card-container').css('margin-top', '15px');
@@ -400,11 +359,16 @@ function createTable(index, data) {
         dataType: 'json',
         success: function (response) {
           console.log('Data modified successfully:', response);
-          $('button#modifyData').hide()
+          $('button#modifyData').slideUp(500)
+          $("div.edit-container").show()
+          $('div.card-container').css('margin-top', '0');
+
+        showAlert('Зміни вступили в силу!', 3000);
         },
         error: function (xhr, status, error) {
           console.error('Error modifying data:', error);
           console.error('Response:', xhr.responseText);
+          
         }
       });
     })

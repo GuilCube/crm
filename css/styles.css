@@ -13,6 +13,7 @@
 --btn_default: #ACDC23;
 --bnt_back: #3f510a;
 --btn-action: #8eb51d;
+--navbar-height: 53px;
 }
 body {
   margin:0; padding:0;
@@ -94,7 +95,7 @@ color: black;
 
 .navbar{
   display: flex;
-  height:53px;
+  height:var(--navbar-height);
   justify-content: space-between;
   padding: 0%;
   background-color: var(--defauld_background); /* Navbar background color */
@@ -278,6 +279,28 @@ td{
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
+}
+
+.alert {
+  display: none;
+  position: fixed;
+  top: calc(var(--navbar-height) + 10px);
+  right: 20px;
+  padding: 15px;
+  background-color: var(--btn-action); /* Red background */
+  color: white;
+  opacity: 0.9;
+  border-radius: 5px;
+  z-index: 1000;
+
+}
+
+.alert.show {
+  display: block; /* Show alert */
+}
+
+.alert.fade-out {
+  opacity: 0; /* Fade out effect */
 }
 
 #leadForm, #orderForm{
