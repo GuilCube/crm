@@ -1,0 +1,58 @@
+[
+    {
+        "attribute": "Лід№",
+        "textareaId": "idLead",
+        "textareaName": "idLead",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": []
+    },
+    {
+        "attribute": "Тип",
+        "textareaId": "leadType",
+        "textareaName": "leadType",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": ["editable"]
+    },
+    {
+        "attribute": "Статус",
+        "textareaId": "leadStatus",
+        "textareaName": "leadStatus",
+        "placeholder": "Вкажіть статус...",
+        "readonly": true,
+        "extraClasses": ["editable"]
+    },
+    {
+        "attribute": "Номер",
+        "textareaId": "leadPhone",
+        "textareaName": "leadPhone",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": ["editable"]
+    },
+    {
+        "attribute": "Дані",
+        "textareaId": "leadName",
+        "textareaName": "leadName",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": ["editable", "wrapable"]
+    },
+    {
+        "attribute": "Пошта",
+        "textareaId": "leadEmail",
+        "textareaName": "leadEmail",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": ["editable", "wrapable"]
+    },
+    {
+        "attribute": "Коментар",
+        "textareaId": "leadComment",
+        "textareaName": "leadComment",
+        "placeholder": "Тут може бути коментар до ліда...",
+        "readonly": true,
+        "extraClasses": ["editable", "wrapable"]
+    }
+]

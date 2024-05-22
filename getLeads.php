@@ -1,5 +1,5 @@
 <?php
-include("DBConncect");
+include ("DBConnect.php");
 
 $sql = "SELECT * FROM `leads`;";
 $result = $link->query($sql);

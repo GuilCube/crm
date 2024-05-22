@@ -26,7 +26,7 @@ $leadComment = $data['leadComment'];
 // Example: Print the received data (for debugging purposes)
 error_log("Received data: " . print_r($data, true));
 
-include("DBconnect.php");
+include("DBConnect.php");
 
 // Prepare the SQL statement
 $sql = "UPDATE leads SET leadType=?, leadStatus=?, leadPhone=?, leadName=?, leadEmail=?, leadComment=? WHERE idLead=?";

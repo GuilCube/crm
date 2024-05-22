@@ -180,6 +180,7 @@ a:hover{
 .card-list{
   display: flex; 
   flex-wrap: wrap;
+  margin-top: 30px;
   margin-left: 2%;
   margin-right: 2%;
   gap: 2.5%;
@@ -197,7 +198,7 @@ a:hover{
 .card-contaiber{
   margin-top: 40px;
 }
-.edit-conteiner{
+.edit-container{
   position: relative;
 display: flex;
 align-items: center;
@@ -210,6 +211,7 @@ width: 32px;
 height: 32px;
 border-radius: 50%;
 }
+
 .edit-icon {  
   width: 25px;
   height: 25px; 
@@ -295,6 +297,7 @@ input,textarea{
   width: 70%;
   min-width: 50%;
   align-items: center;
+  
 }
 textarea{
   height: calc(14px*1.5*3);

@@ -35,11 +35,12 @@ export function LeadPage() {
   $(main).append($cardList)
   $.ajax({
     type: "GET",
-    url: "getData.php",
+    url: "getLeads.php",
     data: "data",
     dataType: "json",
     success: function (data) {
       console.log(data.length);
+      console.log(data);
       for (let index = 0; index < data.length; index++) {
         createTable(index,data[index]);
       }      
