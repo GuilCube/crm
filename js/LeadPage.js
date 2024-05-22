@@ -275,7 +275,7 @@ function createTable(index, data) {
     //$(card).addClass('extended');
     const $parentContainer = $(this).closest('.card-container');
     $parentContainer.find('textarea.editable').css('background-color', 'rgba(219, 219, 219, .40)').prop('readonly', false);
-    $button.slideDown(500);
+    $button.slideDown(200);
     $('div.edit-container').hide();
     //Compensation of hiding component
     $('div.card-container').css('margin-top', '15px');
