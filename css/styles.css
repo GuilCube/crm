@@ -167,6 +167,7 @@ a {
 .button-item:hover{
   filter: brightness(80%);
   transition: filter 0.7s ease; 
+  cursor: pointer;
 }
 a:hover{
   text-decoration: none; /* Remove underline on hover */
@@ -241,6 +242,7 @@ td{
   text-wrap:balance;
 
 }
+
 .modal-container{
   display: none; /* Hide the modal by default */
   position: fixed;
@@ -349,9 +351,4 @@ label{
   word-wrap: break-word;
   height: auto;
   white-space: normal;
-}
-
-.extended{
-  z-index: 10;
-  width: 100%;
 }

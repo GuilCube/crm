@@ -78,7 +78,7 @@ export function LeadPage() {
 
         $('textarea.editable').css('background-color', 'inherit');
         $('textarea.editable').prop('readonly', true);
-        $('button#modifyData').slideUp(500);
+        $('div.modal-line-buttons.incard').slideUp(250);
         //Removing compensation of hiding component
         $('div.card-container').css('margin-top', '0');
         $('div.edit-container').show();
@@ -185,10 +185,10 @@ function buttonsLead() {
   $('main').append(modalContainer);
 
   newLeadButton.on('click', function() {
-      modalContainer.show();
+      modalContainer.fadeIn(200);
   });
   $('#closeModal').on('click', function() {
-      modalContainer.hide();
+      modalContainer.fadeOut(100);
   });
 
   // Handle form submission
@@ -231,9 +231,20 @@ function createTable(index, data) {
   // Create the edit container
   const $editContainer = $('<div>').addClass('edit-container');
 
-  const $button = $('<button>').addClass('btn action').attr('id', "modifyData").text("Зберегти")
+  const $buttonContainer = $('<div>').addClass('modal-line-buttons incard');
+
+  const $buttonSave =  $('<button>').addClass('btn action').attr('id', "modifyData").text("Зберегти");
+  const $buttonCancel = $('<button>').addClass('btn back').text("Назад");
+
+$buttonCancel.on('click',()=>{
+  $buttonContainer.slideUp(250);
+  $('div.card-container').css('margin-top', '0');
+  $('div.edit-container').show()
+})
+
+  $buttonContainer.append($buttonCancel).append($buttonSave);
   //Initial hiding of button
-  $button.hide()
+  $buttonContainer.hide()
 
   // Create the edit icon
   const $editIcon = $('<img>').addClass('edit-icon').attr('src', '/img/editIco.png').attr('alt', 'Edit');
@@ -243,7 +254,7 @@ function createTable(index, data) {
     //$(card).addClass('extended');
     const $parentContainer = $(this).closest('.card-container');
     $parentContainer.find('textarea.editable').css('background-color', 'rgba(219, 219, 219, .40)').prop('readonly', false);
-    $button.slideDown(200);
+    $buttonContainer.slideDown(200);
     $('div.edit-container').hide();
     //Compensation of hiding component
     $('div.card-container').css('margin-top', '15px');
@@ -301,10 +312,10 @@ function createTable(index, data) {
     // console.log("Card");
     // console.log($cardContainer);
     $('div.card-list').append($cardContainer)
-    $($table).append($button)
+    $($table).append($buttonContainer)
 
     //Form button listner
-    $button.on('click', function () {
+    $buttonSave.on('click', function () {
       const $parentContainer = $(this).closest('.card-container');
       console.log($parentContainer);
       // Gather data from the form
@@ -327,7 +338,7 @@ function createTable(index, data) {
         dataType: 'json',
         success: function (response) {
           console.log('Data modified successfully:', response);
-          $('button#modifyData').slideUp(500)
+          $('div.modal-line-buttons.incard').slideUp(250)
           $("div.edit-container").show()
           $('div.card-container').css('margin-top', '0');
 
