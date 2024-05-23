@@ -1,3 +1,9 @@
+export function createModalLine(labelText, inputType, inputName, placeholderText) {
+    return $('<div>').addClass('modal-line')
+        .append($('<label>').attr('for', inputName).text(labelText))
+        .append($('<input>').attr({ type: inputType, id: inputName, name: inputName, placeholder: placeholderText }));
+}
+
 export function showAlert(message, duration) {
     // Create alert div
     const $alertDiv = $('<div>').addClass('alert').text(message);
@@ -15,3 +21,4 @@ export function showAlert(message, duration) {
         }, 500); // Match this time with the CSS transition duration
     }, duration);
 }
+

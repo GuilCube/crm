@@ -192,13 +192,14 @@ a:hover{
   display: flex;
   background-color: #DBF1C2;
   width: 333px;
-
+ height: 100%;
   padding: 20px 5px 20px 15px;
   border-radius: 5px;
 
 }
 .card-contaiber{
   margin-top: 40px;
+  height: 100%;
 }
 .edit-container{
   position: relative;
