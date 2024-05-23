@@ -1,5 +1,6 @@
 import { showAlert } from "./lib.js"
 import { createModalLine } from "./lib.js";
+import { createModalLineWithDropdown } from "./lib.js";
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
 export function LeadPage() {
@@ -157,14 +158,36 @@ function buttonsLead() {
   const modalTitle = $('<h3>').css('text-align', 'center').text('Створити лід...');
   const leadForm = $('<form>').attr('id', 'leadForm').addClass('leadForm');
 
+  const dropdownOptionsA = ['Фізична особа', 'Юридична особа'];
+  const dropdownOptionsB = ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"];
   leadForm.append(
-    createModalLine('Лід №', 'text', 'idLead', 'Імпорт з БД'),
-    createModalLine('Тип', 'text', 'leadType', ''),
-    createModalLine('Статус', 'text', 'leadStatus', 'Вкажіть статус...'),
+    createModalLineWithDropdown('Тип', 'text', 'leadType', 'Оберіть тип ліда...',dropdownOptionsA),
+    createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...',dropdownOptionsB),
     createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...'),
     createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...'),
     createModalLine('Пошта', 'text', 'leadEmail', 'Введіть пошту...')
   );
+
+  $(document).ready(function() {
+    $(document).on('click', '.dropbtn', function() {
+        $(this).siblings('.dropdown-content').toggleClass('show');
+    });
+
+    $(document).on('click', '.dropdown-content a', function(e) {
+        e.preventDefault();
+        var value = $(this).data('value');
+        console.log(value);
+        $(this).closest('.input-container').find('input').val(value);
+        $(this).parent().removeClass('show');
+    });
+
+    $(window).click(function(e) {
+        if (!$(e.target).closest('.input-container').length) {
+            $('.dropdown-content').removeClass('show');
+        }
+    });
+});
+
 
   const leadCommentLine = $('<div>').addClass('modal-line')
     .append($('<label>').attr('for', 'leadComment').text('Коментар'))
@@ -187,6 +210,13 @@ function buttonsLead() {
   $('#closeModal').on('click', function () {
     modalContainer.fadeOut(100);
   });
+
+
+  modalContainer.on('click', function(event) {
+    if ($(event.target).is(modalContainer)) {
+      modalContainer.fadeOut(200);
+    }
+});
 
   // Handle form submission
   $submitButton.on('click', function (event) {
