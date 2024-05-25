@@ -367,7 +367,6 @@ label{
   bottom: 0;
   width: 30px;
   background-color: var(--data_background);
-  color: white;
   border: none;
   cursor: pointer;
   display: flex;
@@ -399,4 +398,11 @@ label{
 
 .dropdown-content.show {
   display: block;
+}
+
+.toggle{
+  position: inherit;
+}
+.toggle-container{
+  display: flex;
 }

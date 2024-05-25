@@ -27,7 +27,8 @@ export function createModalLineWithDropdown(labelText, inputType, inputName, pla
     inputContainer.append(input);
     
     // Create and append the dropdown button
-    const dropbtn = $('<span>').addClass('dropbtn').text('▼');
+   
+    const dropbtn = $('<span>').addClass('dropbtn').text('▼')
     inputContainer.append(dropbtn);
     
     // Create and append the dropdown content
@@ -36,6 +37,7 @@ export function createModalLineWithDropdown(labelText, inputType, inputName, pla
         const span = $('<a>').data('value', option).text(option).attr('readonly',true);
         dropdownContent.append(span);
     });
+    
     inputContainer.append(dropdownContent);
     
     // Append the input container to the main container

@@ -3,7 +3,7 @@ import { createModalLine } from "./lib.js";
 import { createModalLineWithDropdown } from "./lib.js";
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
-export function LeadPage() {
+export async function LeadPage() {
   header(0);
   // <!--Кнопи фунцкіоналу-->
   // <div class="button-row">
@@ -31,7 +31,6 @@ export function LeadPage() {
   //     </a>
   //     </span>
   //   </div>
-
 
   const $cardList = $("<div>").addClass("card-list");
   $(main).append($cardList)
@@ -88,7 +87,8 @@ export function LeadPage() {
     });
 
   });
-
+  
+    
 }
 
 
@@ -159,34 +159,38 @@ function buttonsLead() {
   const leadForm = $('<form>').attr('id', 'leadForm').addClass('leadForm');
 
   const dropdownOptionsA = ['Фізична особа', 'Юридична особа'];
-  const dropdownOptionsB = ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"];
+  const dropdownOptionsB = ["Контакт", "Перемовини", "Уточнення даних", "Очікує оплати", "Оплачено", "Не реалізовано"];
   leadForm.append(
-    createModalLineWithDropdown('Тип', 'text', 'leadType', 'Оберіть тип ліда...',dropdownOptionsA),
-    createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...',dropdownOptionsB),
+    createModalLineWithDropdown('Тип', 'text', 'leadType', 'Оберіть тип ліда...', dropdownOptionsA),
+    createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...', dropdownOptionsB),
     createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...'),
     createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...'),
     createModalLine('Пошта', 'text', 'leadEmail', 'Введіть пошту...')
   );
 
-  $(document).ready(function() {
-    $(document).on('click', '.dropbtn', function() {
-        $(this).siblings('.dropdown-content').toggleClass('show');
+  $(document).ready(function () {
+    $(document).on('click', '.dropbtn', function () {
+      $('.dropdown-content').removeClass('show');
+      $(this).siblings('.dropdown-content').toggleClass('show');
+    });
+    
+
+    $(document).on('click', '.dropdown-content a', function (e) {
+      e.preventDefault();
+      var value = $(this).data('value');
+      console.log(value);
+      $(this).closest('.td').find('textarea').val(value);
+      $(this).parent().removeClass('show');
     });
 
-    $(document).on('click', '.dropdown-content a', function(e) {
-        e.preventDefault();
-        var value = $(this).data('value');
-        console.log(value);
-        $(this).closest('.input-container').find('input').val(value);
-        $(this).parent().removeClass('show');
-    });
+      
 
-    $(window).click(function(e) {
-        if (!$(e.target).closest('.input-container').length) {
-            $('.dropdown-content').removeClass('show');
-        }
+    $(window).click(function (e) {
+      if (!$(e.target).closest('.input-container').length) {
+        $('.dropdown-content').removeClass('show');
+      }
     });
-});
+  });
 
 
   const leadCommentLine = $('<div>').addClass('modal-line')
@@ -212,11 +216,11 @@ function buttonsLead() {
   });
 
 
-  modalContainer.on('click', function(event) {
+  modalContainer.on('click', function (event) {
     if ($(event.target).is(modalContainer)) {
       modalContainer.fadeOut(200);
     }
-});
+  });
 
   // Handle form submission
   $submitButton.on('click', function (event) {
@@ -250,10 +254,7 @@ function buttonsLead() {
   });
 }
 
-
 //Create Lead CardList
-
-
 function createTable(index, data) {
 
   // Create the main container
@@ -269,8 +270,11 @@ function createTable(index, data) {
 
   $buttonCancel.on('click', () => {
     $buttonContainer.slideUp(250);
+    $('textarea.editable').css('background-color', 'inherit');
+    $('textarea.editable').prop('readonly', true);
     $('div.card-container').css('margin-top', '0');
     $('div.edit-container').show()
+
   })
 
   $buttonContainer.append($buttonCancel).append($buttonSave);
@@ -304,7 +308,7 @@ function createTable(index, data) {
     const $tr = $('<tr>');
 
     const $tdAttribute = $('<td>').addClass('card-attribute').text(config.attribute);
-    const $tdTextarea = $('<td>');
+    const $tdTextarea = $('<td>').addClass('toggle-container')
 
     const $textarea = $('<textarea>')
       .addClass('line')
@@ -316,9 +320,9 @@ function createTable(index, data) {
 
     $tdTextarea.append($textarea);
     $tr.append($tdAttribute).append($tdTextarea);
-
     return $tr;
   }
+
   // Create table rows
   $.getJSON('app/leadCardTemplate.json', (dataJSON) => {
     // Create the table
@@ -332,12 +336,30 @@ function createTable(index, data) {
       const $row = createTableRow(config);
       //console.log(data[config.textareaId])
       $row.find("textarea").val(data[config.textareaId]);
+
+      const dropdownOptionsA = ['Фізична особа', 'Юридична особа'];
+    //const dropdownOptionsB = ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"];
+
+    const $leadType = $row.find('td:last-child');
+    //console.log($leadType);
+    $leadType.append($('<span>').addClass('dropbtn toggle').text('▼'))
+
+    const dropdownContent = $('<div>').addClass('dropdown-content');
+    dropdownOptionsA.forEach(option => {
+    const span = $('<a>').data('value', option).text(option).attr('readonly', true);
+    console.log(option);
+    dropdownContent.append(span);    
+  });
+  $leadType.append(dropdownContent);
       $tbody.append($row);
       //console.log($row.find('textarea#'+'leadType'));
 
     });
+
+    //console.log($leadType);
     $table.append($tbody)
 
+    //const dropbtn = $('<span>').addClass('dropbtn').text('▼')
 
     $cardContainer.append($table);
     // console.log("Card");
@@ -359,6 +381,7 @@ function createTable(index, data) {
         leadEmail: $parentContainer.find('textarea#leadEmail').val(),
         leadComment: $parentContainer.find('textarea#leadComment').val()
       };
+
       console.log("Data POST");
       console.log(dataPOST);
       $.ajax({
