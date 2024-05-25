@@ -178,12 +178,11 @@ function buttonsLead() {
     $(document).on('click', '.dropdown-content a', function (e) {
       e.preventDefault();
       var value = $(this).data('value');
-      console.log(value);
-      $(this).closest('.td').find('textarea').val(value);
+      //console.log(value);
+      $(this).closest('.input-container').find('input').val(value);
       $(this).parent().removeClass('show');
     });
-
-      
+  
 
     $(window).click(function (e) {
       if (!$(e.target).closest('.input-container').length) {
