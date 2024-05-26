@@ -341,16 +341,29 @@ function createTable(index, data) {
 
     const $leadType = $row.find('td:last-child');
     //console.log($leadType);
-    $leadType.append($('<span>').addClass('dropbtn toggle').text('▼'))
+    const $toggleButton = $('<span>').addClass('dropbtn toggle').text('▼');
+    $leadType.append($toggleButton)
 
-    const dropdownContent = $('<div>').addClass('dropdown-content');
+    const dropdownContent = $('<div>').addClass('dropdown-content').addClass('in-table');
     dropdownOptionsA.forEach(option => {
     const span = $('<a>').data('value', option).text(option).attr('readonly', true);
-    console.log(option);
+    //console.log(option);
     dropdownContent.append(span);    
   });
+
   $leadType.append(dropdownContent);
       $tbody.append($row);
+
+   
+      $toggleButton.on('click', ()=>{
+        console.log($toggleButton);
+        $('.dropdown-content.in-table').removeClass('show');
+        console.log($toggleButton.siblings('.dropdown-conten.in-table'));
+        $toggleButton.siblings('.dropdown-content').show();
+        
+      })
+    
+
       //console.log($row.find('textarea#'+'leadType'));
 
     });
