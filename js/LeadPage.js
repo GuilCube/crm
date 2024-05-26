@@ -353,15 +353,25 @@ function createTable(index, data) {
 
   $leadType.append(dropdownContent);
       $tbody.append($row);
-
+      const span = dropdownContent.find('a');
+      //console.log(span);
+      span.click(function () { 
+        var value = span.data('value');
+      console.log(span.parent().parent().find('textarea'));
+      span.parent().parent().find('textarea').val(value);
+      span.parent().hide();
+        
+      });
+      
    
       $toggleButton.on('click', ()=>{
         console.log($toggleButton);
-        $('.dropdown-content.in-table').removeClass('show');
-        console.log($toggleButton.siblings('.dropdown-conten.in-table'));
-        $toggleButton.siblings('.dropdown-content').show();
-        
+        $('.dropdown-content.in-table').hide();
+        console.log($toggleButton.siblings('.dropdown-content.in-table'));
+        $toggleButton.siblings('.dropdown-content').show();        
       })
+
+      
     
 
       //console.log($row.find('textarea#'+'leadType'));
