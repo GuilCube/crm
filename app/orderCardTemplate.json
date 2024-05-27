@@ -1,0 +1,50 @@
+[
+    {
+        "attribute": "Замовлення",
+        "textareaId": "o_id",
+        "textareaName": "o_id",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": []
+    },
+    {
+        "attribute": "Клієнт",
+        "textareaId": "l_id",
+        "textareaName": "l_id",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": []
+    },
+    {
+        "attribute": "Статус",
+        "textareaId": "o_tatus",
+        "textareaName": "o_tatus",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": []
+    },
+    {
+        "attribute": "Товар",
+        "textareaId": "g_name",
+        "textareaName": "g_name",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": ["editable"]
+    },
+    {
+        "attribute": "Адреса доставки",
+        "textareaId": "adress",
+        "textareaName": "adress",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": ["editable", "wrapable"]
+    },
+    {
+        "attribute": "Коментар",
+        "textareaId": "o_comment",
+        "textareaName": "o_comment",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": ["editable", "wrapable"]
+    }
+]

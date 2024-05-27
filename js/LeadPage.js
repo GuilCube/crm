@@ -45,6 +45,7 @@ export async function LeadPage() {
     success: function (data) {
       console.log(data.length);
       console.log(data);
+
       for (let index = 0; index < data.length; index++) {
         createTable(index, data[index]);
       }
@@ -332,10 +333,9 @@ function createTable(index, data) {
     //console.log($leadType);
     $table.append($tbody)
 
+    //Adds toggle button near textarea
     const options = [['Фізична особа', 'Юридична особа'],
     ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"]];
-
-
     addToggle($table,[1,2],options)
 
     $cardContainer.append($table);
