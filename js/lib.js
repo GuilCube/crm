@@ -85,7 +85,7 @@ export function setEditable($input, $buttons, $editContainer, $cardContainer,$to
 export function addToggle($table,rowsToAppend,dropdownOptions) {
     const dropdownOptionsA = ['Фізична особа', 'Юридична особа'];
     //const dropdownOptionsB = ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"];
-    rowsToAppend.forEach(row=>{
+    rowsToAppend.forEach((row,index)=>{
     const $leadType = $table.find('td:last-child').eq(row);
     $leadType;
     // const $thisTable = $("table#0").find('td:last-child');
@@ -94,7 +94,7 @@ export function addToggle($table,rowsToAppend,dropdownOptions) {
     $leadType.append($toggleButton)
 
     const dropdownContent = $('<div>').addClass('dropdown-content').addClass('in-table');
-    dropdownOptionsA.forEach(option => {
+    dropdownOptions[index].forEach(option => {
         const spanA = $('<a>').data('value', option).text(option);
         //console.log(option);
         dropdownContent.append(spanA);

@@ -331,7 +331,12 @@ function createTable(index, data) {
     }); 
     //console.log($leadType);
     $table.append($tbody)
-    addToggle($table,[1])
+
+    const options = [['Фізична особа', 'Юридична особа'],
+    ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"]];
+
+
+    addToggle($table,[1,2],options)
 
     $cardContainer.append($table);
     // console.log("Card");
