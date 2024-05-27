@@ -3,6 +3,7 @@ import { createModalLine } from "./lib.js";
 import { createModalLineWithDropdown } from "./lib.js";
 import { setEditable } from "./lib.js";
 import { setUnEditable } from "./lib.js";
+import { addToggle } from "./lib.js";
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
 export async function LeadPage() {
@@ -55,6 +56,7 @@ export async function LeadPage() {
   });
 
   $(document).ready(function () {
+
     const $tables = $('table.card');
     console.log($tables);
     // Initialize a variable to store the maximum height
@@ -78,15 +80,12 @@ export async function LeadPage() {
     $(document).on('keydown', function (event) {
       // Check if the pressed key is the "Escape" key (key code 27)
       if (event.which === 27) {
-        setUnEditable($('textarea.editable'),$('div.modal-line-buttons.incard'),
-        $('div.edit-container'),$('div.card-container'))
-
+        setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
+          $('div.edit-container'), $('div.card-container'),$('.dropbtn.toggle'))
       }
     });
 
   });
-  
-    
 }
 
 
@@ -171,7 +170,7 @@ function buttonsLead() {
       $('.dropdown-content').removeClass('show');
       $(this).siblings('.dropdown-content').toggleClass('show');
     });
-    
+
 
     $(document).on('click', '.dropdown-content a', function (e) {
       e.preventDefault();
@@ -180,7 +179,7 @@ function buttonsLead() {
       $(this).closest('.input-container').find('input').val(value);
       $(this).parent().removeClass('show');
     });
-  
+
 
     $(window).click(function (e) {
       if (!$(e.target).closest('.input-container').length) {
@@ -266,12 +265,8 @@ function createTable(index, data) {
   const $buttonCancel = $('<button>').addClass('btn back').text("Назад");
 
   $buttonCancel.on('click', () => {
-    $buttonContainer.slideUp(250);
-    $('textarea.editable').css('background-color', 'inherit');
-    $('textarea.editable').prop('readonly', true);
-    $('div.card-container').css('margin-top', '0');
-    $('div.edit-container').show()
-
+    setUnEditable($('textarea.editable'), $buttonContainer,
+      $('div.edit-container'), $('div.card-container'),$('.dropbtn.toggle'))
   })
 
   $buttonContainer.append($buttonCancel).append($buttonSave);
@@ -284,11 +279,11 @@ function createTable(index, data) {
 
   $editIcon.on("click", function () {
     //$(card).addClass('extended');
-    
+
     const $parentContainer = $(this).closest('.card-container');
-    setEditable($parentContainer.find('textarea.editable'),$buttonContainer,
-        $('div.edit-container'),$('div.card-container'))
-    
+    setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
+      $('div.edit-container'), $('div.card-container'),$parentContainer.find('.dropbtn'))
+
   });
 
   // Append the edit icon to the edit container
@@ -332,53 +327,11 @@ function createTable(index, data) {
       const $row = createTableRow(config);
       //console.log(data[config.textareaId])
       $row.find("textarea").val(data[config.textareaId]);
-
-      const dropdownOptionsA = ['Фізична особа', 'Юридична особа'];
-    //const dropdownOptionsB = ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"];
-
-    const $leadType = $row.find('td:last-child');
-    //console.log($leadType);
-    const $toggleButton = $('<span>').addClass('dropbtn toggle').text('▼');
-    $leadType.append($toggleButton)
-
-    const dropdownContent = $('<div>').addClass('dropdown-content').addClass('in-table');
-    dropdownOptionsA.forEach(option => {
-    const span = $('<a>').data('value', option).text(option).attr('readonly', true);
-    //console.log(option);
-    dropdownContent.append(span);    
-  });
-
-  $leadType.append(dropdownContent);
       $tbody.append($row);
-      const span = dropdownContent.find('a');
-      //console.log(span);
-      span.click(function () { 
-        var value = span.data('value');
-      console.log(span.parent().parent().find('textarea'));
-      span.parent().parent().find('textarea').val(value);
-      span.parent().hide();
-        
-      });
-      
-   
-      $toggleButton.on('click', ()=>{
-        console.log($toggleButton);
-        $('.dropdown-content.in-table').hide();
-        console.log($toggleButton.siblings('.dropdown-content.in-table'));
-        $toggleButton.siblings('.dropdown-content').show();        
-      })
-
-      
-    
-
-      //console.log($row.find('textarea#'+'leadType'));
-
-    });
-
+    }); 
     //console.log($leadType);
     $table.append($tbody)
-
-    //const dropbtn = $('<span>').addClass('dropbtn').text('▼')
+    addToggle($table,[1])
 
     $cardContainer.append($table);
     // console.log("Card");
@@ -411,8 +364,8 @@ function createTable(index, data) {
         dataType: 'json',
         success: function (response) {
           console.log('Data modified successfully:', response);
-          setUnEditable($('textarea.editable'),$('div.modal-line-buttons.incard'),
-        $('div.edit-container'),$('div.card-container'))
+          setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
+            $('div.edit-container'), $('div.card-container'),$('.dropbtn.toggle'))
 
           showAlert('Зміни вступили в силу!', 3000);
         },
@@ -442,8 +395,4 @@ function createTable(index, data) {
 
     });
   });
-
-
-
-
 }
