@@ -13,7 +13,7 @@
         "textareaName": "leadType",
         "placeholder": "",
         "readonly": true,
-        "extraClasses": ["editable"]
+        "extraClasses": []
     },
     {
         "attribute": "Статус",
@@ -21,7 +21,7 @@
         "textareaName": "leadStatus",
         "placeholder": "Вкажіть статус...",
         "readonly": true,
-        "extraClasses": ["editable"]
+        "extraClasses": []
     },
     {
         "attribute": "Номер",

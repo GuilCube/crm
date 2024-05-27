@@ -1,6 +1,8 @@
 import { showAlert } from "./lib.js"
 import { createModalLine } from "./lib.js";
 import { createModalLineWithDropdown } from "./lib.js";
+import { setEditable } from "./lib.js";
+import { setUnEditable } from "./lib.js";
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
 export async function LeadPage() {
@@ -76,13 +78,9 @@ export async function LeadPage() {
     $(document).on('keydown', function (event) {
       // Check if the pressed key is the "Escape" key (key code 27)
       if (event.which === 27) {
+        setUnEditable($('textarea.editable'),$('div.modal-line-buttons.incard'),
+        $('div.edit-container'),$('div.card-container'))
 
-        $('textarea.editable').css('background-color', 'inherit');
-        $('textarea.editable').prop('readonly', true);
-        $('div.modal-line-buttons.incard').slideUp(250);
-        //Removing compensation of hiding component
-        $('div.card-container').css('margin-top', '0');
-        $('div.edit-container').show();
       }
     });
 
@@ -286,12 +284,11 @@ function createTable(index, data) {
 
   $editIcon.on("click", function () {
     //$(card).addClass('extended');
+    
     const $parentContainer = $(this).closest('.card-container');
-    $parentContainer.find('textarea.editable').css('background-color', 'rgba(219, 219, 219, .40)').prop('readonly', false);
-    $buttonContainer.slideDown(200);
-    $('div.edit-container').hide();
-    //Compensation of hiding component
-    $('div.card-container').css('margin-top', '15px');
+    setEditable($parentContainer.find('textarea.editable'),$buttonContainer,
+        $('div.edit-container'),$('div.card-container'))
+    
   });
 
   // Append the edit icon to the edit container
@@ -414,9 +411,8 @@ function createTable(index, data) {
         dataType: 'json',
         success: function (response) {
           console.log('Data modified successfully:', response);
-          $('div.modal-line-buttons.incard').slideUp(250)
-          $("div.edit-container").show()
-          $('div.card-container').css('margin-top', '0');
+          setUnEditable($('textarea.editable'),$('div.modal-line-buttons.incard'),
+        $('div.edit-container'),$('div.card-container'))
 
           showAlert('Зміни вступили в силу!', 3000);
         },

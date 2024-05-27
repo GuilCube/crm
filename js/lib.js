@@ -46,7 +46,6 @@ export function createModalLineWithDropdown(labelText, inputType, inputName, pla
     return container;
 }
 
-
 export function showAlert(message, duration) {
     // Create alert div
     const $alertDiv = $('<div>').addClass('alert').text(message);
@@ -63,5 +62,21 @@ export function showAlert(message, duration) {
             $alertDiv.remove();
         }, 500); // Match this time with the CSS transition duration
     }, duration);
+}
+
+export function setUnEditable($input,$buttons, $editContainer, $cardContainer){
+    $input.css('background-color', 'inherit');
+    $input.prop('readonly', true);
+    $buttons.slideUp(250);
+    //Removing compensation of hiding component
+    $cardContainer.css('margin-top', '0');
+    $editContainer.show();
+}
+export function setEditable($input,$buttons, $editContainer, $cardContainer){
+    $input.css('background-color', 'rgba(219, 219, 219, .40)').prop('readonly', false);
+    $buttons.slideDown(200);
+    $editContainer.hide();
+    //Compensation of hiding component
+    $cardContainer.css('margin-top', '15px');
 }
 
