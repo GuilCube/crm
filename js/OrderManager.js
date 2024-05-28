@@ -167,18 +167,39 @@ function createTable(index, data) {
                 $row.find("textarea").val(data[config.textareaId])
                 $tbody.append($row);
             }
-            else{
-                data[config.textareaId].forEach(el=>{
+            else {
+                const $row = createTableRow(config);
+                data[config.textareaId].forEach((el, index) => {
                     console.log(el)
-                    const $row = createTableRow(config);
-                    //console.log(data[config.textareaId])
-                    console.log($row.find("textarea").val(el.g_name));
-                    
-                    $row.find("textarea").val(el.g_name)
-                    const $qty = $('<input>').addClass('qty').val(el.g_quantity);
-                    console.log($qty);
-                    $row.find('td:last-child').append($qty)
+                    //const $row = createTableRow(config);
 
+                    //console.log(data[config.textareaId])
+                    //console.log($row.find("textarea").val(el.g_name));
+                    console.log(index == 0);
+                    if (index == 0) {
+                        $row.find("textarea").val(el.g_name)
+                        const $qty = $('<input>').addClass('qty editable').val(el.g_quantity);
+                        //console.log($qty);
+                        $row.find('td:last-child').append($qty)
+                    }
+                    else {
+                        const $tdTextarea = $('<td>').addClass('toggle-container')
+                        $row.find('td.card-attribute').text('Товари'); 
+                        const $textarea = $('<textarea>')
+                            .addClass('line')
+                            .attr('id', config.textareaId)
+                            .attr('name', config.textareaName)
+                            .attr('placeholder', config.placeholder)
+                            .prop('readonly', config.readonly)
+                            .addClass(config.extraClasses.join(' '));
+                            
+                        $tdTextarea.append($textarea)
+                        $textarea.val(el.g_name)
+                        const $qty = $('<input>').addClass('qty editable').val(el.g_quantity);
+                        //console.log($qty);
+                        $tdTextarea.append($qty);
+                        $row.append($tdTextarea)
+                    }
                     $tbody.append($row);
 
                 })

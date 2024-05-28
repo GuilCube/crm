@@ -416,10 +416,9 @@ label{
   margin-top: 30px;
   min-width: 0;
 }
-input.qty{
+.qty{
   min-width: 5% !important;
   width: 30px;
-  /* height: 100%; */
   text-align: center;
   padding: 0;
 }
