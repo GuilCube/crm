@@ -3,8 +3,13 @@ import { addToggle } from "./lib.js";
 import { setEditable } from "./lib.js";
 import { setUnEditable } from "./lib.js";
 import { showAlert } from "./lib.js";
+import { createModalLine } from "./lib.js";
+import { createModalLineWithDropdown } from "./lib.js";
 export function ManagerOrderPage() {
     header(1);
+
+    buttons();
+
     const $cardList = $("<div>").addClass("card-list");
     $('main').append($cardList)
     $.ajax({
@@ -86,6 +91,166 @@ export function ManagerOrderPage() {
     });
 
 }
+
+function buttons() {
+    const buttonRow = $('<div>').addClass('button-row');
+
+    const newLeadButton = $('<a>')
+        .attr('id', 'showNewLeadForm')
+        .addClass('button-item')
+        .append($('<span>').text('Нове замовлення').append($('<img>').addClass('button-ico').attr('src', '/img/plusIco.png')));
+
+    const searchButton = $('<a>')
+        .addClass('button-item')
+        .append($('<span>').text('Пошук').append($('<img>').addClass('button-ico').attr('src', '/img/searchIco.png')));
+
+    buttonRow.append(newLeadButton, searchButton);
+    $('main').append(buttonRow);
+
+    //Modal form
+    const modalContainer = $('<div>').attr('id', 'newLead').addClass('modal-container');
+    const modalContent = $('<div>').addClass('modal-content');
+    const modalTitle = $('<h3>').css('text-align', 'center').text('Нове замовлення...');
+    const leadForm = $('<form>').attr('id', 'leadForm').addClass('leadForm');
+
+    function createGoodsLine() {
+        const labelCount = $('input#goods').length;
+         console.log(labelCount);
+         let goodNum;
+         if(labelCount>0){
+            console.log($('input#goods:first').parent().parent().find('label').text('Товар 1')); 
+             goodNum =labelCount+1;
+         }
+         else
+         goodNum =  '';
+        const $line = $('<div>').addClass('modal-line')
+        const $goodContainer = $('<div>').addClass('good-container');
+        const $label = $('<label>').attr('for', 'text').text('Товар '+goodNum)
+        const $qty = $('<input>').addClass('qty editable')
+        const $input = $('<input>').attr({ type: 'text', id: 'goods', name: 'goods', placeholder: 'Назва товару...' });
+        $goodContainer.append($input, $qty)
+        $line.append($label, $goodContainer)
+        return $line
+    }
+
+    ///const $goodsModal=createModalLine('Товари', 'text', 'leadPhone', 'Введіть номер телефону...').append($qty);
+    const $createLine = $('<span>').addClass('btn action add-line').text('+')
+    //$goodContainer.append($goodsModal,$qty)
+    const dropdownOptions = ['Оформлено', 'Комплектується', 'Відправлено'];
+
+    leadForm.append(
+        createModalLine('Клієнт', 'text', 'l_id', 'Ведіть дані ліда...'),
+        createModalLineWithDropdown('Статус', 'text', 'o_status', 'Оберість статус...', dropdownOptions),
+        createGoodsLine(),
+        $createLine,
+        createModalLine('Адреса', 'text', 'adress', 'Вкажіть адресу...')
+    );
+
+    $(document).ready(function () {
+        $(document).on('click', '.dropbtn', function () {
+            $('.dropdown-content').removeClass('show');
+            $(this).siblings('.dropdown-content').toggleClass('show');
+        });
+        $createLine.click(function (e) {
+            e.preventDefault();
+            //console.log($(this));
+            if ($(this).parent().find('input#goods:last').val() != 0) {
+
+                const $line = createGoodsLine().hide();
+                $(this).before($line)
+                $line.slideDown(200);
+            }
+        });
+
+
+        $(document).on('click', '.dropdown-content a', function (e) {
+            e.preventDefault();
+            var value = $(this).data('value');
+            //console.log(value);
+            $(this).closest('.input-container').find('input').val(value);
+            $(this).parent().removeClass('show');
+        });
+
+
+        $(window).click(function (e) {
+            if (!$(e.target).closest('.input-container').length) {
+                $('.dropdown-content').removeClass('show');
+            }
+        });
+    });
+
+
+    const leadCommentLine = $('<div>').addClass('modal-line')
+        .append($('<label>').attr('for', 'leadComment').text('Коментар'))
+        .append($('<textarea>').attr({ id: 'leadComment', name: 'leadComment', placeholder: 'Тут може бути коментар до ліда...' }).addClass('comment'));
+
+    const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
+
+    const buttonLine = $('<div>').addClass('modal-line-buttons')
+        .append($('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад'))
+        .append($submitButton);
+
+    leadForm.append(leadCommentLine);
+    modalContent.append(modalTitle, leadForm, buttonLine);
+    modalContainer.append(modalContent);
+    $('main').append(modalContainer);
+
+    newLeadButton.on('click', function () {
+        modalContainer.fadeIn(200);
+    });
+    $('#closeModal').on('click', function () {
+        
+        modalContainer.fadeOut(100);
+        setTimeout(()=>
+        {
+            $('input#goods').parent().parent().not(':first').remove(); 
+        $('input#goods').parent().parent().find('label').text('Товар') 
+        $('input#goods').parent().parent().find('input').val('')
+        },100)
+        
+    });
+
+
+    modalContainer.on('click', function (event) {
+        if ($(event.target).is(modalContainer)) {
+            modalContainer.fadeOut(200);
+        }
+    });
+
+    // Handle form submission
+    $submitButton.on('click', function (event) {
+        event.preventDefault();
+        const $parentContainer = $(this).closest('.modal-content');
+        console.log($parentContainer);
+        console.log($(this));
+        const dataPOST = {
+            leadType: $parentContainer.find('input#leadType').val(),
+            leadStatus: $parentContainer.find('input#leadStatus').val(),
+            leadPhone: $parentContainer.find('input#leadPhone').val(),
+            leadName: $parentContainer.find('input#leadName').val(),
+            leadEmail: $parentContainer.find('input#leadEmail').val(),
+            leadComment: $parentContainer.find('textarea#leadComment').val()
+        };
+        console.log(dataPOST);
+        $.ajax({
+            type: 'POST',
+            url: 'submitLead.php',
+            data: JSON.stringify(dataPOST),
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                showAlert('Замовнстворено успішно', 3000);
+                modalContainer.fadeOut(200);
+                console.log(response);
+            },
+            error: function () {
+                showAlert('Виникла помилка', 3000);
+            }
+        });
+    });
+}
+
+
+
 function createTable(index, data) {
 
     // Create the main container
@@ -102,10 +267,10 @@ function createTable(index, data) {
     $buttonCancel.on('click', () => {
         setUnEditable($('textarea.editable'), $buttonContainer,
             $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
-            console.log($cardContainer.find('.qty'));
-            $cardContainer.find('.qty').prop('readonly',true).css('background-color','inherit'); 
+        console.log($cardContainer.find('.qty'));
+        $cardContainer.find('.qty').prop('readonly', true).css('background-color', 'inherit');
 
-                
+
     })
 
     $buttonContainer.append($buttonCancel).append($buttonSave);
@@ -121,7 +286,7 @@ function createTable(index, data) {
         const $parentContainer = $(this).closest('.card-container');
         setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
             $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
-            $parentContainer.find('.qty').prop('readonly',false).css('background-color','var(--data_background)')
+        $parentContainer.find('.qty').prop('readonly', false).css('background-color', 'var(--data_background)')
 
     });
 
@@ -183,19 +348,19 @@ function createTable(index, data) {
                     console.log(index == 0);
                     if (index == 0) {
                         $row.find("textarea").
-                        val(el.g_name)
-                        .addClass('goods')
+                            val(el.g_name)
+                            .addClass('goods')
 
                         const $qty = $('<input>')
-                        .addClass('qty editable')
-                        .val(el.g_quantity)
-                        .prop('readonly', true);
+                            .addClass('qty editable')
+                            .val(el.g_quantity)
+                            .prop('readonly', true);
                         //console.log($qty);
                         $row.find('td:last-child').append($qty)
                     }
                     else {
                         const $tdTextarea = $('<td>').addClass('toggle-container')
-                        $row.find('td.card-attribute').text('Товари'); 
+                        $row.find('td.card-attribute').text('Товари');
                         const $textarea = $('<textarea>')
                             .addClass('line goods')
                             .attr('id', config.textareaId)
@@ -208,15 +373,15 @@ function createTable(index, data) {
                         $textarea.val(el.g_name)
 
                         const $qty = $('<input>')
-                        .addClass('qty editable')
-                        .val(el.g_quantity)
-                        .prop('readonly', true);
+                            .addClass('qty editable')
+                            .val(el.g_quantity)
+                            .prop('readonly', true);
                         //console.log($qty);
                         $tdTextarea.append($qty);
                         $row.append($tdTextarea)
                     }
                     $tbody.append($row);
-                    
+
                 })
 
             }
@@ -252,13 +417,13 @@ function createTable(index, data) {
                 adress: $parentContainer.find('#adress').val(),
                 o_comment: $parentContainer.find('#o_comment').val()
             };
-            
-            const $goodRow =$parentContainer.find('.goods').parent();
+
+            const $goodRow = $parentContainer.find('.goods').parent();
             console.log('Goods');
             console.log($goodRow);
-            
-            
-            $goodRow.each(function() {
+
+
+            $goodRow.each(function () {
                 console.log($(this).find('textarea#goods').val());
                 console.log($(this).closest('td').find('.qty').val());
 
@@ -281,7 +446,7 @@ function createTable(index, data) {
                     console.log('Data modified successfully:', response);
                     setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
                         $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
-                        $('.qty').prop('readonly',true).css('background-color','inherit'); 
+                    $('.qty').prop('readonly', true).css('background-color', 'inherit');
                     showAlert('Зміни вступили в силу!', 3000);
                 },
                 error: function (xhr, status, error) {

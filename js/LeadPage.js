@@ -4,6 +4,7 @@ import { createModalLineWithDropdown } from "./lib.js";
 import { setEditable } from "./lib.js";
 import { setUnEditable } from "./lib.js";
 import { addToggle } from "./lib.js";
+
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
 export async function LeadPage() {
@@ -156,14 +157,12 @@ function buttonsLead() {
   const modalTitle = $('<h3>').css('text-align', 'center').text('Створити лід...');
   const leadForm = $('<form>').attr('id', 'leadForm').addClass('leadForm');
 
-  const dropdownOptionsA = ['Фізична особа', 'Юридична особа'];
-  const dropdownOptionsB = ["Контакт", "Перемовини", "Уточнення даних", "Очікує оплати", "Оплачено", "Не реалізовано"];
+  const dropdownOptions = ['Оформлено', 'Комплектується', 'Відправлено']
   leadForm.append(
-    createModalLineWithDropdown('Тип', 'text', 'leadType', 'Оберіть тип ліда...', dropdownOptionsA),
-    createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...', dropdownOptionsB),
-    createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...'),
-    createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...'),
-    createModalLine('Пошта', 'text', 'leadEmail', 'Введіть пошту...')
+    createModalLine('Клієнт', 'text', 'leadType', 'Оберіть тип ліда...'),
+    createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...', dropdownOptions),
+    createModalLine('Товари', 'text', 'leadPhone', 'Введіть номер телефону...'),
+    createModalLine('Адреса', 'text', 'leadName', 'ПІБ ліда...')
   );
 
   $(document).ready(function () {
