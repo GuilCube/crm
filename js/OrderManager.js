@@ -134,7 +134,7 @@ function buttons() {
     }
 
     ///const $goodsModal=createModalLine('Товари', 'text', 'leadPhone', 'Введіть номер телефону...').append($qty);
-    const $createLine = $('<span>').addClass('btn action add-line').text('+')
+    const $createLine = $('<span>').addClass('btn action add-line inform').text('+')
     //$goodContainer.append($goodsModal,$qty)
     const dropdownOptions = ['Оформлено', 'Комплектується', 'Відправлено'];
 
