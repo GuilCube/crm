@@ -204,6 +204,7 @@ a:hover{
 .card-contaiber{
   margin-top: 40px;
   height: 100%;
+
 }
 .edit-container{
   position: relative;
@@ -230,7 +231,7 @@ border-radius: 50%;
   text-align: end;
   padding-right: 10px;
   font-weight: bold;
-
+  width: 30%;
 }
 .card-value{
   display: inline-block;
@@ -325,7 +326,7 @@ input,textarea{
   overflow: auto;
   font-size: 14px;
   width: 70%;
-  min-width: 50%;
+  /* min-width: 50%; */
   align-items: center;
   
 }
@@ -414,4 +415,11 @@ label{
 .in-table{
   margin-top: 30px;
   min-width: 0;
+}
+input.qty{
+  min-width: 5% !important;
+  width: 30px;
+  /* height: 100%; */
+  text-align: center;
+  padding: 0;
 }

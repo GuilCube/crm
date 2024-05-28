@@ -9,24 +9,24 @@
     },
     {
         "attribute": "Клієнт",
-        "textareaId": "l_id",
-        "textareaName": "l_id",
+        "textareaId": "leadName",
+        "textareaName": "LeadName",
         "placeholder": "",
         "readonly": true,
         "extraClasses": []
     },
     {
         "attribute": "Статус",
-        "textareaId": "o_tatus",
-        "textareaName": "o_tatus",
+        "textareaId": "o_status",
+        "textareaName": "o_status",
         "placeholder": "",
         "readonly": true,
         "extraClasses": []
     },
     {
         "attribute": "Товар",
-        "textareaId": "g_name",
-        "textareaName": "g_name",
+        "textareaId": "goods",
+        "textareaName": "goods",
         "placeholder": "",
         "readonly": true,
         "extraClasses": ["editable"]
