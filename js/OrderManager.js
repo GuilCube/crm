@@ -115,17 +115,17 @@ function buttons() {
 
     function createGoodsLine() {
         const labelCount = $('input#goods').length;
-         console.log(labelCount);
-         let goodNum;
-         if(labelCount>0){
-            console.log($('input#goods:first').parent().parent().find('label').text('Товар 1')); 
-             goodNum =labelCount+1;
-         }
-         else
-         goodNum =  '';
+        console.log(labelCount);
+        let goodNum;
+        if (labelCount > 0) {
+            console.log($('input#goods:first').parent().parent().find('label').text('Товар 1'));
+            goodNum = labelCount + 1;
+        }
+        else
+            goodNum = '';
         const $line = $('<div>').addClass('modal-line')
         const $goodContainer = $('<div>').addClass('good-container');
-        const $label = $('<label>').attr('for', 'text').text('Товар '+goodNum)
+        const $label = $('<label>').attr('for', 'text').text('Товар ' + goodNum)
         const $qty = $('<input>').addClass('qty editable')
         const $input = $('<input>').attr({ type: 'text', id: 'goods', name: 'goods', placeholder: 'Назва товару...' });
         $goodContainer.append($input, $qty)
@@ -199,15 +199,14 @@ function buttons() {
         modalContainer.fadeIn(200);
     });
     $('#closeModal').on('click', function () {
-        
+
         modalContainer.fadeOut(100);
-        setTimeout(()=>
-        {
-            $('input#goods').parent().parent().not(':first').remove(); 
-        $('input#goods').parent().parent().find('label').text('Товар') 
-        $('input#goods').parent().parent().find('input').val('')
-        },100)
-        
+        setTimeout(() => {
+            $('input#goods').parent().parent().not(':first').remove();
+            $('input#goods').parent().parent().find('label').text('Товар')
+            $('input#goods').parent().parent().find('input').val('')
+        }, 100)
+
     });
 
 
@@ -249,8 +248,6 @@ function buttons() {
     });
 }
 
-
-
 function createTable(index, data) {
 
     // Create the main container
@@ -269,6 +266,7 @@ function createTable(index, data) {
             $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
         console.log($cardContainer.find('.qty'));
         $cardContainer.find('.qty').prop('readonly', true).css('background-color', 'inherit');
+        $('span.btn.action.add-line').slideUp(50)
 
 
     })
@@ -287,6 +285,7 @@ function createTable(index, data) {
         setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
             $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
         $parentContainer.find('.qty').prop('readonly', false).css('background-color', 'var(--data_background)')
+        console.log($parentContainer.find('span.btn.action.add-line').slideDown(500)); 
 
     });
 
@@ -329,6 +328,28 @@ function createTable(index, data) {
         //const index = $("table").length - 1;
         //console.log(data.goods);
         dataJSON.forEach(config => {
+            function createGoodsLineCard() {
+                const $tdTextarea = $('<td>').addClass('toggle-container');
+                const $textarea = $('<textarea>')
+                    .addClass('line goods')
+                    .attr('id', config.textareaId)
+                    .attr('name', config.textareaName)
+                    .attr('placeholder', config.placeholder)
+                    .addClass(config.extraClasses.join(' '))
+                    .css("height", "28.6px")
+                    .attr('placeholder','Вкажіть товар...')
+                $tdTextarea.append($textarea)
+    
+                const $qty = $('<input>')
+                    .addClass('qty editable')
+                //console.log($qty);
+                $tdTextarea.append($qty);
+                return $tdTextarea;
+            }
+            
+                
+
+
             console.log(typeof (data[config.textareaId]));
             if (!(typeof data[config.textareaId] === 'object')) {
                 const $row = createTableRow(config);
@@ -381,21 +402,30 @@ function createTable(index, data) {
                         $row.append($tdTextarea)
                     }
                     $tbody.append($row);
-
                 })
+               const $addButton =$('<span>').addClass('btn action add-line').text('+').hide()
+                $row.append($addButton)            
 
+                $addButton.click(()=>{
+                    console.log($addButton);
+                    if($addButton.parent().find('textarea:last').val()!=0){
+
+                        const goodLine =createGoodsLineCard().hide()
+                        $addButton.before(goodLine)
+                        goodLine.slideDown(200)
+                    }
+                })
             }
-        });
+        });    
 
         // const $goodRow = $table.find('textarea#goods')
         // console.log($goodRow);
 
         //console.log($leadType);
-        $table.append($tbody)
+        $table.append($tbody)        
 
         //Adds toggle button near textarea
         const options = [['Оформлено', 'Комплектується', 'Відправлено']]
-        //        ,["Контакт", "Перемовини", "Уточнення даних", "Очікує оплати", "Оплачено", "Не реалізовано"]];
         addToggle($table, [2], options)
 
         $cardContainer.append($table);

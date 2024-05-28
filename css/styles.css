@@ -194,7 +194,7 @@ a:hover{
   display: flex;
   background-color: #DBF1C2;
   width: 333px;
-  height: 400px;
+  min-height: 370px;
   padding: 20px 5px 20px 15px;
   margin-bottom: 2vh;
   border-radius: 5px;
