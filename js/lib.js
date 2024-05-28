@@ -108,7 +108,7 @@ export function addToggle($table,rowsToAppend,dropdownOptions) {
     $leadType.append(dropdownContent);
     $toggleButton.on('click', () => {
         
-        console.log(dropdownContent.is(':hidden'));
+        //console.log(dropdownContent.is(':hidden'));
         if (dropdownContent.is(':hidden')) {
             $('.dropdown-content.in-table').hide()
             dropdownContent.show();

@@ -32,6 +32,9 @@ if ($result->num_rows > 0) {
         $data[] = $row;
     }
 }
+if ($data[0]['o_comment']==0) {
+    $data[0]['o_comment']='';
+}
 
 echo json_encode($data);
 ?>

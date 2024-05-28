@@ -43,7 +43,7 @@
         "attribute": "Коментар",
         "textareaId": "o_comment",
         "textareaName": "o_comment",
-        "placeholder": "",
+        "placeholder": "Тут може бути коментар до ліда...",
         "readonly": true,
         "extraClasses": ["editable", "wrapable"]
     }

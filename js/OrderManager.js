@@ -2,6 +2,7 @@ import { header } from "./LeadPage.js";
 import { addToggle } from "./lib.js";
 import { setEditable } from "./lib.js";
 import { setUnEditable } from "./lib.js";
+import { showAlert } from "./lib.js";
 export function ManagerOrderPage() {
     header(1);
     const $cardList = $("<div>").addClass("card-list");
@@ -101,6 +102,10 @@ function createTable(index, data) {
     $buttonCancel.on('click', () => {
         setUnEditable($('textarea.editable'), $buttonContainer,
             $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
+            console.log($cardContainer.find('.qty'));
+            $cardContainer.find('.qty').prop('readonly',true).css('background-color','inherit'); 
+
+                
     })
 
     $buttonContainer.append($buttonCancel).append($buttonSave);
@@ -110,13 +115,13 @@ function createTable(index, data) {
     // Create the edit icon
     const $editIcon = $('<img>').addClass('edit-icon').attr('src', '/img/editIco.png').attr('alt', 'Edit');
 
-
     $editIcon.on("click", function () {
         //$(card).addClass('extended');
 
         const $parentContainer = $(this).closest('.card-container');
         setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
             $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
+            $parentContainer.find('.qty').prop('readonly',false).css('background-color','var(--data_background)')
 
     });
 
@@ -177,8 +182,14 @@ function createTable(index, data) {
                     //console.log($row.find("textarea").val(el.g_name));
                     console.log(index == 0);
                     if (index == 0) {
-                        $row.find("textarea").val(el.g_name)
-                        const $qty = $('<input>').addClass('qty editable').val(el.g_quantity);
+                        $row.find("textarea").
+                        val(el.g_name)
+                        .addClass('goods')
+
+                        const $qty = $('<input>')
+                        .addClass('qty editable')
+                        .val(el.g_quantity)
+                        .prop('readonly', true);
                         //console.log($qty);
                         $row.find('td:last-child').append($qty)
                     }
@@ -186,37 +197,41 @@ function createTable(index, data) {
                         const $tdTextarea = $('<td>').addClass('toggle-container')
                         $row.find('td.card-attribute').text('Товари'); 
                         const $textarea = $('<textarea>')
-                            .addClass('line')
+                            .addClass('line goods')
                             .attr('id', config.textareaId)
                             .attr('name', config.textareaName)
                             .attr('placeholder', config.placeholder)
                             .prop('readonly', config.readonly)
                             .addClass(config.extraClasses.join(' '));
-                            
+
                         $tdTextarea.append($textarea)
                         $textarea.val(el.g_name)
-                        const $qty = $('<input>').addClass('qty editable').val(el.g_quantity);
+
+                        const $qty = $('<input>')
+                        .addClass('qty editable')
+                        .val(el.g_quantity)
+                        .prop('readonly', true);
                         //console.log($qty);
                         $tdTextarea.append($qty);
                         $row.append($tdTextarea)
                     }
                     $tbody.append($row);
-
+                    
                 })
 
             }
         });
 
-        const $goodRow = $table.find('textarea#goods')
-        console.log($goodRow);
+        // const $goodRow = $table.find('textarea#goods')
+        // console.log($goodRow);
 
         //console.log($leadType);
         $table.append($tbody)
 
-        // //Adds toggle button near textarea
-        // const options = [['Фізична особа', 'Юридична особа'],
-        // ["Контакт", "Перемовини", "Уточнення даних", "Очікує оплати", "Оплачено", "Не реалізовано"]];
-        // addToggle($table, [1, 2], options)
+        //Adds toggle button near textarea
+        const options = [['Оформлено', 'Комплектується', 'Відправлено']]
+        //        ,["Контакт", "Перемовини", "Уточнення даних", "Очікує оплати", "Оплачено", "Не реалізовано"]];
+        addToggle($table, [2], options)
 
         $cardContainer.append($table);
         // console.log("Card");
@@ -230,20 +245,35 @@ function createTable(index, data) {
             console.log($parentContainer);
             // Gather data from the form
             const dataPOST = {
-                idLead: $parentContainer.find('textarea#idLead').val(),
-                leadType: $parentContainer.find('textarea#leadType').val(),
-                leadStatus: $parentContainer.find('textarea#leadStatus').val(),
-                leadPhone: $parentContainer.find('textarea#leadPhone').val(),
-                leadName: $parentContainer.find('textarea#leadName').val(),
-                leadEmail: $parentContainer.find('textarea#leadEmail').val(),
-                leadComment: $parentContainer.find('textarea#leadComment').val()
+                o_id: $parentContainer.find('#o_id').val(),
+                leadName: $parentContainer.find('#leadName').val(),
+                o_status: $parentContainer.find('#o_status').val(),
+                goods: [],
+                adress: $parentContainer.find('#adress').val(),
+                o_comment: $parentContainer.find('#o_comment').val()
             };
+            
+            const $goodRow =$parentContainer.find('.goods').parent();
+            console.log('Goods');
+            console.log($goodRow);
+            
+            
+            $goodRow.each(function() {
+                console.log($(this).find('textarea#goods').val());
+                console.log($(this).closest('td').find('.qty').val());
+
+                const g_name = $(this).find('textarea#goods').val();
+                const g_quantity = $(this).closest('td').find('.qty').val();
+                if (g_name) { // Only add if there is a value
+                    dataPOST.goods.push({ g_name, g_quantity });
+                }
+            });
 
             console.log("Data POST");
             console.log(dataPOST);
             $.ajax({
                 type: 'POST',
-                url: 'updateLead.php', // URL of your server-side script
+                url: 'updateOrder.php', // URL of your server-side script
                 data: JSON.stringify(dataPOST),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -251,7 +281,7 @@ function createTable(index, data) {
                     console.log('Data modified successfully:', response);
                     setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
                         $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
-
+                        $('.qty').prop('readonly',true).css('background-color','inherit'); 
                     showAlert('Зміни вступили в силу!', 3000);
                 },
                 error: function (xhr, status, error) {

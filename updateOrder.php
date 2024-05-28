@@ -15,39 +15,78 @@ if (is_null($data)) {
 }
 
 // Extract data
-$idLead = $data['idLead'];
-$leadType = $data['leadType'];
-$leadStatus = $data['leadStatus'];
-$leadPhone = $data['leadPhone'];
-$leadName = $data['leadName'];
-$leadEmail = $data['leadEmail'];
-$leadComment = $data['leadComment'];
-
+$o_id = isset($data['o_id']) ? $data['o_id'] : null;
+$leadName = isset($data['leadName']) ? $data['leadName'] : null;
+$o_status = isset($data['o_status']) ? $data['o_status'] : null;
+$adress = isset($data['adress']) ? $data['adress'] : null;
+$o_comment = isset($data['o_comment']) ? $data['o_comment'] : ""; // Ensure empty string if not provided
+$goods = isset($data['goods']) ? $data['goods'] : [];
 // Example: Print the received data (for debugging purposes)
 error_log("Received data: " . print_r($data, true));
 
 include("DBConnect.php");
 
-// Prepare the SQL statement
-$sql = "UPDATE leads SET leadType=?, leadStatus=?, leadPhone=?, leadName=?, leadEmail=?, leadComment=? WHERE idLead=?";
-$stmt = $link->prepare($sql);
-
-if ($stmt === false) {
-    echo json_encode(['status' => 'error', 'message' => 'SQL preparation failed: ' . $link->error]);
+// Validate required fields
+if (is_null($o_id) || is_null($leadName) || is_null($o_status) || is_null($adress)) {
+    echo json_encode(['status' => 'error', 'message' => 'Missing required fields']);
     exit;
 }
 
-// Bind the parameters
-$stmt->bind_param("ssssssi", $leadType, $leadStatus, $leadPhone, $leadName, $leadEmail, $leadComment, $idLead);
+// Start a transaction
+$link->begin_transaction();
 
-// Execute the statement
-if ($stmt->execute()) {
+try {
+    // Update the main order table
+    $sql = "UPDATE orders SET l_id = (SELECT idLead FROM leads WHERE leadName = ?), o_status = ?, adress = ?, o_comment = ? WHERE o_id = ?";
+    $stmt = $link->prepare($sql);
+    
+    if ($stmt === false) {
+        throw new Exception('SQL preparation failed: ' . $link->error);
+    }
+    
+    $stmt->bind_param('sssii', $leadName, $o_status, $adress, $o_comment, $o_id);
+    $stmt->execute();
+    $stmt->close();
+    
+    // Delete existing goods for this order to avoid duplicates
+    $sql = "DELETE FROM order_items WHERE o_id = ?";
+    $stmt = $link->prepare($sql);
+    
+    if ($stmt === false) {
+        throw new Exception('SQL preparation failed: ' . $link->error);
+    }
+    
+    $stmt->bind_param('i', $o_id);
+    $stmt->execute();
+    $stmt->close();
+    
+    // Insert the new goods data
+    $sql = "INSERT INTO order_items (o_id, g_id, g_quantity) VALUES (?, (SELECT g_id FROM goods WHERE g_name = ?), ?)";
+    $stmt = $link->prepare($sql);
+    
+    if ($stmt === false) {
+        throw new Exception('SQL preparation failed: ' . $link->error);
+    }
+    
+    foreach ($goods as $item) {
+        $g_name = $item['g_name'];
+        $g_quantity = $item['g_quantity'];
+        $stmt->bind_param('isi', $o_id, $g_name, $g_quantity);
+        $stmt->execute();
+    }
+    
+    $stmt->close();
+    
+    // Commit the transaction
+    $link->commit();
+    
     echo json_encode(['status' => 'success', 'message' => 'Data updated successfully']);
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Data update failed: ' . $stmt->error]);
+} catch (Exception $e) {
+    // Rollback the transaction if something failed
+    $link->rollback();
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 
-// Close the statement and connection
-$stmt->close();
+// Close the connection
 $link->close();
 ?>
