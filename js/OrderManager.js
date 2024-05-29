@@ -85,6 +85,8 @@ export function ManagerOrderPage() {
             if (event.which === 27) {
                 setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
                     $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
+                    $('span.btn.action.add-line').slideUp(50)
+                    $('span.btn.remove').hide()
             }
         });
 
@@ -267,6 +269,7 @@ function createTable(index, data) {
         console.log($cardContainer.find('.qty'));
         $cardContainer.find('.qty').prop('readonly', true).css('background-color', 'inherit');
         $('span.btn.action.add-line').slideUp(50)
+        $('span.btn.remove').hide();
 
 
     })
@@ -285,7 +288,8 @@ function createTable(index, data) {
         setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
             $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
         $parentContainer.find('.qty').prop('readonly', false).css('background-color', 'var(--data_background)')
-        console.log($parentContainer.find('span.btn.action.add-line').slideDown(500)); 
+        console.log($parentContainer.find('span.btn.action.add-line').slideDown(500));
+        console.log($parentContainer.find('span.btn.remove').fadeIn(500));
 
     });
 
@@ -329,6 +333,7 @@ function createTable(index, data) {
         //console.log(data.goods);
         dataJSON.forEach(config => {
             function createGoodsLineCard() {
+                const $removeRowBnt = $('<span>').addClass('btn remove').text('X').css('display','block')
                 const $tdTextarea = $('<td>').addClass('toggle-container');
                 const $textarea = $('<textarea>')
                     .addClass('line goods')
@@ -337,18 +342,29 @@ function createTable(index, data) {
                     .attr('placeholder', config.placeholder)
                     .addClass(config.extraClasses.join(' '))
                     .css("height", "28.6px")
-                    .attr('placeholder','Вкажіть товар...')
-                $tdTextarea.append($textarea)
-    
+                    .attr('placeholder', 'Вкажіть товар...')
+                    .prop('placeholder', 'Товар...')
+
                 const $qty = $('<input>')
-                    .addClass('qty editable')
+                    .addClass('qty editable').css('background-color', 'var(--data_background)')
                 //console.log($qty);
-                $tdTextarea.append($qty);
+
+                $removeRowBnt.click(function (e) {
+                    e.preventDefault();
+                    //if($removeRowBnt.parent().parent())
+                    if ($removeRowBnt.parent().parent().find('textarea#goods').length > 1) {
+                        $removeRowBnt.parent().slideDown(200)
+                        $removeRowBnt.parent().remove()
+                    }
+                    else
+                        $removeRowBnt
+                            .siblings('textarea#goods').val('').prop('placeholder', 'Товар...')
+                            .siblings('input.qty').val('')
+                });
+
+                $tdTextarea.append($textarea, $qty, $removeRowBnt)
                 return $tdTextarea;
             }
-            
-                
-
 
             console.log(typeof (data[config.textareaId]));
             if (!(typeof data[config.textareaId] === 'object')) {
@@ -361,6 +377,22 @@ function createTable(index, data) {
             else {
                 const $row = createTableRow(config);
                 data[config.textareaId].forEach((el, index) => {
+                    const $removeRowBtn = $('<span>').addClass('btn remove').text('X')
+
+
+                    $removeRowBtn.click(function (e) {
+                        e.preventDefault();
+                        //if($removeRowBnt.parent().parent())
+                        if ($removeRowBtn.parent().parent().find('textarea#goods').length > 1) {
+                            $removeRowBtn.parent().slideDown(200)
+                            $removeRowBtn.parent().remove()
+                        }
+                        else
+                            $removeRowBtn
+                                .siblings('textarea#goods').val('').prop('placeholder', 'Товар...')
+                                .siblings('input.qty').val('')
+                    });
+
                     console.log(el)
                     //const $row = createTableRow(config);
 
@@ -376,8 +408,8 @@ function createTable(index, data) {
                             .addClass('qty editable')
                             .val(el.g_quantity)
                             .prop('readonly', true);
-                        //console.log($qty);
-                        $row.find('td:last-child').append($qty)
+                        //console.log($qty);                        
+                        $row.find('td:last-child').append($qty, $removeRowBtn)
                     }
                     else {
                         const $tdTextarea = $('<td>').addClass('toggle-container')
@@ -388,9 +420,9 @@ function createTable(index, data) {
                             .attr('name', config.textareaName)
                             .attr('placeholder', config.placeholder)
                             .prop('readonly', config.readonly)
+                            .prop('placeholder', 'Товар...')
                             .addClass(config.extraClasses.join(' '));
 
-                        $tdTextarea.append($textarea)
                         $textarea.val(el.g_name)
 
                         const $qty = $('<input>')
@@ -398,35 +430,31 @@ function createTable(index, data) {
                             .val(el.g_quantity)
                             .prop('readonly', true);
                         //console.log($qty);
-                        $tdTextarea.append($qty);
+                        $tdTextarea.append($textarea, $qty, $removeRowBtn);
                         $row.append($tdTextarea)
                     }
                     $tbody.append($row);
                 })
-               const $addButton =$('<span>').addClass('btn action add-line').text('+').hide()
-                $row.append($addButton)            
+                const $addButton = $('<span>').addClass('btn action add-line').text('+').hide()
+                $row.append($addButton)
 
-                $addButton.click(()=>{
+                $addButton.click(() => {
                     console.log($addButton);
-                    if($addButton.parent().find('textarea:last').val()!=0){
+                    if ($addButton.parent().find('textarea:last').val() != 0) {
 
-                        const goodLine =createGoodsLineCard().hide()
+                        const goodLine = createGoodsLineCard().hide()
                         $addButton.before(goodLine)
                         goodLine.slideDown(200)
                     }
                 })
             }
-        });    
+        });
 
-        // const $goodRow = $table.find('textarea#goods')
-        // console.log($goodRow);
-
-        //console.log($leadType);
-        $table.append($tbody)        
+        $table.append($tbody)
 
         //Adds toggle button near textarea
-        const options = [['Оформлено', 'Комплектується', 'Відправлено']]
-        addToggle($table, [2], options)
+        // const options = [['Оформлено', 'Комплектується', 'Відправлено']]
+        // addToggle($table, [2], options)
 
         $cardContainer.append($table);
         // console.log("Card");
@@ -477,6 +505,8 @@ function createTable(index, data) {
                     setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
                         $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
                     $('.qty').prop('readonly', true).css('background-color', 'inherit');
+                    $('span.btn.remove').hide()
+                    $('span.btn.action.add-line').slideUp(50)
                     showAlert('Зміни вступили в силу!', 3000);
                 },
                 error: function (xhr, status, error) {

@@ -175,9 +175,9 @@ a {
   cursor: pointer;
 }
 a:hover{
-  text-decoration: none; /* Remove underline on hover */
-  color: inherit; /* Inherit the color from the parent element */
-  outline: none; /* Remove outline on hover */
+  text-decoration: none; 
+  color: inherit; 
+  outline: none; 
   color: black;
 }
 .button-ico{
@@ -360,6 +360,7 @@ label{
   word-wrap: break-word;
   height: auto;
   white-space: normal;
+  overflow: hidden;
 }
 .input-container {
   position: relative;
@@ -442,4 +443,10 @@ input#goods {
   font-size: 24px;
   padding-bottom: 35px;
   background-color:var(--btn-action);
+}
+.remove{
+  background-color: red;
+    padding: 0px 7px;
+    border-radius: 8px;
+    display: none;
 }
