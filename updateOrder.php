@@ -17,7 +17,6 @@ if (is_null($data)) {
 // Extract data
 $o_id = isset($data['o_id']) ? $data['o_id'] : null;
 $leadName = isset($data['leadName']) ? $data['leadName'] : null;
-$o_status = isset($data['o_status']) ? $data['o_status'] : null;
 $adress = isset($data['adress']) ? $data['adress'] : null;
 $o_comment = isset($data['o_comment']) ? $data['o_comment'] : ""; // Ensure empty string if not provided
 $goods = isset($data['goods']) ? $data['goods'] : [];
@@ -27,7 +26,7 @@ error_log("Received data: " . print_r($data, true));
 include("DBConnect.php");
 
 // Validate required fields
-if (is_null($o_id) || is_null($leadName) || is_null($o_status) || is_null($adress)) {
+if (is_null($o_id) || is_null($leadName) || is_null($adress)) {
     echo json_encode(['status' => 'error', 'message' => 'Missing required fields']);
     exit;
 }
@@ -37,14 +36,14 @@ $link->begin_transaction();
 
 try {
     // Update the main order table
-    $sql = "UPDATE orders SET l_id = (SELECT idLead FROM leads WHERE leadName = ?), o_status = ?, adress = ?, o_comment = ? WHERE o_id = ?";
+    $sql = "UPDATE orders SET l_id = (SELECT idLead FROM leads WHERE leadName = ?), adress = ?, o_comment = ? WHERE o_id = ?";
     $stmt = $link->prepare($sql);
     
     if ($stmt === false) {
         throw new Exception('SQL preparation failed: ' . $link->error);
     }
     
-    $stmt->bind_param('sssii', $leadName, $o_status, $adress, $o_comment, $o_id);
+    $stmt->bind_param('sssi', $leadName, $adress, $o_comment, $o_id);
     $stmt->execute();
     $stmt->close();
     

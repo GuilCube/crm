@@ -85,7 +85,7 @@ export function ManagerOrderPage() {
             if (event.which === 27) {
                 setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
                     $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
-                    $('span.btn.action.add-line').slideUp(50)
+                    $('span.btn.action.add-line.incard').slideUp(50)
                     $('span.btn.remove').hide()
             }
         });
@@ -125,12 +125,36 @@ function buttons() {
         }
         else
             goodNum = '';
+        const $removeRowBtn = $('<span>').addClass('btn remove').text('X').css('display','block')
+
+        $removeRowBtn.click(function (e) {
+            e.preventDefault();
+            //if($removeRowBnt.parent().parent())
+            if ($removeRowBtn.parent().parent().parent().find('input#goods').length > 1) {
+                $removeRowBtn.parent().parent().slideDown(200)
+                $removeRowBtn.parent().parent().remove()
+                console.log($('input#goods').parent().parent().find('label')); 
+                $('input#goods').parent().parent().find('label').each(function(index) {
+                    $(this).text('Товар ' + (index + 1));
+                });
+                if($('input#goods').parent().parent().find('label').length==1)
+                    $('input#goods').parent().parent().find('label').text('Товар ');
+            }
+            else
+            {
+                $removeRowBtn
+                    .siblings('input#goods').val('').prop('placeholder', 'Назва товару...')
+                    .siblings('input.qty').val('');
+                    
+            }
+        });
+
         const $line = $('<div>').addClass('modal-line')
         const $goodContainer = $('<div>').addClass('good-container');
         const $label = $('<label>').attr('for', 'text').text('Товар ' + goodNum)
         const $qty = $('<input>').addClass('qty editable')
         const $input = $('<input>').attr({ type: 'text', id: 'goods', name: 'goods', placeholder: 'Назва товару...' });
-        $goodContainer.append($input, $qty)
+        $goodContainer.append($input, $qty, $removeRowBtn)
         $line.append($label, $goodContainer)
         return $line
     }
@@ -268,7 +292,7 @@ function createTable(index, data) {
             $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
         console.log($cardContainer.find('.qty'));
         $cardContainer.find('.qty').prop('readonly', true).css('background-color', 'inherit');
-        $('span.btn.action.add-line').slideUp(50)
+        $('span.btn.action.add-line.incard').slideUp(50)
         $('span.btn.remove').hide();
 
 
@@ -288,7 +312,7 @@ function createTable(index, data) {
         setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
             $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
         $parentContainer.find('.qty').prop('readonly', false).css('background-color', 'var(--data_background)')
-        console.log($parentContainer.find('span.btn.action.add-line').slideDown(500));
+        console.log($parentContainer.find('span.btn.action.add-line.incard').slideDown(500));
         console.log($parentContainer.find('span.btn.remove').fadeIn(500));
 
     });
@@ -435,7 +459,7 @@ function createTable(index, data) {
                     }
                     $tbody.append($row);
                 })
-                const $addButton = $('<span>').addClass('btn action add-line').text('+').hide()
+                const $addButton = $('<span>').addClass('btn action add-line incard').text('+').hide()
                 $row.append($addButton)
 
                 $addButton.click(() => {
@@ -470,7 +494,6 @@ function createTable(index, data) {
             const dataPOST = {
                 o_id: $parentContainer.find('#o_id').val(),
                 leadName: $parentContainer.find('#leadName').val(),
-                o_status: $parentContainer.find('#o_status').val(),
                 goods: [],
                 adress: $parentContainer.find('#adress').val(),
                 o_comment: $parentContainer.find('#o_comment').val()
@@ -506,7 +529,7 @@ function createTable(index, data) {
                         $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
                     $('.qty').prop('readonly', true).css('background-color', 'inherit');
                     $('span.btn.remove').hide()
-                    $('span.btn.action.add-line').slideUp(50)
+                    $('span.btn.action.add-line.incard').slideUp(50)
                     showAlert('Зміни вступили в силу!', 3000);
                 },
                 error: function (xhr, status, error) {
