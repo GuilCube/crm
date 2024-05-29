@@ -86,7 +86,7 @@ export function ManagerOrderPage() {
                 setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
                     $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
                     $('span.btn.action.add-line.incard').slideUp(50)
-                    $('span.btn.remove').hide()
+                    $('span.btn.remove.incard').hide()
             }
         });
 
@@ -97,7 +97,7 @@ export function ManagerOrderPage() {
 function buttons() {
     const buttonRow = $('<div>').addClass('button-row');
 
-    const newLeadButton = $('<a>')
+    const newCard = $('<a>')
         .attr('id', 'showNewLeadForm')
         .addClass('button-item')
         .append($('<span>').text('Нове замовлення').append($('<img>').addClass('button-ico').attr('src', '/img/plusIco.png')));
@@ -106,7 +106,7 @@ function buttons() {
         .addClass('button-item')
         .append($('<span>').text('Пошук').append($('<img>').addClass('button-ico').attr('src', '/img/searchIco.png')));
 
-    buttonRow.append(newLeadButton, searchButton);
+    buttonRow.append(newCard, searchButton);
     $('main').append(buttonRow);
 
     //Modal form
@@ -162,13 +162,13 @@ function buttons() {
     ///const $goodsModal=createModalLine('Товари', 'text', 'leadPhone', 'Введіть номер телефону...').append($qty);
     const $createLine = $('<span>').addClass('btn action add-line inform').text('+')
     //$goodContainer.append($goodsModal,$qty)
-    const dropdownOptions = ['Оформлено', 'Комплектується', 'Відправлено'];
+    //const dropdownOptions = ['Оформлено', 'Комплектується', 'Відправлено'];
+    const $goodContainerDIV = $('<div>').addClass('good-section').append(createGoodsLine(),$createLine)
 
     leadForm.append(
-        createModalLine('Клієнт', 'text', 'l_id', 'Ведіть дані ліда...'),
-        createModalLineWithDropdown('Статус', 'text', 'o_status', 'Оберість статус...', dropdownOptions),
-        createGoodsLine(),
-        $createLine,
+        createModalLine('Клієнт', 'text', 'l_name', 'Ведіть дані ліда...'),
+        //createModalLineWithDropdown('Статус', 'text', 'o_status', 'Оберість статус...', dropdownOptions),
+        $goodContainerDIV,        
         createModalLine('Адреса', 'text', 'adress', 'Вкажіть адресу...')
     );
 
@@ -221,7 +221,7 @@ function buttons() {
     modalContainer.append(modalContent);
     $('main').append(modalContainer);
 
-    newLeadButton.on('click', function () {
+    newCard.on('click', function () {
         modalContainer.fadeIn(200);
     });
     $('#closeModal').on('click', function () {
@@ -248,18 +248,31 @@ function buttons() {
         const $parentContainer = $(this).closest('.modal-content');
         console.log($parentContainer);
         console.log($(this));
+        const goods = [];
+        console.log($('.good-container'));
+        $('.good-container').each(function() {
+            
+            const g_name = $(this).find('input:first-child').val();
+            const g_quantity = $(this).find('input.qty').val();
+            console.log(g_name);
+            console.log(g_quantity);
+            if (g_name && g_quantity) {
+                goods.push({ g_name: g_name, g_quantity: g_quantity });
+            }
+        });
+        
+
         const dataPOST = {
-            leadType: $parentContainer.find('input#leadType').val(),
-            leadStatus: $parentContainer.find('input#leadStatus').val(),
-            leadPhone: $parentContainer.find('input#leadPhone').val(),
-            leadName: $parentContainer.find('input#leadName').val(),
-            leadEmail: $parentContainer.find('input#leadEmail').val(),
-            leadComment: $parentContainer.find('textarea#leadComment').val()
+            leadName:  $parentContainer.find('input#l_name').val(),
+            adress:  $parentContainer.find('input#adress').val(),
+            o_comment:  $parentContainer.find('textarea#leadComment').val(),
+            goods: goods
         };
+        console.log(goods);
         console.log(dataPOST);
         $.ajax({
             type: 'POST',
-            url: 'submitLead.php',
+            url: 'submitOrder.php',
             data: JSON.stringify(dataPOST),
             contentType: 'application/json; charset=utf-8',
             success: function (response) {
@@ -293,7 +306,7 @@ function createTable(index, data) {
         console.log($cardContainer.find('.qty'));
         $cardContainer.find('.qty').prop('readonly', true).css('background-color', 'inherit');
         $('span.btn.action.add-line.incard').slideUp(50)
-        $('span.btn.remove').hide();
+        $('span.btn.remove.incard').hide();
 
 
     })
@@ -357,7 +370,7 @@ function createTable(index, data) {
         //console.log(data.goods);
         dataJSON.forEach(config => {
             function createGoodsLineCard() {
-                const $removeRowBnt = $('<span>').addClass('btn remove').text('X').css('display','block')
+                const $removeRowBnt = $('<span>').addClass('btn remove incard').text('X').css('display','block')
                 const $tdTextarea = $('<td>').addClass('toggle-container');
                 const $textarea = $('<textarea>')
                     .addClass('line goods')
@@ -401,7 +414,7 @@ function createTable(index, data) {
             else {
                 const $row = createTableRow(config);
                 data[config.textareaId].forEach((el, index) => {
-                    const $removeRowBtn = $('<span>').addClass('btn remove').text('X')
+                    const $removeRowBtn = $('<span>').addClass('btn remove incard').text('X')
 
 
                     $removeRowBtn.click(function (e) {
@@ -528,7 +541,7 @@ function createTable(index, data) {
                     setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
                         $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
                     $('.qty').prop('readonly', true).css('background-color', 'inherit');
-                    $('span.btn.remove').hide()
+                    $('span.btn.remove.incard').hide()
                     $('span.btn.action.add-line.incard').slideUp(50)
                     showAlert('Зміни вступили в силу!', 3000);
                 },

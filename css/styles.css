@@ -450,3 +450,6 @@ input#goods {
     border-radius: 8px;
     display: none;
 }
+.good-section{
+  width: 100%;
+}
