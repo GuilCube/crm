@@ -4,11 +4,12 @@ import { createModalLineWithDropdown } from "./lib.js";
 import { setEditable } from "./lib.js";
 import { setUnEditable } from "./lib.js";
 import { addToggle } from "./lib.js";
+import { headerManager } from "./lib.js";
 
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
 export async function LeadPage() {
-  header(0);
+  headerManager(0,['Ліди',"Замовлення","Аналітика"]);
   // <!--Кнопи фунцкіоналу-->
   // <div class="button-row">
   //   <a id="showNewLeadForm" class="button-item" href="#">
@@ -88,52 +89,6 @@ export async function LeadPage() {
     });
 
   });
-}
-
-
-export function header(activeTab) {
-  // Create header element with class "navbar"
-  const header = $("<header>").addClass("navbar");
-
-  // Create the first navbar container for navigation buttons
-  const navContainer1 = $("<div>").addClass("navbar-container nav-buttons");
-
-  // Create and append "Ліди" link
-  const leadsLink = $("<a>").addClass("nav-item").attr("href", "/lead").text("Ліди");
-  navContainer1.append(leadsLink);
-
-  // Create and append "Замовлення" link
-  const ordersLink = $("<a>").addClass("nav-item").attr("href", "/order").text("Замовлення");
-  navContainer1.append(ordersLink);
-
-  // Create and append "Аналітика" link
-  const analyticsLink = $("<a>").addClass("nav-item").attr("href", "/analytics").text("Аналітика");
-  navContainer1.append(analyticsLink);
-
-  // Add 'active' class to the specified tab
-  navContainer1.children().eq(activeTab).addClass("active");
-
-  // Append the first navbar container to the header
-  header.append(navContainer1);
-
-  // Create the second navbar container for user greeting and icon
-  const navContainer2 = $("<div>").addClass("navbar-container");
-
-  // Create and append user greeting paragraph
-  const greetingParagraph = $("<p>").addClass("nav-greet").text("Доброго дня, Менеджер");
-  navContainer2.append(greetingParagraph);
-
-  // Create and append exit icon link
-  const exitIconLink = $("<a>").addClass("nav-icon rt").attr("href", "/");
-  const exitIconImg = $("<img>").addClass("exit-ico").attr("src", "/img/exitIco.png");
-  exitIconLink.append(exitIconImg);
-
-  // Append the second navbar container to the header
-  header.append(navContainer2);
-  navContainer2.append(exitIconLink);
-
-  // Prepend the header to the document body
-  $("body").prepend(header);
 }
 
 function buttonsLead() {

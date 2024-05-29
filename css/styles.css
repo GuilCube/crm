@@ -445,7 +445,7 @@ input#goods {
   background-color:var(--btn-action);
 }
 .remove{
-  background-color: red;
+  background-color: #e90909;
     padding: 0px 7px;
     border-radius: 8px;
     display: none;
