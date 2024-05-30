@@ -453,3 +453,48 @@ input#goods {
 .good-section{
   width: 100%;
 }
+#goodsTable {
+  width: 90%;
+  border-collapse: collapse;
+  background-color: #dff2bf;
+  /* border: 2px solid #4caf50; */
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th,
+td > #goodsTable{
+  border: 1px solid gray;
+  /* Green border for cells */
+  padding: 10px;
+  padding-bottom: 10px !important ;
+  text-align: center;
+}
+
+th.depot-header {
+  background-color: #a3c653;
+  /* Darker green background for headers */
+  color: black;
+  font-weight: bold;
+}
+
+
+.depot-container{
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+.depot-row{
+  text-align: center;
+}
+.depot-row:nth-child(even){
+  background-color: var(--data_background);
+}
+.depot-row td{
+  padding-bottom: 10px;
+  vertical-align: middle;
+  border: 1px solid gray;
+}
+#goodsTable tbody tr:nth-child(3) td {
+  width: 30%; /* Adjust the width as needed */
+}
