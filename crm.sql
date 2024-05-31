@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Час створення: Трв 28 2024 р., 13:34
+-- Час створення: Трв 31 2024 р., 10:57
 -- Версія сервера: 8.0.30
 -- Версія PHP: 8.1.10
 
@@ -64,6 +64,30 @@ INSERT INTO `goods` (`g_id`, `g_name`, `g_articul`, `g_quantity`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблиці `inbound`
+--
+
+CREATE TABLE `inbound` (
+  `in_id` int NOT NULL,
+  `sender` varchar(50) NOT NULL,
+  `in_comment` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `in_items`
+--
+
+CREATE TABLE `in_items` (
+  `in_id` int NOT NULL,
+  `g_id` int NOT NULL,
+  `g_quantity` tinyint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблиці `leads`
 --
 
@@ -120,7 +144,7 @@ CREATE TABLE `orders` (
   `l_id` tinyint NOT NULL,
   `o_status` enum('Оформлено','Комплектується','Відправлено') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `adress` varchar(50) NOT NULL,
-  `o_comment` varchar(1000) NOT NULL,
+  `o_comment` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `m_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -129,7 +153,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`o_id`, `l_id`, `o_status`, `adress`, `o_comment`, `m_id`) VALUES
-(3, 1, 'Оформлено', '123 Main St, Kyiv', 'Please deliver between 9 AM and 5 PM', 1);
+(3, 1, 'Оформлено', '123 Main St, Kyiv, 02090', '', 1),
+(8, 1, 'Оформлено', 'adress', '', 1),
+(9, 1, 'Оформлено', 'adresss', '', 1),
+(10, 1, 'Оформлено', 'adresss', 'awefdsdf', 1);
 
 -- --------------------------------------------------------
 
@@ -138,7 +165,6 @@ INSERT INTO `orders` (`o_id`, `l_id`, `o_status`, `adress`, `o_comment`, `m_id`)
 --
 
 CREATE TABLE `order_items` (
-  `oi_id` int NOT NULL,
   `o_id` int NOT NULL,
   `g_id` int NOT NULL,
   `g_quantity` tinyint NOT NULL
@@ -148,9 +174,36 @@ CREATE TABLE `order_items` (
 -- Дамп даних таблиці `order_items`
 --
 
-INSERT INTO `order_items` (`oi_id`, `o_id`, `g_id`, `g_quantity`) VALUES
-(4, 3, 1, 3),
-(5, 3, 2, 1);
+INSERT INTO `order_items` (`o_id`, `g_id`, `g_quantity`) VALUES
+(8, 1, 1),
+(9, 1, 2),
+(10, 1, 20),
+(3, 1, 1),
+(3, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `outbound`
+--
+
+CREATE TABLE `outbound` (
+  `out_id` int NOT NULL,
+  `out_adress` varchar(100) NOT NULL,
+  `out_coomemt` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `out_items`
+--
+
+CREATE TABLE `out_items` (
+  `out_id` int NOT NULL,
+  `g_id` int NOT NULL,
+  `g_quantity` tinyint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Індекси збережених таблиць
@@ -167,6 +220,19 @@ ALTER TABLE `depotworkers`
 --
 ALTER TABLE `goods`
   ADD PRIMARY KEY (`g_id`);
+
+--
+-- Індекси таблиці `inbound`
+--
+ALTER TABLE `inbound`
+  ADD PRIMARY KEY (`in_id`);
+
+--
+-- Індекси таблиці `in_items`
+--
+ALTER TABLE `in_items`
+  ADD KEY `o_id` (`in_id`),
+  ADD KEY `g_id` (`g_id`);
 
 --
 -- Індекси таблиці `leads`
@@ -193,8 +259,20 @@ ALTER TABLE `orders`
 -- Індекси таблиці `order_items`
 --
 ALTER TABLE `order_items`
-  ADD PRIMARY KEY (`oi_id`),
   ADD KEY `o_id` (`o_id`),
+  ADD KEY `g_id` (`g_id`);
+
+--
+-- Індекси таблиці `outbound`
+--
+ALTER TABLE `outbound`
+  ADD PRIMARY KEY (`out_id`);
+
+--
+-- Індекси таблиці `out_items`
+--
+ALTER TABLE `out_items`
+  ADD KEY `o_id` (`out_id`),
   ADD KEY `g_id` (`g_id`);
 
 --
@@ -214,6 +292,12 @@ ALTER TABLE `goods`
   MODIFY `g_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT для таблиці `inbound`
+--
+ALTER TABLE `inbound`
+  MODIFY `in_id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблиці `leads`
 --
 ALTER TABLE `leads`
@@ -229,17 +313,23 @@ ALTER TABLE `managers`
 -- AUTO_INCREMENT для таблиці `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `o_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `o_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT для таблиці `order_items`
+-- AUTO_INCREMENT для таблиці `outbound`
 --
-ALTER TABLE `order_items`
-  MODIFY `oi_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `outbound`
+  MODIFY `out_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Обмеження зовнішнього ключа збережених таблиць
 --
+
+--
+-- Обмеження зовнішнього ключа таблиці `in_items`
+--
+ALTER TABLE `in_items`
+  ADD CONSTRAINT `in_items_ibfk_1` FOREIGN KEY (`in_id`) REFERENCES `inbound` (`in_id`) ON DELETE CASCADE;
 
 --
 -- Обмеження зовнішнього ключа таблиці `leads`
@@ -260,6 +350,12 @@ ALTER TABLE `orders`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`o_id`) REFERENCES `orders` (`o_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`g_id`) REFERENCES `goods` (`g_id`);
+
+--
+-- Обмеження зовнішнього ключа таблиці `out_items`
+--
+ALTER TABLE `out_items`
+  ADD CONSTRAINT `out_items_ibfk_1` FOREIGN KEY (`out_id`) REFERENCES `outbound` (`out_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

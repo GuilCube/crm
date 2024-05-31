@@ -498,3 +498,11 @@ th.depot-header {
 #goodsTable tbody tr:nth-child(3) td {
   width: 30%; /* Adjust the width as needed */
 }
+.good-line{
+  width: 100% !important;
+}
+.multiple{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
