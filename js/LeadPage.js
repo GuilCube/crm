@@ -112,12 +112,14 @@ function buttonsLead() {
   const modalTitle = $('<h3>').css('text-align', 'center').text('Створити лід...');
   const leadForm = $('<form>').attr('id', 'leadForm').addClass('leadForm');
 
-  const dropdownOptions = ['Оформлено', 'Комплектується', 'Відправлено']
+  const dropdownOptionsA = ['Фізична ососба', 'Юридична особа']
+  const dropdownOptionsB = ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"]
   leadForm.append(
-    createModalLine('Клієнт', 'text', 'leadType', 'Оберіть тип ліда...'),
-    createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...', dropdownOptions),
-    createModalLine('Товари', 'text', 'leadPhone', 'Введіть номер телефону...'),
-    createModalLine('Адреса', 'text', 'leadName', 'ПІБ ліда...')
+    createModalLineWithDropdown('Тип', 'text', 'leadType', 'Оберіть тип ліда...',dropdownOptionsA),
+    createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...', dropdownOptionsB),
+    createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...'),
+    createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...'),
+    createModalLine('Пошта', 'text', 'leadEmail', 'Вкажіть пошту...'),
   );
 
   $(document).ready(function () {

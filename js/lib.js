@@ -136,9 +136,12 @@ export function createModalLineWithDropdown(labelText, inputType, inputName, pla
     return container;
 }
 
-export function showAlert(message, duration) {
+export function showAlert(message, duration, color = 'default') {
     // Create alert div
     const $alertDiv = $('<div>').addClass('alert').text(message);
+    if (color!= 'default') {
+        $alertDiv.css('background-color',color)
+    }
     $('body').append($alertDiv);
 
     // Show alert
@@ -207,4 +210,45 @@ export function addToggle($table,rowsToAppend,dropdownOptions) {
         //else dropdownContent.hide()
     });
     });
+}
+
+export function createGoodsLine($parent) {
+    const labelCount = $parent.find('input#goods').length;
+    console.log(labelCount);
+    let goodNum;
+    if (labelCount > 0) {
+        console.log($('input#goods:first').parent().parent().find('label').text('Товар 1'));
+        goodNum = labelCount + 1;
+    }
+    else
+        goodNum = '';
+    const $removeRowBtn = $('<span>').addClass('btn remove').text('X').css('display', 'block')
+
+    $removeRowBtn.click(function (e) {
+        e.preventDefault();
+        //if($removeRowBnt.parent().parent())
+        if ($removeRowBtn.parent().parent().find('input#goods').length > 1) {
+            $removeRowBtn.parent().slideDown(200)
+            $removeRowBtn.parent().remove()
+            console.log($('input#goods').parent().find('label'));
+            $('label').each(function (index) {
+                $(this).text('Товар ' + (index + 1));
+            });
+            if ($('label').length == 1)
+                $('label').text('Товар ');
+        }
+        else {
+            $removeRowBtn
+                .siblings('input#goods').val('').prop('placeholder', 'Назва товару...')
+        }
+    });
+
+    const $line = $('<div>').addClass('modal-line')
+    const $goodContainer = $('<div>').addClass('good-container multiple');
+    const $label = $('<label>').attr('for', 'text').text('Товар ' + goodNum)
+    const $input = $('<input>').attr({ type: 'text', id: 'goods', name: 'goods', placeholder: 'Назва товару...' }).addClass('good-line');
+    const $articul = $('<input>').attr({ type: 'text', id: 'articul', name: 'articul', placeholder: 'Вкажіть артикул...' }).addClass('good-line');;
+    $goodContainer.append($input, $articul)
+    $line.append($label, $goodContainer, $removeRowBtn)
+    return $line
 }
