@@ -47,14 +47,14 @@ function buttons() {
         const modalContainer = $('<div>').attr('id', 'newGood').addClass('modal-container');
         const modalContent = $('<div>').addClass('modal-content');
         const modalTitle = $('<h3>').css('text-align', 'center').text('Новий товар...');
-        const leadForm = $('<form>').addClass('leadForm');
+        const newGood = $('<form>').addClass('leadForm');
 
         const $createLine = $('<span>').addClass('btn action add-line inform').text('+')
 
-        const $goodContainerDIV = $('<div>').addClass('good-section')
-        .append(createGoodsLine($('#newGood')), $createLine)
+        const $goodContainerDIV = $('<div>').addClass('good-section');
+        $goodContainerDIV.append(createGoodsLine($goodContainerDIV), $createLine)
 
-        leadForm.append(
+        newGood.append(
             $goodContainerDIV
         );
 
@@ -67,8 +67,8 @@ function buttons() {
                 e.preventDefault();
                 //console.log($(this));
                 if ($(this).parent().find('input#goods:last').val() != 0) {
-
-                    const $line = createGoodsLine($('#newGood')).hide();
+                    $goodContainerDIV.find('label').text("Товар 1")
+                    const $line =createGoodsLine($goodContainerDIV).hide();
                     $(this).before($line)
                     $line.slideDown(200);
                 }
@@ -82,7 +82,7 @@ function buttons() {
             .append($submitButton);
 
 
-        modalContent.append(modalTitle, leadForm, buttonLine);
+        modalContent.append(modalTitle, newGood, buttonLine);
         modalContainer.append(modalContent);
         $('main').append(modalContainer);
 
@@ -90,14 +90,15 @@ function buttons() {
             modalContainer.fadeIn(200);
         });
         $('#closeModal').on('click', function () {
-
-            modalContainer.fadeOut(100);
+            console.log($('#achive').find(".modal-line"));
             setTimeout(() => {
-                $('#achive').find(".good-container multiple").not(':first').remove();
+                console.log(newGood.find(".modal-line"));
+                newGood.find(".modal-line").not(':first').remove();
                 $('input#goods').parent().parent().find('label').text('Товар')
                 $('input#goods').parent().parent().find('input').val('')
             }, 100)
-
+            modalContainer.fadeOut(100);
+            
         });
 
 
@@ -158,17 +159,18 @@ function buttons() {
         });
     }
 
+
     function NewArchiveForm() {
         const modalContainer = $('<div>').attr('id', 'archive').addClass('modal-container');
         const modalContent = $('<div>').addClass('modal-content');
         const modalTitle = $('<h3>').css('text-align', 'center').text('Архівувати...');
-        const leadForm = $('<form>').addClass('leadForm');
+        const archiveGood = $('<form>').addClass('leadForm');
 
         const $createLine = $('<span>').addClass('btn action add-line inform').text('+')
 
         const $goodContainerDIV = $('<div>').addClass('good-section').append(createGoodsLine($('#archive')), $createLine)
 
-        leadForm.append(
+        archiveGood.append(
             $goodContainerDIV
         );
 
@@ -181,7 +183,7 @@ function buttons() {
                 e.preventDefault();
                 //console.log($(this));
                 if ($(this).parent().find('input#goods:last').val() != 0) {
-
+                    archiveGood.find('label:first').text("Товар 1")
                     const $line = createGoodsLine($('#archive')).hide();
                     $(this).before($line)
                     $line.slideDown(200);
@@ -196,7 +198,7 @@ function buttons() {
             .append($backButton, $submitButton);
 
 
-        modalContent.append(modalTitle, leadForm, buttonLine);
+        modalContent.append(modalTitle, archiveGood, buttonLine);
         modalContainer.append(modalContent);
         $('main').append(modalContainer);
 
@@ -209,9 +211,7 @@ function buttons() {
             modalContainer.fadeOut(100);
             setTimeout(() => {
                 console.log($('#achive').find(".good-container multiple").not(':first'));
-                $('#achive').find(".good-container multiple").not(':first').remove();
-
-
+                archiveGood.find(".modal-line").not(':first').remove();
                 $('input#goods').parent().parent().find('label').text('Товар')
                 $('input#goods').parent().parent().find('input').val('')
             }, 100)
@@ -277,8 +277,6 @@ function buttons() {
     }
 
 }
-
-
 
 function DepotOrderPageBody() {
     const $main = $('main')

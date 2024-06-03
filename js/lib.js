@@ -212,12 +212,12 @@ export function addToggle($table,rowsToAppend,dropdownOptions) {
     });
 }
 
-export function createGoodsLine($parent) {
-    const labelCount = $parent.find('input#goods').length;
+export function createGoodsLine($goodSection) {
+    const labelCount = $goodSection.find('.modal-line').length;
     console.log(labelCount);
     let goodNum;
     if (labelCount > 0) {
-        console.log($('input#goods:first').parent().parent().find('label').text('Товар 1'));
+        console.log($('input#goods:first').parent().parent().find('label'));
         goodNum = labelCount + 1;
     }
     else
@@ -232,14 +232,13 @@ export function createGoodsLine($parent) {
             $removeRowBtn.parent().remove()
             console.log($('input#goods').parent().find('label'));
             $('label').each(function (index) {
-                $(this).text('Товар ' + (index + 1));
+                $(this).text('Товар ' + (index));
             });
-            if ($('label').length == 1)
-                $('label').text('Товар ');
+            
         }
         else {
             $removeRowBtn
-                .siblings('input#goods').val('').prop('placeholder', 'Назва товару...')
+                .siblings('.good').val('').prop('placeholder', 'Назва товару...')
         }
     });
 
