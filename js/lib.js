@@ -251,3 +251,46 @@ export function createGoodsLine($goodSection) {
     $line.append($label, $goodContainer, $removeRowBtn)
     return $line
 }
+export function createGoodsLineB($goodContainerDIV) {
+    const labelCount = $goodContainerDIV.find('input#goods').length;
+    console.log(labelCount);
+    let goodNum;
+    if (labelCount > 0) {
+        console.log($('input#goods:first').parent().parent().find('label').text('Товар 1'));
+        goodNum = labelCount + 1;
+    }
+    else
+        goodNum = '';
+    const $removeRowBtn = $('<span>').addClass('btn remove').text('X').css('display','block')
+
+    $removeRowBtn.click(function (e) {
+        e.preventDefault();
+        //if($removeRowBnt.parent().parent())
+        if ($goodContainerDIV.find('input#goods').length > 1) {
+            $removeRowBtn.closest('.modal-line').slideDown(200)
+            $removeRowBtn.closest('.modal-line').remove()
+            console.log($('input#goods').parent().parent().find('label')); 
+            $goodContainerDIV.find('label').each(function(index) {
+                $(this).text('Товар ' + (index + 1));
+            });
+            if($goodContainerDIV.find('label').length==1)
+                $goodContainerDIV.find('label').text('Товар');
+        }
+        else
+        {
+            $removeRowBtn
+                .siblings('input#goods').val('').prop('placeholder', 'Назва товару...')
+                .siblings('input.qty').val('');
+                
+        }
+    });
+
+    const $line = $('<div>').addClass('modal-line')
+    const $goodContainer = $('<div>').addClass('good-container');
+    const $label = $('<label>').attr('for', 'text').text('Товар ' + goodNum)
+    const $qty = $('<input>').addClass('qty editable')
+    const $input = $('<input>').attr({ type: 'text', id: 'goods', name: 'goods', placeholder: 'Назва товару...' });
+    $goodContainer.append($input, $qty, $removeRowBtn)
+    $line.append($label, $goodContainer)
+    return $line
+}
