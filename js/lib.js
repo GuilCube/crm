@@ -288,7 +288,7 @@ export function createGoodsLineB($goodContainerDIV) {
     const $line = $('<div>').addClass('modal-line')
     const $goodContainer = $('<div>').addClass('good-container');
     const $label = $('<label>').attr('for', 'text').text('Товар ' + goodNum)
-    const $qty = $('<input>').addClass('qty editable')
+    const $qty = $('<input>').addClass('qty editable').attr('type','number')
     const $input = $('<input>').attr({ type: 'text', id: 'goods', name: 'goods', placeholder: 'Назва товару...' });
     $goodContainer.append($input, $qty, $removeRowBtn)
     $line.append($label, $goodContainer)

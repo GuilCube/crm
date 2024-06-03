@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 include("DBConnect.php");
 
 // Fetch data from the goods table
-$sql = "SELECT * FROM goods";
+$sql = "SELECT * FROM goods Where archived =0";
 $result = $link->query($sql);
 
 if ($result) {

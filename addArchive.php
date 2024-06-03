@@ -15,7 +15,7 @@ if (is_null($data)) {
     exit;
 }
 
-// Validate and insert data
+// Validate and update data
 try {
     // Ensure data is an array and not empty
     if (!is_array($data) || empty($data)) {
@@ -24,38 +24,30 @@ try {
 
     $link->begin_transaction();
 
-    // Prepare the insert statement for the archive table
-    $sqlInsert = "INSERT INTO archived_goods (g_id, g_name, g_articul) VALUES (?, ?, ?)";
-    $stmtInsert = $link->prepare($sqlInsert);
-
-    if ($stmtInsert === false) {
-        throw new Exception('SQL preparation for archived_goods table failed: ' . $link->error);
-    }
-
     // Prepare the select statement to get the g_id
-    $sqlSelect = "SELECT g_id FROM goods WHERE g_name = ? AND g_articul = ? LIMIT 1";
+    $sqlSelect = "SELECT g_id FROM goods WHERE g_name = ? OR g_articul = ? LIMIT 1";
     $stmtSelect = $link->prepare($sqlSelect);
 
     if ($stmtSelect === false) {
         throw new Exception('SQL preparation for select statement failed: ' . $link->error);
     }
 
-    // Prepare the delete statement for the goods table
-    $sqlDelete = "DELETE FROM goods WHERE g_name = ? AND g_articul = ?";
-    $stmtDelete = $link->prepare($sqlDelete);
+    // Prepare the update statement for the goods table to set archived to true
+    $sqlUpdate = "UPDATE goods SET archived = TRUE WHERE g_id = ?";
+    $stmtUpdate = $link->prepare($sqlUpdate);
 
-    if ($stmtDelete === false) {
-        throw new Exception('SQL preparation for goods table failed: ' . $link->error);
+    if ($stmtUpdate === false) {
+        throw new Exception('SQL preparation for update statement failed: ' . $link->error);
     }
 
     foreach ($data as $item) {
-        // Ensure the necessary fields are set and not empty
-        if (!isset($item['g_name']) || !isset($item['g_articul']) || empty(trim($item['g_name'])) || empty(trim($item['g_articul']))) {
-            throw new Exception('Missing required fields or fields are empty');
+        // Ensure at least one of the necessary fields is set and not empty
+        if ((!isset($item['g_name']) || empty(trim($item['g_name']))) && (!isset($item['g_articul']) || empty(trim($item['g_articul'])))) {
+            throw new Exception('Either g_name or g_articul must be provided and non-empty');
         }
 
-        $g_name = trim($item['g_name']);
-        $g_articul = trim($item['g_articul']);
+        $g_name = isset($item['g_name']) ? trim($item['g_name']) : null;
+        $g_articul = isset($item['g_articul']) ? trim($item['g_articul']) : null;
 
         // Select the g_id from the goods table
         $stmtSelect->bind_param('ss', $g_name, $g_articul);
@@ -68,29 +60,21 @@ try {
         if ($row = $result->fetch_assoc()) {
             $g_id = $row['g_id'];
 
-            // Insert into the archived_goods table
-            $stmtInsert->bind_param('iss', $g_id, $g_name, $g_articul);
+            // Update the goods table to set archived to true
+            $stmtUpdate->bind_param('i', $g_id);
 
-            if (!$stmtInsert->execute()) {
-                throw new Exception('Insert execution failed: ' . $stmtInsert->error);
-            }
-
-            // Delete from the goods table
-            $stmtDelete->bind_param('ss', $g_name, $g_articul);
-
-            if (!$stmtDelete->execute()) {
-                throw new Exception('Delete execution failed: ' . $stmtDelete->error);
+            if (!$stmtUpdate->execute()) {
+                throw new Exception('Update execution failed: ' . $stmtUpdate->error);
             }
         } else {
             throw new Exception('No matching record found to archive');
         }
     }
 
-    $stmtInsert->close();
     $stmtSelect->close();
-    $stmtDelete->close();
+    $stmtUpdate->close();
     $link->commit();
-    echo json_encode(['status' => 'success', 'message' => 'Data moved to archived_goods successfully']);
+    echo json_encode(['status' => 'success', 'message' => 'Data archived successfully']);
 } catch (Exception $e) {
     $link->rollback();
     http_response_code(500);

@@ -294,7 +294,7 @@ function buttons() {
 
         leadForm.append(
             $goodContainerDIV,
-            createModalLine('Відправник', 'text', 'l_name', 'Ведіть дані відправника...'),
+            createModalLine('Відправник', 'text', 'sender', 'Ведіть дані відправника...'),
         );
 
         $(document).ready(function () {
@@ -332,8 +332,8 @@ function buttons() {
 
 
         const leadCommentLine = $('<div>').addClass('modal-line')
-            .append($('<label>').attr('for', 'leadComment').text('Коментар'))
-            .append($('<textarea>').attr({ id: 'leadComment', name: 'leadComment', placeholder: 'Тут може бути коментар до ліда...' }).addClass('comment'));
+            .append($('<label>').attr('for', 'in_comment').text('Коментар'))
+            .append($('<textarea>').attr({ id: 'in_comment', name: 'in_comment', placeholder: 'Тут може бути коментар до ліда...' }).addClass('comment'));
 
         const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
 
@@ -370,12 +370,12 @@ function buttons() {
         // Handle form submission
         $submitButton.on('click', function (event) {
             event.preventDefault();
-            const $parentContainer = $(this).closest('.modal-content');
+            const $parentContainer = modalContainer;
             console.log($parentContainer);
             console.log($(this));
             const goods = [];
-            console.log($('.good-container'));
-            $('.good-container').each(function () {
+            console.log($parentContainer.find('.good-section'));
+            $parentContainer.find('.good-section').each(function () {
 
                 const g_name = $(this).find('input:first-child').val();
                 const g_quantity = $(this).find('input.qty').val();
@@ -388,25 +388,38 @@ function buttons() {
 
 
             const dataPOST = {
-                leadName: $parentContainer.find('input#l_name').val(),
-                adress: $parentContainer.find('input#adress').val(),
-                o_comment: $parentContainer.find('textarea#leadComment').val(),
+                sender: $parentContainer.find('input#sender').val(),
+                in_comment: $parentContainer.find('textarea#in_comment').val(),
                 goods: goods
             };
             console.log(goods);
             console.log(dataPOST);
             $.ajax({
                 type: 'POST',
-                url: 'submitOrder.php',
+                url: 'submitInbound.php',
                 data: JSON.stringify(dataPOST),
                 contentType: 'application/json; charset=utf-8',
                 success: function (response) {
-                    showAlert('Замовнстворено успішно', 3000);
-                    modalContainer.fadeOut(200);
-                    console.log(response);
+                    if (response.status === 'success') {
+                        showAlert('Товар додано успішно', 3000);
+                        modalContainer.fadeOut(200);
+                        console.log(response.message);
+                    } else {
+                        showAlert('Виникла помилка: ' + response.message, 3000, 'red');
+                        console.error('Error response:', response.message);
+                    }
                 },
-                error: function () {
-                    showAlert('Виникла помилка', 3000);
+                error: function (xhr, status, error) {
+                    var errorMessage;
+                    try {
+                        var response = JSON.parse(xhr.responseText);
+                        errorMessage = response.message || 'Виникла помилка';
+                    } catch (e) {
+                        errorMessage = 'Виникла помилка';
+                    }
+                    showAlert(errorMessage, 3000, 'red');
+                    console.error('Error fetching data:', error);
+                    console.error('Response:', xhr.responseText);
                 }
             });
         });
