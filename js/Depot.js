@@ -376,6 +376,10 @@ function buttons() {
         $('.good-section .modal-line').each(function() {
             var g_name = $(this).find('input:first').val();
             var g_quantity = $(this).find('input.qty').val();
+            if(g_quantity<1){
+                showAlert('Невірна кількість товару', 3000,'red');
+               throw 'Невірна кількість товару'                    
+            }
             if (g_name && g_quantity) {
                 goods.push({
                     g_name: g_name,
@@ -529,9 +533,14 @@ function buttons() {
                 const g_quantity = $(this).find('input.qty').val();
                 console.log(g_name);
                 console.log(g_quantity);
+                if(g_quantity<1){
+                    showAlert('Невірна кількість товару', 3000,'red');
+                   throw 'Невірна кількість товару'                    
+                }
                 if (g_name && g_quantity) {
                     goods.push({ g_name: g_name, g_quantity: g_quantity });
                 }
+                
             });
 
 
