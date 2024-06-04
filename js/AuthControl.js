@@ -24,17 +24,30 @@ export function AuthPage() {
             .addClass('auth-input');
 
         // Create the password input element
+        const passContainer = $('<div>').addClass('pass-container')
+
         const $passInput = $('<input>')
             .attr({
-                type: 'text',
+                type: 'password',
                 id: 'pass',
                 name: 'pass',
                 placeholder: 'Пароль'
             })
             .addClass('auth-input');
 
+        const passToggle= $('<img>').attr('src','img/hidePass.png').addClass('pass-toggle')
+        passContainer.append($passInput,passToggle)
+            $(document).ready(function() {
+                $('.pass-toggle').click(function() {
+                    const $passInput = $('#pass');
+                    const type = $passInput.attr('type') === 'password' ? 'text' : 'password';
+                    $passInput.attr('type', type);
+                    $(this).attr('src',(type === 'password' ? 'img/hidePass.png':'img/showpass.png'));
+                });
+            });
+
         // Append login and password inputs to the form element
-        $authForm.append($loginInput, $passInput);
+        $authForm.append($loginInput, passContainer);
 
         // Create the login button element
         const $loginButtonElement = $('<a>').addClass('login')

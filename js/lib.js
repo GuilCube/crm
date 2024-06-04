@@ -48,8 +48,6 @@ export function headerDepot(activeTab) {
 
     }
 
-
-
     // Add 'active' class to the specified tab
     navContainer1.children().eq(activeTab).addClass("active");
 
@@ -73,12 +71,36 @@ export function headerDepot(activeTab) {
         localStorage.removeItem('role');
     });
 
+    const $time =$('<span>').addClass('time');
+
+    $(document).ready(function() {
+        // Function to update the time
+        function updateTime() {
+            const now = new Date(); // Get the current date and time
+            const hours = now.getHours(); // Get the current hour (0-23)
+            const minutes = now.getMinutes(); // Get the current minute (0-59)
+    
+            // Format the time as HH:MM:SS
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    
+            // Update the time in the DOM
+            $('.time').text(timeString);
+        }
+    
+        // Update the time initially
+        updateTime();
+    
+        // Update the time every second
+        setInterval(updateTime, 1000);
+    });
+    
+
     const exitIconImg = $("<img>").addClass("exit-ico").attr("src", "/img/exitIco.png");
     exitIconLink.append(exitIconImg);
 
     // Append the second navbar container to the header
     header.append(navContainer2);
-    navContainer2.append(exitIconLink);
+    navContainer2.append(exitIconLink,$time);
 
     // Prepend the header to the document body
     $("body").prepend(header);
@@ -118,12 +140,43 @@ export function headerManager(activeTab) {
 
     // Create and append exit icon link
     const exitIconLink = $("<a>").addClass("nav-icon rt").attr("href", "/auth");
+    exitIconLink.click(function (e) {
+        e.preventDefault();
+        window.location.href = "/auth";
+        localStorage.removeItem('user');
+        localStorage.removeItem('role');
+    });
+
+    const $time =$('<span>').addClass('time');
+
+    $(document).ready(function() {
+        // Function to update the time
+        function updateTime() {
+            const now = new Date(); // Get the current date and time
+            const hours = now.getHours(); // Get the current hour (0-23)
+            const minutes = now.getMinutes(); // Get the current minute (0-59)
+    
+            // Format the time as HH:MM:SS
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    
+            // Update the time in the DOM
+            $('.time').text(timeString);
+        }
+    
+        // Update the time initially
+        updateTime();
+    
+        // Update the time every second
+        setInterval(updateTime, 1000);
+    });
+    
+
     const exitIconImg = $("<img>").addClass("exit-ico").attr("src", "/img/exitIco.png");
     exitIconLink.append(exitIconImg);
 
     // Append the second navbar container to the header
     header.append(navContainer2);
-    navContainer2.append(exitIconLink);
+    navContainer2.append(exitIconLink,$time);
 
     // Prepend the header to the document body
     $("body").prepend(header);

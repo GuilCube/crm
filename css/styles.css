@@ -76,6 +76,7 @@ body {
   border-bottom: 1px solid black;
   color: black;
   font-weight: bold;
+  padding-right: 30px;
 }
 
 .auth-input::placeholder {
@@ -122,6 +123,7 @@ body {
   display: flex;
   text-align: center;
   align-items: center;
+  gap: 10px;
 }
 
 .nav-buttons {
@@ -144,14 +146,26 @@ body {
 
 .nav-greet {
   margin: 0;
-  width: 50%;
+  width: 40%;
   line-height: 1.2;
 }
 
 .nav-icon {
   width: 35px;
-  padding-left: 10px;
-
+}
+.time{
+  padding-left: 20px;
+  font-weight: bold;
+  font-size: x-large;
+}
+.pass-container{
+  display: contents;
+}
+.pass-toggle{
+  margin-left: -40px;
+}
+.pass-toggle:hover{
+  cursor: pointer;
 }
 
 .exit-ico {

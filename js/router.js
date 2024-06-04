@@ -13,11 +13,11 @@ function getCredentials() {
     return { user, role };
 }
 
-function changeURL(route) {
+function changeURL(route) {    
     if(route.role!= localStorage.role)
         {
-            showAlert('Виникла помилка',3000,'black')
             window.history.go(-1);
+            showAlert('Виникла помилка',3000,'black')
             return;
         }
     $('main').fadeOut(50);
