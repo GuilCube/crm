@@ -35,7 +35,7 @@ export function AuthPage() {
             })
             .addClass('auth-input');
 
-        const passToggle= $('<img>').attr('src','img/hidePass.png').addClass('pass-toggle')
+        const passToggle= $('<img>').attr('src','img/showpass.png').addClass('pass-toggle')
         passContainer.append($passInput,passToggle)
             $(document).ready(function() {
                 $('.pass-toggle').click(function() {
