@@ -1,6 +1,11 @@
 import { showAlert } from "./lib.js";
+
+function saveCredentials(user,role) {
+    localStorage.setItem('user', user);
+    localStorage.setItem('role', role);
+}
+
 export function AuthPage() {
-   
     
     $(document).ready(function () {
         // Create the main container
@@ -59,11 +64,13 @@ export function AuthPage() {
                 data: JSON.stringify(dataGET),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                success: function(response) {
+                success:function(response) {
                     if (response.status === 'success') {
                         if (response.role === 'manager') {
+                            saveCredentials(response.user,response.role)
                             window.location.href = '/lead';
                         } else if (response.role === 'depotworker') {
+                            saveCredentials(response.user,response.role)
                             window.location.href = '/orderDepot';
                         }
                     } else {

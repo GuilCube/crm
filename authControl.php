@@ -5,8 +5,8 @@ $rawData = file_get_contents("php://input");
 $data = json_decode($rawData, true);
 
 // Get login and password from the request
-$login = $data['login'];
-$password = $data['password'];
+$login = $data['login'] ?? '';
+$password = $data['password'] ?? '';
 
 if (empty($login) || empty($password)) {
     http_response_code(400);
@@ -22,7 +22,8 @@ try {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        echo json_encode(['status' => 'success', 'role' => 'manager']);
+        $row = $result->fetch_assoc();
+        echo json_encode(['status' => 'success', 'role' => 'manager', 'user' => $row]);
         $stmt->close();
         $link->close();
         exit;
@@ -37,7 +38,8 @@ try {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        echo json_encode(['status' => 'success', 'role' => 'depotworker']);
+        $row = $result->fetch_assoc();
+        echo json_encode(['status' => 'success', 'role' => 'depotworker', 'user' => $row]);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Invalid login or password']);
     }
