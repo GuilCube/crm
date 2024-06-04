@@ -1,71 +1,80 @@
+import { showAlert } from "./lib.js";
+export function AuthPage() {
+   
+    
+    $(document).ready(function () {
+        // Create the main container
+        const $main = $('main');
+        const $authContainer = $('<div>').addClass('auth-container');
+        const $authModal = $('<div>').addClass('auth-modal');
+        const $authHeader = $('<span>').addClass('auth-header').text('Авторизація');
+        const $authForm = $('<form>').addClass('auth-form');
+        const $loginInput = $('<input>')
+            .attr({
+                type: 'text',
+                id: 'login',
+                name: 'login',
+                placeholder: 'Логін'
+            })
+            .addClass('auth-input');
 
-export function AuthPage(){
-const main = document.querySelector('main');
-const header =document.querySelector('header');
- 
+        // Create the password input element
+        const $passInput = $('<input>')
+            .attr({
+                type: 'text',
+                id: 'pass',
+                name: 'pass',
+                placeholder: 'Пароль'
+            })
+            .addClass('auth-input');
 
-// if(header!==null)
-// document.body.removeChild(header);0000000000000000000
+        // Append login and password inputs to the form element
+        $authForm.append($loginInput, $passInput);
 
-const authContainer = document.createElement('div');
-authContainer.classList.add('auth-container');
+        // Create the login button element
+        const $loginButtonElement = $('<a>').addClass('login')
+        const $loginButton = $('<button>').addClass('btn auth rt').text('Увійти');
+        $loginButtonElement.append($loginButton);
 
-// Create the modal element
-const authModal = document.createElement('div');
-authModal.classList.add('auth-modal');
+        // Append header, form, and button to the modal element
+        $authModal.append($authHeader, $authForm, $loginButtonElement);
 
-// Create the header span element
-const authHeader = document.createElement('span');
-authHeader.classList.add('auth-header');
-authHeader.textContent = 'Авторизація';
+        // Append the modal to the container element
+        $authContainer.append($authModal);
 
-// Create the form element
-const authForm = document.createElement('form');
-authForm.classList.add('auth-form');
+        // Append the container element to the document body
+        $main.append($authContainer);
 
-// Create the login input element
-const loginInput = document.createElement('input');
-loginInput.setAttribute('type', 'text');
-loginInput.setAttribute('id', 'login');
-loginInput.setAttribute('name', 'login');
-loginInput.classList.add('auth-input');
-loginInput.setAttribute('placeholder', 'Логін');
-
-// Create the password input element
-const passInput = document.createElement('input');
-passInput.setAttribute('type', 'text');
-passInput.setAttribute('id', 'pass');
-passInput.setAttribute('name', 'pass');
-passInput.classList.add('auth-input');
-passInput.setAttribute('placeholder', 'Пароль');
-
-// Append login and password inputs to the form element
-authForm.appendChild(loginInput);
-authForm.appendChild(passInput);
-
-// Create the login button element
-const loginButtonElement = document.createElement('a');
-loginButtonElement.classList.add('login');
-loginButtonElement.href = "/lead";
-const loginButton = document.createElement('button');
-loginButton.classList.add('btn','auth','rt');
-loginButton.textContent = 'Увійти';
-loginButtonElement.appendChild(loginButton);
-
-// Append header, form, and button to the modal element
-authModal.appendChild(authHeader);
-authModal.appendChild(authForm);
-authModal.appendChild(loginButtonElement);
-
-// Append the modal to the container element
-authContainer.appendChild(authModal);
-
-// Append the container element to the document body
-main.appendChild(authContainer);
+        $loginButton.click(function (e) {
+            e.preventDefault();
+            const dataGET = { 
+                login:$loginInput.val(), 
+                password: $passInput.val()
+            }
+            console.log(dataGET);
+            console.log(JSON.stringify(dataGET)); 
+            $.ajax({
+                type: 'POST',
+                url: 'authControl.php', 
+                data: JSON.stringify(dataGET),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        if (response.role === 'manager') {
+                            window.location.href = '/lead';
+                        } else if (response.role === 'depotworker') {
+                            window.location.href = '/orderDepot';
+                        }
+                    } else {
+                        showAlert('Неправильний логін або пароль',2000,'red')
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    showAlert("Не вказаний логін або пароль",2000,'red')
+                }
+            });
+        });
+    });
 }
-
-// loginButton.addEventListener('click',()=>{
-//     document.body.removeChild(authContainer)
-//     // window.history.pushState(null,'',"/lead")
-// LeadPage()
-// })

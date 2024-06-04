@@ -60,7 +60,7 @@ export function headerDepot(activeTab) {
     navContainer2.append(greetingParagraph);
   
     // Create and append exit icon link
-    const exitIconLink = $("<a>").addClass("nav-icon rt").attr("href", "/");
+    const exitIconLink = $("<a>").addClass("nav-icon rt").attr("href", "/auth");
     const exitIconImg = $("<img>").addClass("exit-ico").attr("src", "/img/exitIco.png");
     exitIconLink.append(exitIconImg);
   
@@ -105,7 +105,7 @@ export function headerManager(activeTab) {
     navContainer2.append(greetingParagraph);
   
     // Create and append exit icon link
-    const exitIconLink = $("<a>").addClass("nav-icon rt").attr("href", "/");
+    const exitIconLink = $("<a>").addClass("nav-icon rt").attr("href", "/auth");
     const exitIconImg = $("<img>").addClass("exit-ico").attr("src", "/img/exitIco.png");
     exitIconLink.append(exitIconImg);
   

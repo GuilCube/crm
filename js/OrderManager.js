@@ -333,12 +333,12 @@ function createTable(index, data) {
     // Append the edit icon to the edit container
     $editContainer.append($editIcon);
 
+    
     // Append the edit container to the card container
     $cardContainer.append($editContainer);
 
+
     // Helper function to create a table row
-
-
     function createTableRow(config) {
         const $tr = $('<tr>');
 
@@ -415,8 +415,6 @@ function createTable(index, data) {
                 const $row = createTableRow(config);
                 data[config.textareaId].forEach((el, index) => {
                     const $removeRowBtn = $('<span>').addClass('btn remove incard').text('X')
-
-
                     $removeRowBtn.click(function (e) {
                         e.preventDefault();
                         //if($removeRowBnt.parent().parent())
@@ -488,14 +486,17 @@ function createTable(index, data) {
         });
 
         $table.append($tbody)
-
-        //Adds toggle button near textarea
-        // const options = [['Оформлено', 'Комплектується', 'Відправлено']]
-        // addToggle($table, [2], options)
+       if($table.find('#o_status').val()=='Відправлено')
+        {   
+            $editContainer.remove()
+            $cardContainer.addClass('top-offset')
+        }
 
         $cardContainer.append($table);
+
         // console.log("Card");
         // console.log($cardContainer);
+        
         $('div.card-list').append($cardContainer)
         $($table).append($buttonContainer)
 
@@ -515,7 +516,6 @@ function createTable(index, data) {
             const $goodRow = $parentContainer.find('.goods').parent();
             console.log('Goods');
             console.log($goodRow);
-
 
             $goodRow.each(function () {
                 console.log($(this).find('textarea#goods').val());
@@ -571,4 +571,5 @@ function createTable(index, data) {
 
         });
     });
+    
 }

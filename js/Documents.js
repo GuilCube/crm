@@ -19,21 +19,35 @@ export function DocumentsPage() {
 
         Inbounds.click(function (e) {
             e.preventDefault();
+            if (Inbounds.hasClass("active")) {
+                return;
+            }
             Outbounds.removeClass('active')
             Inbounds.addClass('active')
-            ShowInbounds()
+            $cardList.fadeOut(150)
+            setTimeout(() => {
+                ShowInbounds()
+            }, 150);
+            $cardList.fadeIn(150)
         });
 
         Outbounds.click(function (e) {
             e.preventDefault();
+            if (Outbounds.hasClass("active")) {
+                return;
+            }
             Inbounds.removeClass('active')
             Outbounds.addClass('active')
-            ShowOutbounds()
+            $cardList.fadeOut(150)
+            setTimeout(() => {
+                ShowOutbounds()
+            }, 150);
+            $cardList.fadeIn(150)
         });
 
         function ShowInbounds() {
-            $cardList.empty()
 
+            $cardList.empty()
             $.ajax({
                 type: "GET",
                 url: "getInbound.php",
@@ -71,7 +85,6 @@ export function DocumentsPage() {
                     console.error('Response:', xhr.responseText);
                 }
             });
-
 
         }
 
@@ -145,25 +158,25 @@ export function DocumentsPage() {
             $buttonContainer.hide()
 
             // Create the edit icon
-            const $editIcon = $('<img>').addClass('edit-icon').attr('src', '/img/editIco.png').attr('alt', 'Edit');
+            // const $editIcon = $('<img>').addClass('edit-icon').attr('src', '/img/editIco.png').attr('alt', 'Edit');
 
-            $editIcon.on("click", function () {
-                //$(card).addClass('extended');
+            // $editIcon.on("click", function () {
+            //     $(card).addClass('extended');
 
-                const $parentContainer = $(this).closest('.card-container');
-                setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
-                    $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
-                $parentContainer.find('.qty').prop('readonly', false).css('background-color', 'var(--data_background)')
-                console.log($parentContainer.find('span.btn.action.add-line.incard').slideDown(500));
-                console.log($parentContainer.find('span.btn.remove').fadeIn(500));
+            //     const $parentContainer = $(this).closest('.card-container');
+            //     setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
+            //         $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
+            //     $parentContainer.find('.qty').prop('readonly', false).css('background-color', 'var(--data_background)')
+            //     console.log($parentContainer.find('span.btn.action.add-line.incard').slideDown(500));
+            //     console.log($parentContainer.find('span.btn.remove').fadeIn(500));
 
-            });
+            // });
 
             // Append the edit icon to the edit container
-            $editContainer.append($editIcon);
+            // $editContainer.append($editIcon);
 
-            // Append the edit container to the card container
-            $cardContainer.append($editContainer);
+            // // Append the edit container to the card container
+            // $cardContainer.append($editContainer);
 
             // Helper function to create a table row            
             function createTableRow(config) {
@@ -188,7 +201,7 @@ export function DocumentsPage() {
             // Create table rows
             $.getJSON('app/goodsTemplate.json', (dataJSON) => {
                 // Create the table
-                const $table = $('<table>').addClass('card').attr('id', index);
+                const $table = $('<table>').addClass('card small').attr('id', index);
                 console.log("Data in getJSON")
                 console.log(data);
 
@@ -423,26 +436,26 @@ export function DocumentsPage() {
             //Initial hiding of button
             $buttonContainer.hide()
 
-            // Create the edit icon
-            const $editIcon = $('<img>').addClass('edit-icon').attr('src', '/img/editIco.png').attr('alt', 'Edit');
+            // // Create the edit icon
+            // const $editIcon = $('<img>').addClass('edit-icon').attr('src', '/img/editIco.png').attr('alt', 'Edit');
 
-            $editIcon.on("click", function () {
-                //$(card).addClass('extended');
+            // $editIcon.on("click", function () {
+            //     //$(card).addClass('extended');
 
-                const $parentContainer = $(this).closest('.card-container');
-                setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
-                    $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
-                $parentContainer.find('.qty').prop('readonly', false).css('background-color', 'var(--data_background)')
-                console.log($parentContainer.find('span.btn.action.add-line.incard').slideDown(500));
-                console.log($parentContainer.find('span.btn.remove').fadeIn(500));
+            //     const $parentContainer = $(this).closest('.card-container');
+            //     setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
+            //         $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
+            //     $parentContainer.find('.qty').prop('readonly', false).css('background-color', 'var(--data_background)')
+            //     console.log($parentContainer.find('span.btn.action.add-line.incard').slideDown(500));
+            //     console.log($parentContainer.find('span.btn.remove').fadeIn(500));
 
-            });
+            // });
 
-            // Append the edit icon to the edit container
-            $editContainer.append($editIcon);
+            // // Append the edit icon to the edit container
+            // $editContainer.append($editIcon);
 
-            // Append the edit container to the card container
-            $cardContainer.append($editContainer);
+            // // Append the edit container to the card container
+            // $cardContainer.append($editContainer);
 
             // Helper function to create a table row            
             function createTableRow(config) {
@@ -467,7 +480,7 @@ export function DocumentsPage() {
             // Create table rows
             $.getJSON('app/goodsOutTemplate.json', (dataJSON) => {
                 // Create the table
-                const $table = $('<table>').addClass('card').attr('id', index);
+                const $table = $('<table>').addClass('card small').attr('id', index);
                 console.log("Data in getJSON")
                 console.log(data);
 
@@ -673,7 +686,7 @@ export function DocumentsPage() {
 
                 });
             });
-        }
-
+        }    
     }
+    
 }
