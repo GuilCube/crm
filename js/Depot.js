@@ -372,10 +372,13 @@ function buttons() {
             event.preventDefault();
             
         var goods = [];
-        console.log($('.good-section').find('.modal-line'));
-        $('.good-section .modal-line').each(function() {
+         const $parentContainer = modalContainer;
+        //console.log($('.good-section').find('.modal-line'));
+        $parentContainer.find('.good-section').find('.modal-line').each(function() {
+            console.log($(this))
             var g_name = $(this).find('input:first').val();
             var g_quantity = $(this).find('input.qty').val();
+            console.log(g_quantity);
             if(g_quantity<1){
                 showAlert('Невірна кількість товару', 3000,'red');
                throw 'Невірна кількість товару'                    
@@ -393,7 +396,13 @@ function buttons() {
             in_comment: $('#in_comment').val(),
             goods: goods
         };
-        console.log(formData);
+        
+        if(formData.sender=="")
+            {
+                const error = "Вкажіть відправника";
+                showAlert(error,3000,'red')
+                throw error;
+            }
 
         $.ajax({
             type: 'POST',
@@ -526,7 +535,7 @@ function buttons() {
             console.log($parentContainer);
             console.log($(this));
             const goods = [];
-            console.log($parentContainer.find('.good-section'));
+            //console.log($parentContainer.find('.good-section'));
             $parentContainer.find('.good-section').find('.modal-line').each(function () {
 
                 const g_name = $(this).find('input:first-child').val();

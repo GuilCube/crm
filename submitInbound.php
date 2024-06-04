@@ -21,6 +21,11 @@ if (!isset($data['sender']) || !isset($data['goods']) || !is_array($data['goods'
     echo json_encode(['status' => 'error', 'message' => 'Missing or invalid fields']);
     exit;
 }
+if (empty($data['sender']) || empty($data['goods'])) {
+    http_response_code(400);
+    echo json_encode(['status' => 'error', 'message' => 'Missing or invalid fields']);
+    exit;
+}
 
 $sender = $data['sender'];
 $in_comment = $data['in_comment'];
@@ -64,6 +69,7 @@ try {
         if (!isset($item['g_name']) || !isset($item['g_quantity']) || !is_numeric($item['g_quantity'])) {
             throw new Exception('Missing or invalid fields in goods');
         }
+        
 
         $g_name = $item['g_name'];
         $g_quantity = intval($item['g_quantity']);
