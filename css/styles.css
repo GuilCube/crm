@@ -408,6 +408,9 @@ label{
 .dropdown-content.show {
   display: block;
 }
+.dropbtn-header{
+  
+}
 
 .toggle{
   display: none;
@@ -419,6 +422,10 @@ label{
 .in-table{
   margin-top: 30px;
   min-width: 0;
+}
+.in-header{
+  min-width: 0;
+  background-color: var(--card_background);
 }
 .qty{
   min-width: 5% !important;
@@ -433,6 +440,10 @@ div.good-container{
 }
 input#goods {
   width: 90%;
+}
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .add-line{
   width: 100%;

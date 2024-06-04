@@ -1,0 +1,34 @@
+[
+    {
+        "attribute": "№",
+        "textareaId": "in_id",
+        "textareaName": "in_id",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": []
+    },
+    {
+        "attribute": "Відправник",
+        "textareaId": "sender",
+        "textareaName": "sender",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": []
+    },
+    {
+        "attribute": "Товар",
+        "textareaId": "goods",
+        "textareaName": "goods",
+        "placeholder": "",
+        "readonly": true,
+        "extraClasses": ["editable"]
+    },
+    {
+        "attribute": "Коментар",
+        "textareaId": "o_comment",
+        "textareaName": "o_comment",
+        "placeholder": "Тут може бути коментар до ліда...",
+        "readonly": true,
+        "extraClasses": ["editable", "wrapable"]
+    }
+]

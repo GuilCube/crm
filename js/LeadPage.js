@@ -9,7 +9,7 @@ import { headerManager } from "./lib.js";
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
 export async function LeadPage() {
-  headerManager(0,['Ліди',"Замовлення","Аналітика"]);
+  headerManager(0);
   // <!--Кнопи фунцкіоналу-->
   // <div class="button-row">
   //   <a id="showNewLeadForm" class="button-item" href="#">

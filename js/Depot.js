@@ -370,59 +370,56 @@ function buttons() {
         // Handle form submission
         $submitButton.on('click', function (event) {
             event.preventDefault();
-            const $parentContainer = modalContainer;
-            console.log($parentContainer);
-            console.log($(this));
-            const goods = [];
-            console.log($parentContainer.find('.good-section'));
-            $parentContainer.find('.good-section').each(function () {
-
-                const g_name = $(this).find('input:first-child').val();
-                const g_quantity = $(this).find('input.qty').val();
-                console.log(g_name);
-                console.log(g_quantity);
-                if (g_name && g_quantity) {
-                    goods.push({ g_name: g_name, g_quantity: g_quantity });
-                }
-            });
-
-
-            const dataPOST = {
-                sender: $parentContainer.find('input#sender').val(),
-                in_comment: $parentContainer.find('textarea#in_comment').val(),
-                goods: goods
-            };
-            console.log(goods);
-            console.log(dataPOST);
-            $.ajax({
-                type: 'POST',
-                url: 'submitInbound.php',
-                data: JSON.stringify(dataPOST),
-                contentType: 'application/json; charset=utf-8',
-                success: function (response) {
-                    if (response.status === 'success') {
-                        showAlert('Товар додано успішно', 3000);
-                        modalContainer.fadeOut(200);
-                        console.log(response.message);
-                    } else {
-                        showAlert('Виникла помилка: ' + response.message, 3000, 'red');
-                        console.error('Error response:', response.message);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    var errorMessage;
-                    try {
-                        var response = JSON.parse(xhr.responseText);
-                        errorMessage = response.message || 'Виникла помилка';
-                    } catch (e) {
-                        errorMessage = 'Виникла помилка';
-                    }
-                    showAlert(errorMessage, 3000, 'red');
-                    console.error('Error fetching data:', error);
-                    console.error('Response:', xhr.responseText);
-                }
-            });
+            
+        var goods = [];
+        console.log($('.good-section').find('.modal-line'));
+        $('.good-section .modal-line').each(function() {
+            var g_name = $(this).find('input:first').val();
+            var g_quantity = $(this).find('input.qty').val();
+            if (g_name && g_quantity) {
+                goods.push({
+                    g_name: g_name,
+                    g_quantity: parseInt(g_quantity)
+                });
+            }
         });
+
+        var formData = {
+            sender: $('#sender').val(),
+            in_comment: $('#in_comment').val(),
+            goods: goods
+        };
+        console.log(formData);
+
+        $.ajax({
+            type: 'POST',
+            url: 'submitInbound.php',
+            data: JSON.stringify(formData),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    showAlert('Товар додано успішно', 3000);
+                    modalContainer.fadeOut(200);
+                    console.log(response.message);
+                } else {
+                    showAlert('Виникла помилка: ' + response.message, 3000, 'red');
+                    console.error('Error response:', response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                var errorMessage;
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    errorMessage = response.message || 'Виникла помилка';
+                } catch (e) {
+                    errorMessage = 'Виникла помилка';
+                }
+                showAlert(errorMessage, 3000, 'red');
+                console.error('Error fetching data:', error);
+                console.error('Response:', xhr.responseText);
+            }
+        });
+    });
     }
     function NewOutboundForm() {
         //Modal form
@@ -521,12 +518,12 @@ function buttons() {
         // Handle form submission
         $submitButton.on('click', function (event) {
             event.preventDefault();
-            const $parentContainer = $(this).closest('.modal-content');
+            const $parentContainer = modalContainer;
             console.log($parentContainer);
             console.log($(this));
             const goods = [];
-            console.log($('.good-container'));
-            $('.good-container').each(function () {
+            console.log($parentContainer.find('.good-section'));
+            $parentContainer.find('.good-section').find('.modal-line').each(function () {
 
                 const g_name = $(this).find('input:first-child').val();
                 const g_quantity = $(this).find('input.qty').val();
@@ -539,27 +536,40 @@ function buttons() {
 
 
             const dataPOST = {
-                leadName: $parentContainer.find('input#l_name').val(),
-                adress: $parentContainer.find('input#adress').val(),
-                o_comment: $parentContainer.find('textarea#leadComment').val(),
+                out_adress: $parentContainer.find('input#out_adress').val(),
+                out_comment: $parentContainer.find('textarea#out_comment').val(),
                 goods: goods
             };
             console.log(goods);
             console.log(dataPOST);
-            // $.ajax({
-            //     type: 'POST',
-            //     url: 'submitOrder.php',
-            //     data: JSON.stringify(dataPOST),
-            //     contentType: 'application/json; charset=utf-8',
-            //     success: function (response) {
-            //         showAlert('Замовнстворено успішно', 3000);
-            //         modalContainer.fadeOut(200);
-            //         console.log(response);
-            //     },
-            //     error: function () {
-            //         showAlert('Виникла помилка', 3000);
-            //     }
-            // });
+            $.ajax({
+                type: 'POST',
+                url: 'submitOutbound.php',
+                data: JSON.stringify(dataPOST),
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        showAlert('Товар додано успішно', 3000);
+                        modalContainer.fadeOut(200);
+                        console.log(response.message);
+                    } else {
+                        showAlert('Виникла помилка: ' + response.message, 3000, 'red');
+                        console.error('Error response:', response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage;
+                    try {
+                        var response = JSON.parse(xhr.responseText);
+                        errorMessage = response.message || 'Виникла помилка';
+                    } catch (e) {
+                        errorMessage = 'Виникла помилка';
+                    }
+                    showAlert(errorMessage, 3000, 'red');
+                    console.error('Error fetching data:', error);
+                    console.error('Response:', xhr.responseText);
+                }
+            });
         });
     }
 

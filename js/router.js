@@ -49,7 +49,7 @@ const routes = {
     // get the route object from the urlRoutes object
     const route = routes[location];
     route.template();
-    //document.title = route.title;
+    document.title = route.title;
     // while(main.firstChild){
     //     main.removeChild(main.firstChild)
     // }

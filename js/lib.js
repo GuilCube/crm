@@ -6,16 +6,45 @@ export function headerDepot(activeTab) {
     const navContainer1 = $("<div>").addClass("navbar-container nav-buttons");
   
     // Create and append "Ліди" link
-    const leadsLink = $("<a>").addClass("nav-item").attr("href", "/orderDepot").text("Замовлення");
-    navContainer1.append(leadsLink);
-  
-    // Create and append "Замовлення" link
-    const ordersLink = $("<a>").addClass("nav-item").attr("href", "/depot").text("Склад");
+    const ordersLink = $("<a>").addClass("nav-item").attr("href", "/orderDepot").text("Замовлення");
     navContainer1.append(ordersLink);
   
+    // Create and append "Замовлення" link
+    const depotLink = $("<a>").addClass("nav-item").attr("href", "/depot").text("Склад");
+    navContainer1.append(depotLink);
+  
     // Create and append "Аналітика" link
-    const analyticsLink = $("<a>").addClass("nav-item").attr("href", "/documents").text("Документи");
-    navContainer1.append(analyticsLink);
+    const docsLink = $("<a>").addClass("nav-item").text("Документи").attr("href", "/documents");
+    navContainer1.append(docsLink);
+    //
+
+    const dropdownOptions = ['Надходження',"Відправлення"]
+    const hrefs =["/documents","/documents"]
+    //addToggleHeader(docsLink,dropdownOptions)
+
+    function addToggleHeader(rowToAppend,dropdownOptions,hrefs) {
+                
+        const $toggleButton = $('<span>').addClass('dropbtn-header').text('▼');
+        rowToAppend.append($toggleButton)
+    
+        const dropdownContent = $('<div>').addClass('dropdown-content').addClass('in-header');
+        dropdownOptions.forEach(option=> {
+            const spanA = $('<a>').text(option).attr("href", "/documents");
+            dropdownContent.append(spanA);
+        });
+        rowToAppend.append(dropdownContent);
+        $toggleButton.on('click', () => {
+            
+            //console.log(dropdownContent.is(':hidden'));
+            if (dropdownContent.is(':hidden')) {
+                $('.dropdown-content.in-header').hide()
+                dropdownContent.show();
+            }
+            else $('.dropdown-content.in-header').hide();
+            //else dropdownContent.hide()
+        });
+        
+    }
   
     // Add 'active' class to the specified tab
     navContainer1.children().eq(activeTab).addClass("active");
@@ -176,20 +205,16 @@ export function setEditable($input, $buttons, $editContainer, $cardContainer,$to
 }
 
 export function addToggle($table,rowsToAppend,dropdownOptions) {
-    const dropdownOptionsA = ['Фізична особа', 'Юридична особа'];
-    //const dropdownOptionsB = ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"];
     rowsToAppend.forEach((row,index)=>{
+        //Searches for each row of rowsToAppend array
     const $leadType = $table.find('td:last-child').eq(row);
-    $leadType;
-    // const $thisTable = $("table#0").find('td:last-child');
-    //console.log($leadType);
+    
     const $toggleButton = $('<span>').addClass('dropbtn toggle').text('▼');
     $leadType.append($toggleButton)
 
     const dropdownContent = $('<div>').addClass('dropdown-content').addClass('in-table');
     dropdownOptions[index].forEach(option => {
         const spanA = $('<a>').data('value', option).text(option);
-        //console.log(option);
         dropdownContent.append(spanA);
         spanA.click(() => {
             var value = spanA.data('value');

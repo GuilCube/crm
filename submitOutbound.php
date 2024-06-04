@@ -16,45 +16,45 @@ if (is_null($data)) {
 }
 
 // Validate the data
-if (!isset($data['sender']) || !isset($data['goods']) || !is_array($data['goods'])) {
+if (!isset($data['out_adress']) || !isset($data['goods']) || !is_array($data['goods'])) {
     http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Missing or invalid fields']);
     exit;
 }
 
-$sender = $data['sender'];
-$in_comment = $data['in_comment'];
+$out_adress = $data['out_adress'];
+$out_comment = $data['out_comment'];
 $goods = $data['goods'];
 
 try {
     $link->begin_transaction();
 
-    // Insert sender and comment into the inbound table
-    $sql = "INSERT INTO inbound (sender, in_comment) VALUES (?, ?)";
+    // Insert out_adress and comment into the inbound table
+    $sql = "INSERT INTO outbound (out_adress, out_comment) VALUES (?, ?)";
     $stmt = $link->prepare($sql);
 
     if ($stmt === false) {
         throw new Exception('SQL preparation failed: ' . $link->error);
     }
 
-    $stmt->bind_param('ss', $sender, $in_comment);
+    $stmt->bind_param('ss', $out_adress, $out_comment);
 
     if (!$stmt->execute()) {
         throw new Exception('Execution failed: ' . $stmt->error);
     }
 
     // Get the last inserted in_id
-    $in_id = $stmt->insert_id;
+    $out_id = $stmt->insert_id;
     $stmt->close();
 
     // Prepare the statement for updating goods quantity
-    $updateGoodsStmt = $link->prepare("UPDATE goods SET g_quantity = g_quantity + ? WHERE g_name = ?");
+    $updateGoodsStmt = $link->prepare("UPDATE goods SET g_quantity = g_quantity - ? WHERE g_name = ?");
     if ($updateGoodsStmt === false) {
         throw new Exception('SQL preparation failed: ' . $link->error);
     }
 
     // Prepare the statement for inserting into in_items
-    $insertInItemsStmt = $link->prepare("INSERT INTO in_items (in_id, g_id, g_quantity) VALUES (?, (Select g_id from goods where g_name = ?), ?)");
+    $insertInItemsStmt = $link->prepare("INSERT INTO out_items (out_id, g_id, g_quantity) VALUES (?, (Select g_id from goods where g_name = ?), ?)");
     if ($insertInItemsStmt === false) {
         throw new Exception('SQL preparation failed: ' . $link->error);
     }
@@ -75,7 +75,7 @@ try {
         }
 
         // Insert into in_items table
-        $insertInItemsStmt->bind_param('isi', $in_id, $g_name, $g_quantity);
+        $insertInItemsStmt->bind_param('isi', $out_id, $g_name, $g_quantity);
         if (!$insertInItemsStmt->execute()) {
             throw new Exception('Execution failed: ' . $insertInItemsStmt->error);
         }
