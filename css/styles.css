@@ -132,7 +132,7 @@ body {
 }
 
 .active {
-  background-image: linear-gradient(to bottom, var(--defauld_background), #D1E020);
+  background-image: linear-gradient(to bottom, var(--defauld_background) 0%, #D1E020 80%);
 }
 
 .nav-item {
@@ -519,6 +519,15 @@ input#goods {
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.query-text-container{
+  margin-top: 30px;
+  margin-left: 3%;
+  color: white;
+  font-size: larger;
+  display: flex;
+  gap: 10px;
 }
 
 .add-line {

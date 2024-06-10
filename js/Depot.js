@@ -38,11 +38,43 @@ function buttons() {
     buttonRow.append(searchButton, NewGood, archiveItem, NewInbound, NewOutbound);
     $('main').append(buttonRow);
 
+    seachForm()
     NewGoodForm();
     NewArchiveForm();
     NewInboundForm();
     NewOutboundForm();
 
+
+    function seachForm(){
+        const modalContainer = $('<div>').attr('id', 'searchGood').addClass('modal-container');
+        const modalContent = $('<div>').addClass('modal-content');
+        const modalTitle = $('<h3>').css('text-align', 'center').text('Пошук товару...');
+        const newGood = $('<form>').addClass('leadForm');
+
+        const $goodContainerDIV = $('<div>').addClass('good-section');
+        $goodContainerDIV.append(createGoodsLine($goodContainerDIV))
+
+        newGood.append(
+            $goodContainerDIV
+        );
+        const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
+        const $buttonCancel = $('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад')
+        const buttonLine = $('<div>').addClass('modal-line-buttons')
+            .append($buttonCancel,$submitButton);
+
+
+        modalContent.append(modalTitle, newGood, buttonLine);
+        modalContainer.append(modalContent);
+        $('main').append(modalContainer);
+        searchButton.click(function (e) { 
+            e.preventDefault();
+                   modalContainer.fadeIn(100)
+        });
+        $buttonCancel.click(function (e) { 
+            e.preventDefault();
+            modalContainer.fadeOut(200)
+        });
+    }
 
     //New good form
     function NewGoodForm() {
@@ -79,10 +111,9 @@ function buttons() {
         });
 
         const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
-
+        const $buttonCancel =$('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад')
         const buttonLine = $('<div>').addClass('modal-line-buttons')
-            .append($('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад'))
-            .append($submitButton);
+            .append($buttonCancel,$submitButton);
 
 
         modalContent.append(modalTitle, newGood, buttonLine);
@@ -92,7 +123,7 @@ function buttons() {
         NewGood.on('click', function () {
             modalContainer.fadeIn(200);
         });
-        $('#closeModal').on('click', function () {
+        $buttonCancel.on('click', function () {
             console.log($('#achive').find(".modal-line"));
             setTimeout(() => {
                 console.log(newGood.find(".modal-line"));

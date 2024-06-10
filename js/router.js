@@ -7,11 +7,6 @@ import { DepotPage } from "./Depot.js";
 import { DocumentsPage } from "./Documents.js";
 import { showAlert } from "./lib.js";
 
-function getCredentials() {
-    const user = localStorage.getItem('user');
-    const role = localStorage.getItem('role');
-    return { user, role };
-}
 
 function changeURL(route) {    
     if(route.role!= localStorage.role)

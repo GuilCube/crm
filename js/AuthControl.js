@@ -42,7 +42,7 @@ export function AuthPage() {
                     const $passInput = $('#pass');
                     const type = $passInput.attr('type') === 'password' ? 'text' : 'password';
                     $passInput.attr('type', type);
-                    $(this).attr('src',(type === 'password' ? 'img/hidePass.png':'img/showpass.png'));
+                    $(this).attr('src',(type === 'password' ? 'img/showpass.png':'img/hidePass.png'));
                 });
             });
 

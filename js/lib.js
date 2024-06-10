@@ -71,36 +71,36 @@ export function headerDepot(activeTab) {
         localStorage.removeItem('role');
     });
 
-    const $time =$('<span>').addClass('time');
+    const $time = $('<span>').addClass('time');
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Function to update the time
         function updateTime() {
             const now = new Date(); // Get the current date and time
             const hours = now.getHours(); // Get the current hour (0-23)
             const minutes = now.getMinutes(); // Get the current minute (0-59)
-    
+
             // Format the time as HH:MM:SS
             const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-    
+
             // Update the time in the DOM
             $('.time').text(timeString);
         }
-    
+
         // Update the time initially
         updateTime();
-    
+
         // Update the time every second
         setInterval(updateTime, 1000);
     });
-    
+
 
     const exitIconImg = $("<img>").addClass("exit-ico").attr("src", "/img/exitIco.png");
     exitIconLink.append(exitIconImg);
 
     // Append the second navbar container to the header
     header.append(navContainer2);
-    navContainer2.append(exitIconLink,$time);
+    navContainer2.append(exitIconLink, $time);
 
     // Prepend the header to the document body
     $("body").prepend(header);
@@ -147,36 +147,36 @@ export function headerManager(activeTab) {
         localStorage.removeItem('role');
     });
 
-    const $time =$('<span>').addClass('time');
+    const $time = $('<span>').addClass('time');
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Function to update the time
         function updateTime() {
             const now = new Date(); // Get the current date and time
             const hours = now.getHours(); // Get the current hour (0-23)
             const minutes = now.getMinutes(); // Get the current minute (0-59)
-    
+
             // Format the time as HH:MM:SS
             const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-    
+
             // Update the time in the DOM
             $('.time').text(timeString);
         }
-    
+
         // Update the time initially
         updateTime();
-    
+
         // Update the time every second
         setInterval(updateTime, 1000);
     });
-    
+
 
     const exitIconImg = $("<img>").addClass("exit-ico").attr("src", "/img/exitIco.png");
     exitIconLink.append(exitIconImg);
 
     // Append the second navbar container to the header
     header.append(navContainer2);
-    navContainer2.append(exitIconLink,$time);
+    navContainer2.append(exitIconLink, $time);
 
     // Prepend the header to the document body
     $("body").prepend(header);
@@ -382,4 +382,24 @@ export function createGoodsLineB($goodContainerDIV) {
     $goodContainer.append($input, $qty, $removeRowBtn)
     $line.append($label, $goodContainer)
     return $line
+}
+
+export function showSearchResults($cardList,modalContainer,queryResult){
+    
+    modalContainer.fadeOut(200);
+    $cardList.fadeOut(300)
+    //console.log(jsonResponse.data); // Log the data to the console
+    setTimeout(() => {
+        $cardList.empty()
+        $('.query-text-container').remove()
+        $cardList.before($("<div>").addClass('query-text-container')
+            .append($('<span>')
+                .text(queryResult.length == 0 ? "Не знайдено збігів" :
+                    queryResult.length % 10 == 1 ? "Знайдено " + queryResult.length + " збіг" : "Знайдено " + queryResult.length + " збіги")
+                , $('<span>').addClass('btn remove').text('X').css('display', 'block')))
+        $('.btn.remove').on('click', function (e) {
+            e.preventDefault();
+            window.location.href = '/lead';
+        });
+    }, 300)
 }

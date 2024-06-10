@@ -5,6 +5,7 @@ import { setEditable } from "./lib.js";
 import { setUnEditable } from "./lib.js";
 import { addToggle } from "./lib.js";
 import { headerManager } from "./lib.js";
+import { showSearchResults } from "./lib.js";
 
 // Create a header element with class "navbar"
 const main = document.querySelector('main');
@@ -84,7 +85,7 @@ export async function LeadPage() {
       // Check if the pressed key is the "Escape" key (key code 27)
       if (event.which === 27) {
         setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
-          $('div.edit-container'), $('div.card-container'),$('.dropbtn.toggle'))
+          $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
       }
     });
 
@@ -103,108 +104,251 @@ function buttonsLead() {
     .addClass('button-item')
     .append($('<span>').text('Пошук').append($('<img>').addClass('button-ico').attr('src', '/img/searchIco.png')));
 
+  searchLeadForm();
+  NewLeadForm();
+
+  function searchLeadForm() {
+    const modalContainer = $('<div>').attr('id', 'searchLead').addClass('modal-container');
+    const modalContent = $('<div>').addClass('modal-content');
+    const modalTitle = $('<h3>').css('text-align', 'center').text('Пошук ліда...');
+    const leadForm = $('<form>').attr('id', 'searchLead').addClass('leadForm');
+
+    const dropdownOptionsA = ['Фізична особа', 'Юридична особа']
+    const dropdownOptionsB = ["Контакт", "Перемовини", "Уточнення даних", "Очікує оплати", "Оплачено", "Не реалізовано"]
+    leadForm.append(
+      createModalLineWithDropdown('Тип', 'text', 'leadType', 'Оберіть тип ліда...', dropdownOptionsA),
+      createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...', dropdownOptionsB),
+      createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...'),
+      createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...'),
+      createModalLine('Пошта', 'text', 'leadEmail', 'Вкажіть пошту...'),
+    );
+
+    $(document).ready(function () {
+      $(document).on('click', '.dropbtn', function () {
+        $('.dropdown-content').removeClass('show');
+        $(this).siblings('.dropdown-content').toggleClass('show');
+      });
+
+
+      $(document).on('click', '.dropdown-content a', function (e) {
+        e.preventDefault();
+        var value = $(this).data('value');
+        //console.log(value);
+        $(this).closest('.input-container').find('input').val(value);
+        $(this).parent().removeClass('show');
+      });
+
+
+      $(window).click(function (e) {
+        if (!$(e.target).closest('.input-container').length) {
+          $('.dropdown-content').removeClass('show');
+        }
+      });
+    });
+
+
+    const leadCommentLine = $('<div>').addClass('modal-line')
+      .append($('<label>').attr('for', 'leadComment').text('Коментар'))
+      .append($('<textarea>').attr({ id: 'leadComment', name: 'leadComment', placeholder: 'Тут може бути коментар до ліда...' }).addClass('comment'));
+
+    const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Знайти')
+    const $buttonCancel = $('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад')
+    const buttonLine = $('<div>').addClass('modal-line-buttons')
+      .append($buttonCancel, $submitButton);
+
+    leadForm.append(leadCommentLine);
+    modalContent.append(modalTitle, leadForm, buttonLine);
+    modalContainer.append(modalContent);
+    $('main').append(modalContainer);
+
+    searchButton.on('click', function () {
+      modalContainer.fadeIn(200);
+    });
+    $buttonCancel.on('click', function () {
+      modalContainer.fadeOut(100);
+    });
+
+    $submitButton.on('click', function (event) {
+      event.preventDefault();
+      const $parentContainer = $(this).closest('.modal-content');
+      console.log($parentContainer);
+      console.log($(this));
+      const dataPOST = {
+        leadType: $parentContainer.find('input#leadType').val(),
+        leadStatus: $parentContainer.find('input#leadStatus').val(),
+        leadPhone: $parentContainer.find('input#leadPhone').val(),
+        leadName: $parentContainer.find('input#leadName').val(),
+        leadEmail: $parentContainer.find('input#leadEmail').val(),
+        leadComment: $parentContainer.find('textarea#leadComment').val()
+      };
+      console.log(dataPOST);
+      $.ajax({
+        type: 'POST',
+        url: 'searchLead.php',
+        data: JSON.stringify(dataPOST),
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+          try {
+            // Parse JSON response
+            const jsonResponse = JSON.parse(response);
+            const queryResult= jsonResponse.data
+            if (jsonResponse.success) {
+              // If the request was successful and there's no error
+              const $cardList = $('.card-list')
+              showSearchResults($cardList,modalContainer,queryResult);
+              setTimeout(() => {
+                for (let index = 0; index < queryResult.length; index++) {
+                    createTable(index, queryResult[index]);
+                }
+            }, 300)
+            $cardList.fadeIn(200)
+            }
+               else {
+              // If there's an error in the response
+              showAlert(`Помилка: ${jsonResponse.error}`, 3000, 'red');
+              console.error(jsonResponse.error); // Log the error to the console
+            }
+          } catch (e) {
+            // Handle any parsing errors
+            showAlert('Невірний формат відповіді', 3000, 'red');
+            console.error('Error parsing JSON response:', e);
+          }
+        },
+        error: function (xhr, status, error) {
+          // This handles HTTP errors
+          let errorMessage = `Виникла помилка: ${error}`;
+          if (xhr.status === 404) {
+            errorMessage = 'Сервер не знайдено (404)';
+          } else if (xhr.status === 500) {
+            errorMessage = 'Помилка сервера (500)';
+          }
+          showAlert(errorMessage, 3000, 'red');
+          console.error(`AJAX error: ${status}`, error);
+        },
+        statusCode: {
+          404: function () {
+            showAlert('Сервер не знайдено (404)', 3000);
+          },
+          500: function () {
+            showAlert('Помилка сервера (500)', 3000);
+          }
+        }
+      });
+
+    });
+
+
+    modalContainer.on('click', function (event) {
+      if ($(event.target).is(modalContainer)) {
+        modalContainer.fadeOut(200);
+      }
+    });
+  }
+
+
   buttonRow.append(newLeadButton, searchButton);
   $('main').append(buttonRow);
 
-  //Modal form
-  const modalContainer = $('<div>').attr('id', 'newLead').addClass('modal-container');
-  const modalContent = $('<div>').addClass('modal-content');
-  const modalTitle = $('<h3>').css('text-align', 'center').text('Створити лід...');
-  const leadForm = $('<form>').attr('id', 'leadForm').addClass('leadForm');
+  function NewLeadForm() {
+    //Modal form
+    const modalContainer = $('<div>').attr('id', 'newLead').addClass('modal-container');
+    const modalContent = $('<div>').addClass('modal-content');
+    const modalTitle = $('<h3>').css('text-align', 'center').text('Створити лід...');
+    const leadForm = $('<form>').attr('id', 'leadForm').addClass('leadForm');
 
-  const dropdownOptionsA = ['Фізична ососба', 'Юридична особа']
-  const dropdownOptionsB = ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"]
-  leadForm.append(
-    createModalLineWithDropdown('Тип', 'text', 'leadType', 'Оберіть тип ліда...',dropdownOptionsA),
-    createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...', dropdownOptionsB),
-    createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...'),
-    createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...'),
-    createModalLine('Пошта', 'text', 'leadEmail', 'Вкажіть пошту...'),
-  );
+    const dropdownOptionsA = ['Фізична особа', 'Юридична особа']
+    const dropdownOptionsB = ["Контакт", "Перемовини", "Уточнення даних", "Очікує оплати", "Оплачено", "Не реалізовано"]
+    leadForm.append(
+      createModalLineWithDropdown('Тип', 'text', 'leadType', 'Оберіть тип ліда...', dropdownOptionsA),
+      createModalLineWithDropdown('Статус', 'text', 'leadStatus', 'Оберість статус...', dropdownOptionsB),
+      createModalLine('Номер', 'text', 'leadPhone', 'Введіть номер телефону...'),
+      createModalLine('Дані', 'text', 'leadName', 'ПІБ ліда...'),
+      createModalLine('Пошта', 'text', 'leadEmail', 'Вкажіть пошту...'),
+    );
 
-  $(document).ready(function () {
-    $(document).on('click', '.dropbtn', function () {
-      $('.dropdown-content').removeClass('show');
-      $(this).siblings('.dropdown-content').toggleClass('show');
-    });
-
-
-    $(document).on('click', '.dropdown-content a', function (e) {
-      e.preventDefault();
-      var value = $(this).data('value');
-      //console.log(value);
-      $(this).closest('.input-container').find('input').val(value);
-      $(this).parent().removeClass('show');
-    });
-
-
-    $(window).click(function (e) {
-      if (!$(e.target).closest('.input-container').length) {
+    $(document).ready(function () {
+      $(document).on('click', '.dropbtn', function () {
         $('.dropdown-content').removeClass('show');
-      }
+        $(this).siblings('.dropdown-content').toggleClass('show');
+      });
+
+
+      $(document).on('click', '.dropdown-content a', function (e) {
+        e.preventDefault();
+        var value = $(this).data('value');
+        //console.log(value);
+        $(this).closest('.input-container').find('input').val(value);
+        $(this).parent().removeClass('show');
+      });
+
+
+      $(window).click(function (e) {
+        if (!$(e.target).closest('.input-container').length) {
+          $('.dropdown-content').removeClass('show');
+        }
+      });
     });
-  });
 
 
-  const leadCommentLine = $('<div>').addClass('modal-line')
-    .append($('<label>').attr('for', 'leadComment').text('Коментар'))
-    .append($('<textarea>').attr({ id: 'leadComment', name: 'leadComment', placeholder: 'Тут може бути коментар до ліда...' }).addClass('comment'));
+    const leadCommentLine = $('<div>').addClass('modal-line')
+      .append($('<label>').attr('for', 'leadComment').text('Коментар'))
+      .append($('<textarea>').attr({ id: 'leadComment', name: 'leadComment', placeholder: 'Тут може бути коментар до ліда...' }).addClass('comment'));
 
-  const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
+    const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
+    const $buttonCancel = $('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад')
+    const buttonLine = $('<div>').addClass('modal-line-buttons')
+      .append($buttonCancel, $submitButton);
 
-  const buttonLine = $('<div>').addClass('modal-line-buttons')
-    .append($('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад'))
-    .append($submitButton);
+    leadForm.append(leadCommentLine);
+    modalContent.append(modalTitle, leadForm, buttonLine);
+    modalContainer.append(modalContent);
+    $('main').append(modalContainer);
 
-  leadForm.append(leadCommentLine);
-  modalContent.append(modalTitle, leadForm, buttonLine);
-  modalContainer.append(modalContent);
-  $('main').append(modalContainer);
-
-  newLeadButton.on('click', function () {
-    modalContainer.fadeIn(200);
-  });
-  $('#closeModal').on('click', function () {
-    modalContainer.fadeOut(100);
-  });
+    newLeadButton.on('click', function () {
+      modalContainer.fadeIn(200);
+    });
+    $buttonCancel.on('click', function () {
+      modalContainer.fadeOut(100);
+    });
 
 
-  modalContainer.on('click', function (event) {
-    if ($(event.target).is(modalContainer)) {
-      modalContainer.fadeOut(200);
-    }
-  });
-
-  // Handle form submission
-  $submitButton.on('click', function (event) {
-    event.preventDefault();
-    const $parentContainer = $(this).closest('.modal-content');
-    console.log($parentContainer);
-    console.log($(this));
-    const dataPOST = {
-      leadType: $parentContainer.find('input#leadType').val(),
-      leadStatus: $parentContainer.find('input#leadStatus').val(),
-      leadPhone: $parentContainer.find('input#leadPhone').val(),
-      leadName: $parentContainer.find('input#leadName').val(),
-      leadEmail: $parentContainer.find('input#leadEmail').val(),
-      leadComment: $parentContainer.find('textarea#leadComment').val()
-    };
-    console.log(dataPOST);
-    $.ajax({
-      type: 'POST',
-      url: 'submitLead.php',
-      data: JSON.stringify(dataPOST),
-      contentType: 'application/json; charset=utf-8',
-      success: function (response) {
-        showAlert('Лід створено успішно', 3000);
+    modalContainer.on('click', function (event) {
+      if ($(event.target).is(modalContainer)) {
         modalContainer.fadeOut(200);
-        console.log(response);
-      },
-      error: function () {
-        showAlert('Виникла помилка', 3000);
       }
     });
-  });
+
+    // Handle form submission
+    $submitButton.on('click', function (event) {
+      event.preventDefault();
+      const $parentContainer = $(this).closest('.modal-content');
+      console.log($parentContainer);
+      console.log($(this));
+      const dataPOST = {
+        leadType: $parentContainer.find('input#leadType').val(),
+        leadStatus: $parentContainer.find('input#leadStatus').val(),
+        leadPhone: $parentContainer.find('input#leadPhone').val(),
+        leadName: $parentContainer.find('input#leadName').val(),
+        leadEmail: $parentContainer.find('input#leadEmail').val(),
+        leadComment: $parentContainer.find('textarea#leadComment').val()
+      };
+      console.log(dataPOST);
+      $.ajax({
+        type: 'POST',
+        url: 'submitLead.php',
+        data: JSON.stringify(dataPOST),
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+          showAlert('Лід створено успішно', 3000);
+          modalContainer.fadeOut(200);
+          console.log(response);
+        },
+        error: function () {
+          showAlert('Виникла помилка', 3000);
+        }
+      });
+    });
+  }
 }
 
 //Create Lead CardList
@@ -223,7 +367,7 @@ function createTable(index, data) {
 
   $buttonCancel.on('click', () => {
     setUnEditable($('textarea.editable'), $buttonContainer,
-      $('div.edit-container'), $('div.card-container'),$('.dropbtn.toggle'))
+      $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
   })
 
   $buttonContainer.append($buttonCancel).append($buttonSave);
@@ -239,7 +383,7 @@ function createTable(index, data) {
 
     const $parentContainer = $(this).closest('.card-container');
     setEditable($parentContainer.find('textarea.editable'), $buttonContainer,
-      $('div.edit-container'), $('div.card-container'),$parentContainer.find('.dropbtn'))
+      $('div.edit-container'), $('div.card-container'), $parentContainer.find('.dropbtn'))
 
   });
 
@@ -285,14 +429,14 @@ function createTable(index, data) {
       //console.log(data[config.textareaId])
       $row.find("textarea").val(data[config.textareaId]);
       $tbody.append($row);
-    }); 
+    });
     //console.log($leadType);
     $table.append($tbody)
 
     //Adds toggle button near textarea
     const options = [['Фізична особа', 'Юридична особа'],
-    ["Контакт","Перемовини","Уточнення даних","Очікує оплати","Оплачено","Не реалізовано"]];
-    addToggle($table,[1,2],options)
+    ["Контакт", "Перемовини", "Уточнення даних", "Очікує оплати", "Оплачено", "Не реалізовано"]];
+    addToggle($table, [1, 2], options)
 
     $cardContainer.append($table);
     // console.log("Card");
@@ -326,7 +470,7 @@ function createTable(index, data) {
         success: function (response) {
           console.log('Data modified successfully:', response);
           setUnEditable($('textarea.editable'), $('div.modal-line-buttons.incard'),
-            $('div.edit-container'), $('div.card-container'),$('.dropbtn.toggle'))
+            $('div.edit-container'), $('div.card-container'), $('.dropbtn.toggle'))
 
           showAlert('Зміни вступили в силу!', 3000);
         },
