@@ -220,22 +220,18 @@ function buttons() {
                 goods: [], // Initialize an array to store goods data
                 adress: $parentContainer.find('input#adress').val(),
                 leadComment: $parentContainer.find('textarea#leadComment').val()
-            };        
+            };
+        
             // Collect multiple goods and their quantities
             $parentContainer.find('.good-container').each(function () {
                 const goodName = $(this).find('input#goods').val();
-                const quantity = $(this).find('input.qty').val()
-
-                if (goodName&&quantity) {
+                const quantity = $(this).find('input.qty').val();
+                
                     dataPOST.goods.push({ name: goodName, quantity: quantity });
-                }
-                else if(quantity && !goodName){
-                    const error ='Пошук за кількісттю неможливий'
-                    showAlert(error,3000,'red')
-                    throw error
-                }
+                
+                
             });
-
+        
             // Logging for debugging
             console.log('Form data:', dataPOST);
 
@@ -247,9 +243,10 @@ function buttons() {
                 success: function (response) {
                     try {
                         const jsonResponse = JSON.parse(response);
+                        //console.log(jsonResponse.data);
                         if (jsonResponse.success) {
                             modalContainer.fadeOut(200);
-
+                            
                             const blendedData = {};
                             // Loop through the table data
                             for (const entry of jsonResponse.data) {
@@ -755,7 +752,7 @@ function createTable(index, data) {
 
                 const g_name = $(this).find('textarea#goods').val();
                 const g_quantity = $(this).closest('td').find('.qty').val();
-                if (g_name) { // Only add if there is a value
+                if (g_name && g_quantity) { // Only add if there is a value
                     dataPOST.goods.push({ g_name, g_quantity });
                 }
             });
