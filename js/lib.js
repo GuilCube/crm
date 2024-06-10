@@ -399,7 +399,7 @@ export function showSearchResults($cardList,modalContainer,queryResult){
                 , $('<span>').addClass('btn remove').text('X').css('display', 'block')))
         $('.btn.remove').on('click', function (e) {
             e.preventDefault();
-            window.location.href = '/lead';
+            window.location.href =window.location.href;
         });
     }, 300)
 }
