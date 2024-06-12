@@ -1,4 +1,4 @@
-import { headerDepot } from "./lib.js";
+import { headerDepot, showSearchResults } from "./lib.js";
 import { createModalLine } from "./lib.js";
 import { showAlert } from "./lib.js";
 import { createGoodsLine } from "./lib.js";
@@ -45,7 +45,7 @@ function buttons() {
     NewOutboundForm();
 
 
-    function seachForm(){
+    function seachForm() {
         const modalContainer = $('<div>').attr('id', 'searchGood').addClass('modal-container');
         const modalContent = $('<div>').addClass('modal-content');
         const modalTitle = $('<h3>').css('text-align', 'center').text('Пошук товару...');
@@ -57,22 +57,84 @@ function buttons() {
         newGood.append(
             $goodContainerDIV
         );
-        const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
+        const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Знайти')
         const $buttonCancel = $('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад')
         const buttonLine = $('<div>').addClass('modal-line-buttons')
-            .append($buttonCancel,$submitButton);
+            .append($buttonCancel, $submitButton);
 
 
         modalContent.append(modalTitle, newGood, buttonLine);
         modalContainer.append(modalContent);
         $('main').append(modalContainer);
-        searchButton.click(function (e) { 
+        searchButton.click(function (e) {
             e.preventDefault();
-                   modalContainer.fadeIn(100)
+            modalContainer.fadeIn(100)
         });
-        $buttonCancel.click(function (e) { 
+        $buttonCancel.click(function (e) {
             e.preventDefault();
             modalContainer.fadeOut(200)
+            dataSearch = {
+
+            }
+        });
+
+        $submitButton.on('click', (e) => {
+            e.preventDefault();
+            // Gather form data
+            var formData = {
+                goods: $("#goods").val() || undefined,
+                articul: $("#articul").val() || undefined
+            };
+            console.log(formData);
+            // Send the data via AJAX
+            $.ajax({
+                type: "POST",
+                url: "searchGood.php",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                success: function (response) {
+                    if (response.status === 'success') {
+                        console.log("Search Results:", response.data);
+
+                        const $tableContainer = $('.depot-container')
+
+                        showSearchResults($tableContainer, modalContainer, response.data)
+                        setTimeout(() => {
+                            const $table = $('<table>', { id: 'goodsTable' })
+                                .append(
+                                    $('<thead>').append(
+                                        $('<tr>')
+                                            .append($('<th>').text('№ п/п').addClass('depot-header'))
+                                            .append($('<th>').text('Артикул').addClass('depot-header'))
+                                            .append($('<th>').text('Назва').addClass('depot-header'))
+                                            .append($('<th>').text('Залишок').addClass('depot-header'))
+                                    ),
+                                    $('<tbody>')
+                                )
+                                .appendTo($tableContainer);
+                             var tbody =$('#goodsTable tbody')
+                            $.each(response.data, function (index, item) {
+                                var row = '<tr class="depot-row">' +
+                                    '<td>' + (index + 1) + '</td>' +
+                                    '<td>' + item.g_articul + '</td>' +
+                                    '<td>' + item.g_name + '</td>' +
+                                    '<td>' + item.g_quantity + '</td>' +
+                                    '</tr>';
+                                tbody.append(row);
+                            });
+                        }, 300)
+                        $tableContainer.fadeIn(150)
+
+                    } else {
+                        showAlert(response.message, 3000, 'red');
+                        console.error(response.message)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    showAlert(status + '\n' + error, 3000, 'red');
+                    console.error(xhr, status, error)
+                }
+            });
         });
     }
 
@@ -111,9 +173,9 @@ function buttons() {
         });
 
         const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
-        const $buttonCancel =$('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад')
+        const $buttonCancel = $('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад')
         const buttonLine = $('<div>').addClass('modal-line-buttons')
-            .append($buttonCancel,$submitButton);
+            .append($buttonCancel, $submitButton);
 
 
         modalContent.append(modalTitle, newGood, buttonLine);
@@ -150,7 +212,7 @@ function buttons() {
             console.log($(this));
             const dataPOST = [];
             console.log($('.good-container.multiple'));
-            $('.good-container.multiple').each(function () {
+            $parentContainer.find('.good-container.multiple').each(function () {
 
                 const g_name = $(this).find('input:first-child').val();
                 const g_articul = $(this).find('input:last-child').val();
@@ -172,6 +234,7 @@ function buttons() {
                         showAlert('Товар додано успішно', 3000);
                         modalContainer.fadeOut(200);
                         console.log(response.message);
+                        window.location.href = window.location.href
                     } else {
                         showAlert('Виникла помилка: ' + response.message, 3000, 'red');
                         console.error('Error response:', response.message);
@@ -287,6 +350,7 @@ function buttons() {
                         showAlert('Товар додано успішно', 3000);
                         modalContainer.fadeOut(200);
                         console.log(response.message);
+                        window.location.href = window.location.href
                     } else {
                         showAlert('Виникла помилка: ' + response.message, 3000, 'red');
                         console.error('Error response:', response.message);
@@ -401,69 +465,68 @@ function buttons() {
         // Handle form submission
         $submitButton.on('click', function (event) {
             event.preventDefault();
-            
-        var goods = [];
-         const $parentContainer = modalContainer;
-        //console.log($('.good-section').find('.modal-line'));
-        $parentContainer.find('.good-section').find('.modal-line').each(function() {
-            console.log($(this))
-            var g_name = $(this).find('input:first').val();
-            var g_quantity = $(this).find('input.qty').val();
-            console.log(g_quantity);
-            if(g_quantity<1){
-                showAlert('Невірна кількість товару', 3000,'red');
-               throw 'Невірна кількість товару'                    
-            }
-            if (g_name && g_quantity) {
-                goods.push({
-                    g_name: g_name,
-                    g_quantity: parseInt(g_quantity)
-                });
-            }
-        });
 
-        var formData = {
-            sender: $('#sender').val(),
-            in_comment: $('#in_comment').val(),
-            goods: goods
-        };
-        
-        if(formData.sender=="")
-            {
+            var goods = [];
+            const $parentContainer = modalContainer;
+            //console.log($('.good-section').find('.modal-line'));
+            $parentContainer.find('.good-section').find('.modal-line').each(function () {
+                console.log($(this))
+                var g_name = $(this).find('input:first').val();
+                var g_quantity = $(this).find('input.qty').val();
+                console.log(g_quantity);
+                if (g_quantity < 1) {
+                    showAlert('Невірна кількість товару', 3000, 'red');
+                    throw 'Невірна кількість товару'
+                }
+                if (g_name && g_quantity) {
+                    goods.push({
+                        g_name: g_name,
+                        g_quantity: parseInt(g_quantity)
+                    });
+                }
+            });
+
+            var formData = {
+                sender: $('#sender').val(),
+                in_comment: $('#in_comment').val(),
+                goods: goods
+            };
+
+            if (formData.sender == "") {
                 const error = "Вкажіть відправника";
-                showAlert(error,3000,'red')
+                showAlert(error, 3000, 'red')
                 throw error;
             }
 
-        $.ajax({
-            type: 'POST',
-            url: 'submitInbound.php',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    showAlert('Товар додано успішно', 3000);
-                    modalContainer.fadeOut(200);
-                    console.log(response.message);
-                } else {
-                    showAlert('Виникла помилка: ' + response.message, 3000, 'red');
-                    console.error('Error response:', response.message);
+            $.ajax({
+                type: 'POST',
+                url: 'submitInbound.php',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        showAlert('Товар додано успішно', 3000);
+                        modalContainer.fadeOut(200);
+                        console.log(response.message);
+                    } else {
+                        showAlert('Виникла помилка: ' + response.message, 3000, 'red');
+                        console.error('Error response:', response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage;
+                    try {
+                        var response = JSON.parse(xhr.responseText);
+                        errorMessage = response.message || 'Виникла помилка';
+                    } catch (e) {
+                        errorMessage = 'Виникла помилка';
+                    }
+                    showAlert(errorMessage, 3000, 'red');
+                    console.error('Error fetching data:', error);
+                    console.error('Response:', xhr.responseText);
                 }
-            },
-            error: function (xhr, status, error) {
-                var errorMessage;
-                try {
-                    var response = JSON.parse(xhr.responseText);
-                    errorMessage = response.message || 'Виникла помилка';
-                } catch (e) {
-                    errorMessage = 'Виникла помилка';
-                }
-                showAlert(errorMessage, 3000, 'red');
-                console.error('Error fetching data:', error);
-                console.error('Response:', xhr.responseText);
-            }
+            });
         });
-    });
     }
     function NewOutboundForm() {
         //Modal form
@@ -481,7 +544,7 @@ function buttons() {
         console.log($adress.find('label')
             .css({
                 "width": 'min-content',
-                'text-align':'end'
+                'text-align': 'end'
             }));
 
         leadForm.append(
@@ -573,14 +636,14 @@ function buttons() {
                 const g_quantity = $(this).find('input.qty').val();
                 console.log(g_name);
                 console.log(g_quantity);
-                if(g_quantity<1){
-                    showAlert('Невірна кількість товару', 3000,'red');
-                   throw 'Невірна кількість товару'                    
+                if (g_quantity < 1) {
+                    showAlert('Невірна кількість товару', 3000, 'red');
+                    throw 'Невірна кількість товару'
                 }
                 if (g_name && g_quantity) {
                     goods.push({ g_name: g_name, g_quantity: g_quantity });
                 }
-                
+
             });
 
 

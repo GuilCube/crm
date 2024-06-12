@@ -24,7 +24,8 @@ try {
 
     $link->begin_transaction();
 
-    $sql = "INSERT INTO in_items (in_id, g_name, g_quantity) VALUES (?, ?, ?)";
+    // Prepare the SQL statement for inserting into the goods table
+    $sql = "INSERT INTO goods (g_name, g_articul) VALUES (?, ?)";
     $stmt = $link->prepare($sql);
 
     if ($stmt === false) {
@@ -33,15 +34,15 @@ try {
 
     foreach ($data as $item) {
         // Ensure the necessary fields are set and not empty
-        if (!isset($item['in_id']) || !isset($item['g_name']) || !isset($item['g_quantity']) || empty(trim($item['g_name'])) || !is_numeric($item['g_quantity'])) {
+        if (!isset($item['g_name']) || !isset($item['g_articul']) || empty(trim($item['g_name'])) || empty(trim($item['g_articul']))) {
             throw new Exception('Missing required fields or fields are empty');
         }
-
-        $in_id = intval($item['in_id']);
+        
         $g_name = trim($item['g_name']);
-        $g_quantity = intval($item['g_quantity']);
+        $g_articul = trim($item['g_articul']); // Use trim to handle string values
 
-        $stmt->bind_param('isi', $in_id, $g_name, $g_quantity);
+        // Bind parameters and execute the statement
+        $stmt->bind_param('ss', $g_name, $g_articul); // Both are strings, hence 'ss'
 
         if (!$stmt->execute()) {
             throw new Exception('Execution failed: ' . $stmt->error);
@@ -57,5 +58,6 @@ try {
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 
+// Close the database connection
 $link->close();
 ?>

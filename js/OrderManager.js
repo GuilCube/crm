@@ -370,7 +370,7 @@ export function searchOrderForm(searchButton) {
         .append($('<label>').attr('for', 'leadComment').text('Коментар'))
         .append($('<textarea>').attr({ id: 'leadComment', name: 'leadComment', placeholder: 'Тут може бути коментар до ліда...' }).addClass('comment'));
 
-    const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Створити')
+    const $submitButton = $('<button>').attr('type', 'submit').addClass('btn action').text('Знайти')
     const $buttonCancel = $('<button>').attr('id', 'closeModal').addClass('close btn back').text('Назад')
     const buttonLine = $('<div>').addClass('modal-line-buttons')
         .append($buttonCancel, $submitButton);

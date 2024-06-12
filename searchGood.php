@@ -56,14 +56,14 @@ try {
     }
 
     // Return the results as JSON
-    echo json_encode(['success' => true, 'data' => $data]);
+    echo json_encode(['status' => 'success', 'data' => $data]);
 
     // Close the statement and connection
     $stmt->close();
     $link->close();
 } catch (Exception $e) {
     // Handle exceptions and return an error message
-    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'error' => $e->getMessage()]);
     if (isset($stmt)) {
         $stmt->close();
     }

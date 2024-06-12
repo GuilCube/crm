@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Час створення: Трв 31 2024 р., 10:57
+-- Час створення: Чрв 12 2024 р., 15:13
 -- Версія сервера: 8.0.30
 -- Версія PHP: 8.1.10
 
@@ -50,16 +50,18 @@ CREATE TABLE `goods` (
   `g_id` int NOT NULL,
   `g_name` varchar(50) NOT NULL,
   `g_articul` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `g_quantity` tinyint NOT NULL
+  `g_quantity` tinyint NOT NULL DEFAULT '0',
+  `archived` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп даних таблиці `goods`
 --
 
-INSERT INTO `goods` (`g_id`, `g_name`, `g_articul`, `g_quantity`) VALUES
-(1, 'Shure SM-58', 'SM58', 10),
-(2, 'Rode PSA1', 'ROD1', 5);
+INSERT INTO `goods` (`g_id`, `g_name`, `g_articul`, `g_quantity`, `archived`) VALUES
+(1, 'Shure SM-58', 'SM58', 5, 0),
+(2, 'Rode PSA1', 'ROD1', 5, 0),
+(9, 'Shure SM7B', 'SM7B', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -70,8 +72,18 @@ INSERT INTO `goods` (`g_id`, `g_name`, `g_articul`, `g_quantity`) VALUES
 CREATE TABLE `inbound` (
   `in_id` int NOT NULL,
   `sender` varchar(50) NOT NULL,
-  `in_comment` varchar(500) NOT NULL
+  `in_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп даних таблиці `inbound`
+--
+
+INSERT INTO `inbound` (`in_id`, `sender`, `in_comment`, `created`) VALUES
+(30, 'Petrenko', '', '2024-06-04 17:13:00'),
+(33, 'Petrenko', '', '2024-06-04 17:13:00'),
+(34, 'Petrenko', '', '2024-06-12 14:27:39');
 
 -- --------------------------------------------------------
 
@@ -84,6 +96,16 @@ CREATE TABLE `in_items` (
   `g_id` int NOT NULL,
   `g_quantity` tinyint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп даних таблиці `in_items`
+--
+
+INSERT INTO `in_items` (`in_id`, `g_id`, `g_quantity`) VALUES
+(30, 2, 3),
+(33, 1, 2),
+(33, 2, 3),
+(34, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -123,14 +145,14 @@ INSERT INTO `leads` (`idLead`, `leadType`, `leadStatus`, `leadPhone`, `leadName`
 CREATE TABLE `managers` (
   `m_id` int NOT NULL,
   `m_login` varchar(50) NOT NULL,
-  `m_pass` varchar(50) NOT NULL
+  `m_password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп даних таблиці `managers`
 --
 
-INSERT INTO `managers` (`m_id`, `m_login`, `m_pass`) VALUES
+INSERT INTO `managers` (`m_id`, `m_login`, `m_password`) VALUES
 (1, 'manager', 'manager');
 
 -- --------------------------------------------------------
@@ -145,18 +167,19 @@ CREATE TABLE `orders` (
   `o_status` enum('Оформлено','Комплектується','Відправлено') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `adress` varchar(50) NOT NULL,
   `o_comment` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `m_id` int NOT NULL
+  `m_id` int NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп даних таблиці `orders`
 --
 
-INSERT INTO `orders` (`o_id`, `l_id`, `o_status`, `adress`, `o_comment`, `m_id`) VALUES
-(3, 1, 'Оформлено', '123 Main St, Kyiv, 02090', '', 1),
-(8, 1, 'Оформлено', 'adress', '', 1),
-(9, 1, 'Оформлено', 'adresss', '', 1),
-(10, 1, 'Оформлено', 'adresss', 'awefdsdf', 1);
+INSERT INTO `orders` (`o_id`, `l_id`, `o_status`, `adress`, `o_comment`, `m_id`, `created`) VALUES
+(3, 1, 'Відправлено', '123 Main St, Kyiv, 02090', '', 1, '2024-06-04 17:14:05'),
+(8, 1, 'Оформлено', 'adress', '', 1, '2024-06-04 17:14:05'),
+(9, 1, 'Оформлено', 'adresss', '', 1, '2024-06-04 17:14:05'),
+(10, 1, 'Оформлено', 'adresss', 'awefdsdf', 1, '2024-06-04 17:14:05');
 
 -- --------------------------------------------------------
 
@@ -175,11 +198,12 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`o_id`, `g_id`, `g_quantity`) VALUES
-(8, 1, 1),
 (9, 1, 2),
 (10, 1, 20),
 (3, 1, 1),
-(3, 2, 2);
+(3, 2, 2),
+(8, 1, 1),
+(8, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -189,9 +213,18 @@ INSERT INTO `order_items` (`o_id`, `g_id`, `g_quantity`) VALUES
 
 CREATE TABLE `outbound` (
   `out_id` int NOT NULL,
-  `out_adress` varchar(100) NOT NULL,
-  `out_coomemt` varchar(500) NOT NULL
+  `out_adress` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `out_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп даних таблиці `outbound`
+--
+
+INSERT INTO `outbound` (`out_id`, `out_adress`, `out_comment`, `created`) VALUES
+(11, '123 Main Str, Kyiv', '123', '2024-06-04 17:13:23'),
+(13, '123 Main Str, Kyiv', '', '2024-06-04 17:13:23');
 
 -- --------------------------------------------------------
 
@@ -204,6 +237,15 @@ CREATE TABLE `out_items` (
   `g_id` int NOT NULL,
   `g_quantity` tinyint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп даних таблиці `out_items`
+--
+
+INSERT INTO `out_items` (`out_id`, `g_id`, `g_quantity`) VALUES
+(11, 1, 4),
+(11, 2, 8),
+(13, 1, 5);
 
 --
 -- Індекси збережених таблиць
@@ -289,13 +331,13 @@ ALTER TABLE `depotworkers`
 -- AUTO_INCREMENT для таблиці `goods`
 --
 ALTER TABLE `goods`
-  MODIFY `g_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `g_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблиці `inbound`
 --
 ALTER TABLE `inbound`
-  MODIFY `in_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `in_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT для таблиці `leads`
@@ -319,7 +361,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблиці `outbound`
 --
 ALTER TABLE `outbound`
-  MODIFY `out_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `out_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Обмеження зовнішнього ключа збережених таблиць
@@ -329,7 +371,8 @@ ALTER TABLE `outbound`
 -- Обмеження зовнішнього ключа таблиці `in_items`
 --
 ALTER TABLE `in_items`
-  ADD CONSTRAINT `in_items_ibfk_1` FOREIGN KEY (`in_id`) REFERENCES `inbound` (`in_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `in_items_ibfk_1` FOREIGN KEY (`in_id`) REFERENCES `inbound` (`in_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `in_items_ibfk_2` FOREIGN KEY (`g_id`) REFERENCES `goods` (`g_id`) ON UPDATE CASCADE;
 
 --
 -- Обмеження зовнішнього ключа таблиці `leads`
@@ -355,7 +398,8 @@ ALTER TABLE `order_items`
 -- Обмеження зовнішнього ключа таблиці `out_items`
 --
 ALTER TABLE `out_items`
-  ADD CONSTRAINT `out_items_ibfk_1` FOREIGN KEY (`out_id`) REFERENCES `outbound` (`out_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `out_items_ibfk_1` FOREIGN KEY (`out_id`) REFERENCES `outbound` (`out_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `out_items_ibfk_2` FOREIGN KEY (`g_id`) REFERENCES `goods` (`g_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
