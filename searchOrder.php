@@ -26,7 +26,7 @@ try {
 
     // Handle goods conditions
     $goodsConditions = [];
-    if (!empty($goods)) {
+    if ($goods[0]['name']!='') {
         $subConditions = [];
         foreach ($goods as $good) {
             if (isset($good['quantity']) && $good['quantity'] !== '') {
