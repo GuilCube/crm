@@ -2,67 +2,78 @@
 include("DBConnect.php");
 
 try {
-    // Retrieve and decode the JSON data from the request body
     $jsonData = file_get_contents('php://input');
     $data = json_decode($jsonData, true);
 
-    // Extract and sanitize input fields
-    $goods = isset($data['goods']) ? $data['goods'] : '';
-    $articul = isset($data['articul']) ? $data['articul'] : '';
+    $leadType = isset($data['leadType']) ? $data['leadType'] : '';
+    $leadStatus = isset($data['leadStatus']) ? $data['leadStatus'] : '';
+    $leadPhone = isset($data['leadPhone']) ? $data['leadPhone'] : '';
+    $leadName = isset($data['leadName']) ? $data['leadName'] : '';
+    $leadEmail = isset($data['leadEmail']) ? $data['leadEmail'] : '';
+    $leadComment = isset($data['leadComment']) ? $data['leadComment'] : '';
 
-    // Initialize the conditions and parameters arrays
     $conditions = [];
     $params = [];
 
-    // Check if the goods name is provided
-    if (!empty($goods)) {
-        $conditions[] = "g_name LIKE ?";
-        $params[] = '%' . $goods . '%';
+    if (!empty($leadType)) {
+        $conditions[] = "leadType = ?";
+        $params[] = $leadType;
     }
 
-    // Check if the articul is provided
-    if (!empty($articul)) {
-        $conditions[] = "g_articul LIKE ?";
-        $params[] = '%' . $articul . '%';
+    if (!empty($leadStatus)) {
+        $conditions[] = "leadStatus = ?";
+        $params[] = $leadStatus;
     }
 
-    // If no search criteria is provided, return an error
+    if (!empty($leadPhone)) {
+        $conditions[] = "leadPhone LIKE ?";
+        $params[] = '%' . $leadPhone . '%';
+    }
+
+    if (!empty($leadName)) {
+        $conditions[] = "leadName LIKE ?";
+        $params[] = '%' . $leadName . '%';
+    }
+
+    if (!empty($leadEmail)) {
+        $conditions[] = "leadEmail LIKE ?";
+        $params[] = '%' . $leadEmail . '%';
+    }
+
+    if (!empty($leadComment)) {
+        $conditions[] = "leadComment LIKE ?";
+        $params[] = '%' . $leadComment . '%';
+    }
+
     if (count($conditions) == 0) {
         echo json_encode(['success' => false, 'error' => 'Не введено критерії пошуку']);
         exit;
     }
 
-    // Build the SQL query
-    $sql = "SELECT * FROM goods";
+    $sql = "SELECT * FROM leads";
     if (count($conditions) > 0) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    // Prepare the SQL statement
     $stmt = $link->prepare($sql);
     if ($stmt === false) {
         throw new Exception("Error preparing query: " . $link->error);
     }
 
-    // Bind parameters and execute the statement
     $stmt->bind_param(str_repeat('s', count($params)), ...$params);
     $stmt->execute();
 
-    // Fetch the results
     $result = $stmt->get_result();
     $data = [];
     while ($row = $result->fetch_assoc()) {
         $data[] = $row;
     }
 
-    // Return the results as JSON
     echo json_encode(['success' => true, 'data' => $data]);
 
-    // Close the statement and connection
     $stmt->close();
     $link->close();
 } catch (Exception $e) {
-    // Handle exceptions and return an error message
     echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     if (isset($stmt)) {
         $stmt->close();
