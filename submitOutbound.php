@@ -18,7 +18,7 @@ if (is_null($data)) {
 // Validate the data
 if (!isset($data['out_adress']) || !isset($data['goods']) || !is_array($data['goods'])) {
     http_response_code(400);
-    echo json_encode(['status' => 'error', 'message' => 'Missing or invalid fields']);
+    echo json_encode(['status' => 'error', 'message' => "Пусті або не правильно заповнен поля"]);
     exit;
 }
 
@@ -68,7 +68,7 @@ try {
     // Process each good item
     foreach ($goods as $item) {
         if (!isset($item['g_name']) || !isset($item['g_quantity']) || !is_numeric($item['g_quantity'])) {
-            throw new Exception('Missing or invalid fields in goods');
+            throw new Exception('Пусте або не правильно заповнено поле товару');
         }
 
         $g_name = $item['g_name'];
@@ -83,7 +83,7 @@ try {
         $result = $checkQuantityStmt->get_result();
         $row = $result->fetch_assoc();
         if ($row['g_quantity'] < $g_quantity) {
-            throw new Exception("Insufficient quantity for item '$g_name'");
+            throw new Exception("Не достатня кількість товару: '$g_name'");
         }
 
         // Update goods table

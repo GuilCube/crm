@@ -283,7 +283,7 @@ function buttons() {
                 data: JSON.stringify(dataPOST),
                 contentType: 'application/json; charset=utf-8',
                 success: function (response) {
-                    showAlert('Замовнстворено успішно', 3000);
+                    showAlert('Замовлення створено успішно', 3000);
                     modalContainer.fadeOut(200);
                     console.log(response);
                 },
