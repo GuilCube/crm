@@ -136,15 +136,15 @@ function buttons() {
             $removeRowBtn.click(function (e) {
                 e.preventDefault();
                 //if($removeRowBnt.parent().parent())
-                if ($removeRowBtn.parent().parent().parent().find('input#goods').length > 1) {
+                if ($parentContainer.find('input#goods').length > 1) {
                     $removeRowBtn.parent().parent().slideDown(200)
                     $removeRowBtn.parent().parent().remove()
                     console.log($('input#goods').parent().parent().find('label'));
                     $('input#goods').parent().parent().find('label').each(function (index) {
-                        $(this).text('Товар ' + (index + 1));
+                        $(this).text('Товар ' + (index));
                     });
-                    if ($('input#goods').parent().parent().find('label').length == 1)
-                        $('input#goods').parent().parent().find('label').text('Товар ');
+                    if ($parentContainer.find('input#goods').length == 1)
+                        $('input#goods').parent().parent().find('label').text('Товар');
                 }
                 else {
                     $removeRowBtn
@@ -182,11 +182,12 @@ function buttons() {
                 $('.dropdown-content').removeClass('show');
                 $(this).siblings('.dropdown-content').toggleClass('show');
             });
+        })
             $createLine.click(function (e) {
                 e.preventDefault();
-                //console.log($(this));
+                const $goodSection = modalContainer.find('.good-section')
                 if ($(this).parent().find('input#goods:last').val() != 0) {
-
+                    $goodSection.find('label:first').text("Товар 1")
                     const $line = createGoodsLine(modalContainer).hide();
                     $(this).before($line)
                     $line.slideDown(200);
@@ -208,7 +209,7 @@ function buttons() {
                     $('.dropdown-content').removeClass('show');
                 }
             });
-        });
+        
 
 
         const leadCommentLine = $('<div>').addClass('modal-line')
@@ -316,15 +317,16 @@ export function searchOrderForm(searchButton) {
         $removeRowBtn.click(function (e) {
             e.preventDefault();
             //if($removeRowBnt.parent().parent())
-            if ($removeRowBtn.parent().parent().parent().find('input#goods').length > 1) {
+            if ($parentContainer.find('input#goods').length > 1) {
                 $removeRowBtn.parent().parent().slideDown(200)
                 $removeRowBtn.parent().parent().remove()
                 console.log($('input#goods').parent().parent().find('label'));
-                $('input#goods').parent().parent().find('label').each(function (index) {
-                    $(this).text('Товар ' + (index + 1));
+                $parentContainer.find('input#goods').parent().parent().find('label')
+                .each(function (index) {
+                    $(this).text('Товар ' + (index+1));
                 });
-                if ($('input#goods').parent().parent().find('label').length == 1)
-                    $('input#goods').parent().parent().find('label').text('Товар ');
+                if ($parentContainer.find('input#goods').length == 1)
+                    $('input#goods').parent().parent().find('label').text('Товар');
             }
             else {
                 $removeRowBtn
@@ -333,6 +335,7 @@ export function searchOrderForm(searchButton) {
 
             }
         });
+
 
         const $line = $('<div>').addClass('modal-line')
         const $goodContainer = $('<div>').addClass('good-container');
