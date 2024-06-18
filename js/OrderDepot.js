@@ -316,7 +316,7 @@ function createTable(index, data) {
         $table.append($tbody)
 
         //Adds toggle button near textarea
-        const options = [['Оформлено', 'Комплектується', 'Відправлено']]
+        const options = [['Оформлено', 'Комплектується', 'Відправлено','Доставлено']]
         addToggle($table, [2], options)
 
         $cardContainer.append($table);

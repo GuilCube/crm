@@ -233,7 +233,9 @@ function buttons() {
 
             modalContainer.fadeOut(100);
             setTimeout(() => {
-                modalContainer.find('input#goods').not(':first').remove();
+                const $goodSection = modalContainer.find('.good-section')
+                console.log($goodSection.find('.modal-line'));
+                $goodSection.find('.modal-line').not(':first').remove();
                 $('input#goods').parent().parent().find('label').text('Товар')
                 $('input#goods').parent().parent().find('input').val('')
             }, 100)
@@ -390,7 +392,9 @@ export function searchOrderForm(searchButton) {
 
         modalContainer.fadeOut(100);
         setTimeout(() => {
-            modalContainer.find('input#goods').not(':first').remove();
+            const $goodSection = modalContainer.find('.good-section')
+                console.log($goodSection.find('.modal-line'));
+                $goodSection.find('.modal-line').not(':first').remove();
             $('input#goods').parent().parent().find('label').text('Товар')
             $('input#goods').parent().parent().find('input').val('')
         }, 100)
@@ -721,7 +725,8 @@ function createTable(index, data) {
         });
 
         $table.append($tbody)
-        if ($table.find('#o_status').val() == 'Відправлено') {
+        if ($table.find('#o_status').val() == 'Відправлено'
+            || $table.find('#o_status').val() == 'Доставлено' ) {
             $editContainer.remove()
             $cardContainer.addClass('top-offset')
         }

@@ -7,9 +7,9 @@ include("DBConnect.php");
 // Fetch data from the goods table
 $sql = "SELECT (
 SELECT COUNT(*) AS 'number of records'
-FROM leads l)/
+FROM orders)/
 (SELECT COUNT(*) AS 'number of records'
-FROM orders)*100 as 'result';";
+FROM leads l)*100 as 'result';";
 
 $result = $link->query($sql);
 $ratio =$result->fetch_assoc();
